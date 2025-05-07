@@ -80,24 +80,24 @@ export const dentistMenu: MenuItem[] = [
         icon: "solar:calculator-outline",
         children: [
           {
-            label: "Fatturazione",
-            icon: "solar:bill-list-outline",
-            href: "/billing"
+            label: "Nuova Fattura",
+            icon: "solar:add-square-outline",
+            href: "/billing/new"
           },
           {
-            label: "Fatture",
+            label: "Elenco Fatture",
             icon: "solar:file-text-outline",
             href: "/billing/invoices"
           },
           {
-            label: "Entrate",
-            icon: "solar:money-bag-outline",
-            href: "/accounting/income"
+            label: "Ricerca Fattura",
+            icon: "solar:eye-outline",
+            href: "/billing/search"
           },
           {
-            label: "Spese",
-            icon: "solar:card-outline",
-            href: "/accounting/expenses"
+            label: "Reportistica",
+            icon: "solar:chart-line-duotone",
+            href: "/accounting/reports"
           }
         ]
       },

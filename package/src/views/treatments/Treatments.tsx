@@ -1,6 +1,7 @@
 import { Table, Badge, Button } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
+import { Link } from "react-router";
 
 const TreatmentsData = [
   {
@@ -59,7 +60,7 @@ const Treatments = () => {
       <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
         <div className="flex justify-between items-center mb-6">
           <h5 className="card-title">Gestione Trattamenti</h5>
-          <Button color="primary" className="flex items-center gap-2">
+          <Button color="primary" className="flex items-center gap-2" as={Link} to="/treatments/new">
             <Icon icon="solar:add-circle-outline" height={20} />
             Nuovo Trattamento
           </Button>

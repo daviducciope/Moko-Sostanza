@@ -21,7 +21,9 @@ const ViewPatient = Loadable(lazy(() => import('../views/patients/ViewPatient'))
 const EditPatient = Loadable(lazy(() => import('../views/patients/EditPatient')));
 const Appointments = Loadable(lazy(() => import('../views/appointments/Appointments')));
 const Treatments = Loadable(lazy(() => import('../views/treatments/Treatments')));
+const NewTreatment = Loadable(lazy(() => import('../views/treatments/NewTreatment')));
 const Billing = Loadable(lazy(() => import('../views/billing/Billing')));
+const NewInvoice = Loadable(lazy(() => import('../views/billing/NewInvoice')));
 const CalendarView = Loadable(lazy(() => import('../views/calendar/Calendar')));
 
 // Clinic Management Pages
@@ -59,15 +61,16 @@ const Router = [
       { path: '/appointments', exact: true, element: <Appointments/> },
       { path: '/appointments/new', exact: true, element: <Appointments/> },
       { path: '/treatments', exact: true, element: <Treatments/> },
-      { path: '/billing', exact: true, element: <Billing/> },
+      { path: '/treatments/new', exact: true, element: <NewTreatment /> },
+      { path: '/billing/invoices', exact: true, element: <Billing/> },
+      { path: '/billing/new', exact: true, element: <NewInvoice/> },
+      { path: '/billing/search', exact: true, element: <Billing/> },
+      { path: '/accounting/reports', exact: true, element: <SamplePage /> },
       { path: '/calendar', exact: true, element: <CalendarView/> },
       { path: '/book-appointment', exact: true, element: <Appointments/> },
       { path: '/inventory', exact: true, element: <SamplePage /> },
       { path: '/inventory/add', exact: true, element: <SamplePage /> },
       { path: '/inventory/edit', exact: true, element: <SamplePage /> },
-      { path: '/billing/invoices', exact: true, element: <Billing/> },
-      { path: '/accounting/income', exact: true, element: <SamplePage /> },
-      { path: '/accounting/expenses', exact: true, element: <SamplePage /> },
       { path: '/news', exact: true, element: <SamplePage /> },
       { path: '/profile', exact: true, element: <SamplePage /> },
       { path: '/settings', exact: true, element: <SamplePage /> },
