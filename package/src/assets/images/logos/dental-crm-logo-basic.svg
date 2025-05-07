@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="60" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dente -->
+  <path d="M30 50C37 50 41 35 40 25C39 20 38 15 37 10C34 0 30 -7.5 25 -12.5C20 -17.5 15 -20 10 -22.5C5 -25 0 -15 0 -5V30C0 40 10 50 20 50H30Z" fill="#00BCD4"/>
+  <path d="M20 50C13 50 9 35 10 25C11 20 12 15 13 10C16 0 20 -7.5 25 -12.5C30 -17.5 35 -20 40 -22.5C45 -25 50 -15 50 -5V30C50 40 40 50 30 50H20Z" fill="#00BCD4" fill-opacity="0.7"/>
+  
+  <!-- Testo "Dental CRM" -->
+  <text x="70" y="40" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#002855">Dental CRM</text>
+</svg>
