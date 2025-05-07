@@ -7,16 +7,30 @@
   width: 80px;
 }
 
+/* Left sidebar */
 .menu-sidebar {
   position: fixed;
   height: 100vh;
-  width: 220px !important; /* Ridotto da 256px */
+  width: 220px !important;
   background: var(--bs-white);
-  top: 0;
+  top: 50;
   left: 0;
   z-index: 100;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Right sidebar */
+.right-sidebar {
+  position: fixed;
+  height: 100vh;
+  width: 180px !important;
+  background: var(--bs-white);
+  top: 50;
+  right: 0;
+  z-index: 100;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-nav .caption {
@@ -36,6 +50,7 @@
   padding: 8px 16px;
   box-shadow: none !important;
 }
+
 .sidebar-dropdown li a.active {
   opacity: 1;
   color: var(--color-primary) !important;
@@ -59,12 +74,14 @@
   width: 9px;
   margin: 0 4px;
 }
+
 .barnd-logo {
   min-height: 72px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .nav-link {
   display: block;
   font-size: 14px;
@@ -77,11 +94,16 @@
 }
 
 @media screen and (max-width: 1280px) {
-  .menu-sidebar {
+  .menu-sidebar,
+  .right-sidebar {
     transform: translateX(-100%);
   }
 
   .menu-sidebar.active {
+    transform: translateX(0);
+  }
+
+  .right-sidebar.active {
     transform: translateX(0);
   }
 }

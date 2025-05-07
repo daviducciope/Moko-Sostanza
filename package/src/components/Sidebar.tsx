@@ -9,6 +9,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import useSidebarMenu from '../hooks/useSidebarMenu';
 import { MenuItem } from '../constants/menus';
 import FullLogo from '../layouts/full/shared/logo/FullLogo';
+import Banner from '../layouts/full/sidebar/Banner';
 
 /**
  * Componente per renderizzare un elemento del menu con sottomenu
@@ -76,7 +77,7 @@ const Sidebar = () => {
         </div>
         
         <SimpleBar className="h-[calc(100vh_-_294px)]">
-          <FlowbiteSidebar.Items className="px-5 mt-2">
+          <FlowbiteSidebar.Items className="px-5 mt-2 pb-20">
             <FlowbiteSidebar.ItemGroup className="sidebar-nav hide-menu">
               {menuItems.map((section, index) => (
                 <div className="caption" key={index}>
@@ -104,6 +105,7 @@ const Sidebar = () => {
             </FlowbiteSidebar.ItemGroup>
           </FlowbiteSidebar.Items>
         </SimpleBar>
+        <Banner />
       </FlowbiteSidebar>
     </aside>
   );

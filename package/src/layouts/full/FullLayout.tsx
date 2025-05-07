@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router";
 import ScrollToTop from 'src/components/shared/ScrollToTop';
 // Importiamo la nostra nuova sidebar
 import Sidebar from '../../components/Sidebar';
+import RightSidebar from '../../components/RightSidebar';
 import Header from './header/Header';
 import Topbar from './header/Topbar';
 
@@ -40,17 +41,18 @@ const FullLayout: FC = () => {
 
   return (
     <>
-      <Topbar/>
-      <div className="flex w-full min-h-screen dark:bg-darkgray">
-        <div className="page-wrapper flex w-full">
-          {/* Header/sidebar */}
+      <div className="min-h-screen">
+        {/* Topbar */}
+        <Topbar />
+        
+        <div className="flex">
+          {/* Left Sidebar */}
           <Sidebar />
-          <div className="page-wrapper-sub flex flex-col w-full dark:bg-darkgray">
-            {/* Top Header  */}
+          
+          {/* Main Content */}
+          <div className="flex-1 mx-[220px]">
             <Header/>
-
             <div className="bg-lightgray dark:bg-dark h-full rounded-bb">
-              {/* Body Content  */}
               <div className="w-full">
                 <ScrollToTop>
                   <div className="container py-30">
@@ -60,6 +62,9 @@ const FullLayout: FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Right Sidebar */}
+          <RightSidebar />
         </div>
       </div>
     </>

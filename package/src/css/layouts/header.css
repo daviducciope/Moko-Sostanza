@@ -1,14 +1,16 @@
 .top-header {
-  margin-left: 500px; /* Aggiornato per corrispondere alla nuova larghezza della sidebar */
+  margin-left: 220px;
+  margin-right: 180px;
   position: sticky;
   top: 0;
   z-index: 99;
-  transition: margin-left 0.2s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 @media (max-width: 1280px) {
   .top-header {
     margin-left: 0;
+    margin-right: 0;
     width: 100% !important;
   }
 }
@@ -26,6 +28,6 @@
 
 @media (min-width: 1300px) {
   html[data-layout='vertical'] .top-header {
-    width: calc(100% - 320px);
+    width: calc(100% - 400px);
   }
 }
