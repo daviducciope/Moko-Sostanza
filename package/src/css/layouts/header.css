@@ -1,15 +1,31 @@
-.mobile-header-menu {
-    height: 0;
-    overflow: hidden;
-    transition: all .3s ease-in-out;
+.top-header {
+  margin-left: 500px; /* Aggiornato per corrispondere alla nuova larghezza della sidebar */
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  transition: margin-left 0.2s ease-in;
 }
+
+@media (max-width: 1280px) {
+  .top-header {
+    margin-left: 0;
+    width: 100% !important;
+  }
+}
+
+.mobile-header-menu {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
 .mobile-header-menu.active {
-    min-height: 70px;
-    overflow: visible;
+  min-height: 70px;
+  overflow: visible;
 }
 
 @media (min-width: 1300px) {
-    html[data-layout=vertical] .top-header {
-        width: calc(100% - 320px);
-    }
+  html[data-layout='vertical'] .top-header {
+    width: calc(100% - 320px);
+  }
 }
