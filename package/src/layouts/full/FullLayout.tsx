@@ -44,13 +44,13 @@ const FullLayout: FC = () => {
       <div className="min-h-screen">
         {/* Topbar */}
         <Topbar />
-        
+
         <div className="flex">
           {/* Left Sidebar */}
           <Sidebar />
-          
-          {/* Main Content */}
-          <div className="flex-1 mx-[220px]">
+
+          {/* Main Content - aggiustiamo il margine sinistro */}
+          <div className="main-content pl-[40px]">
             <Header/>
             <div className="bg-lightgray dark:bg-dark h-full rounded-bb">
               <div className="w-full">

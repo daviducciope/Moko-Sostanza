@@ -11,13 +11,13 @@
 .menu-sidebar {
   position: fixed;
   height: 100vh;
-  width: 220px !important;
+  width: 300px !important;
   background: var(--bs-white);
-  top: 50;
+  top: 62px; /* Allineato con l'header */
   left: 0;
   z-index: 100;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* Right sidebar */
@@ -26,29 +26,56 @@
   height: 100vh;
   width: 180px !important;
   background: var(--bs-white);
-  top: 50;
+  top: 62px;
   right: 0;
-  z-index: 100;
+  z-index: 10; /* Riduciamo lo z-index per evitare che sovrasti il contenuto */
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-nav .caption {
-  padding-top: 20px !important;
-  margin-top: 20px !important;
+  padding: 16px 0 8px !important;
+  margin-bottom: 8px !important;
   border-top: 1px solid var(--color-border);
 }
 
 .sidebar-nav .caption:first-child {
-  padding-top: 0 !important;
-  margin-top: 0px !important;
-  border-top: 0 !important;
+  padding-top: 8px !important;
+}
+
+/* Stile per gli elementi del menu */
+.sidebar-nav .flowbite-sidebar-item {
+  padding: 10px 16px !important;
+  margin-bottom: 4px !important;
+  border-radius: 8px;
+}
+
+/* Spacing per gli item con icone */
+.sidebar-nav .flowbite-sidebar-item .flex {
+  gap: 12px;
+  align-items: center;
+}
+
+/* Styling per il testo del menu */
+.sidebar-nav .flowbite-sidebar-item span {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Miglior allineamento per i sottomenu */
+.sidebar-dropdown {
+  padding-left: 12px;
+  margin-top: 4px;
 }
 
 .sidebar-dropdown li a {
-  opacity: 0.9;
   padding: 8px 16px;
-  box-shadow: none !important;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .sidebar-dropdown li a.active {
@@ -97,13 +124,21 @@
   .menu-sidebar,
   .right-sidebar {
     transform: translateX(-100%);
+    top: 0;
   }
 
   .menu-sidebar.active {
     transform: translateX(0);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
   }
 
   .right-sidebar.active {
     transform: translateX(0);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
   }
+}
+
+/* Gestione scroll della sidebar */
+.simplebar-content-wrapper {
+  padding: 0 16px !important;
 }

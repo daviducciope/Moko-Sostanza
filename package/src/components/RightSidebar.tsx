@@ -40,7 +40,7 @@ const getStatusColor = (status: string) => {
 
 const RightSidebar = () => {
   return (
-    <aside className="fixed right-0 top-[90px] w-[180px] h-[calc(100vh-90px)] bg-white dark:bg-darkgray shadow-md">
+    <aside className="right-sidebar w-[180px] h-[calc(100vh-90px)] bg-white dark:bg-darkgray shadow-md">
       <div className="p-3 flex flex-col gap-3">
         {/* Pulsante Nuovo Appuntamento */}
         <Button
