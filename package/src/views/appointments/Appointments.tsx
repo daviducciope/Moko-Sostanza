@@ -2,50 +2,58 @@ import { Table, Badge, Button, Select } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
-import { 
-  useAppointmentStore, 
-  getAppointmentTitle, 
-  getAppointmentColor 
+import { Link, useNavigate, useLocation } from "react-router";
+import {
+  useAppointmentStore,
+  getAppointmentTitle,
+  getAppointmentColor
 } from "../../services/AppointmentService";
 import AppointmentModal from "../../components/appointments/AppointmentModal";
 
 const Appointments = () => {
   const navigate = useNavigate();
-  const { 
-    appointments, 
-    patients, 
-    doctors, 
-    treatments, 
-    getPatientById, 
-    getDoctorById, 
-    getTreatmentById 
+  const location = useLocation();
+  const {
+    appointments,
+    patients,
+    doctors,
+    treatments,
+    getPatientById,
+    getDoctorById,
+    getTreatmentById
   } = useAppointmentStore();
-  
+
   const [filter, setFilter] = useState("Oggi");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null);
   const [filteredAppointments, setFilteredAppointments] = useState(appointments);
 
+  // Apri automaticamente il modale quando si accede alla rotta /appointments/new
+  useEffect(() => {
+    if (location.pathname === '/appointments/new') {
+      openNewAppointmentModal();
+    }
+  }, [location.pathname]);
+
   // Filtra gli appuntamenti in base alla selezione
   useEffect(() => {
     const today = new Date();
     const todayStr = formatDateToYYYYMMDD(today);
-    
+
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     const tomorrowStr = formatDateToYYYYMMDD(tomorrow);
-    
+
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() - today.getDay());
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
-    
+
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
+
     let filtered;
-    
+
     switch (filter) {
       case "Oggi":
         filtered = appointments.filter(a => a.date === todayStr);
@@ -68,7 +76,7 @@ const Appointments = () => {
       default:
         filtered = appointments;
     }
-    
+
     // Ordina per data e ora
     filtered.sort((a, b) => {
       if (a.date !== b.date) {
@@ -76,7 +84,7 @@ const Appointments = () => {
       }
       return a.startTime.localeCompare(b.startTime);
     });
-    
+
     setFilteredAppointments(filtered);
   }, [appointments, filter]);
 
@@ -97,6 +105,11 @@ const Appointments = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedAppointment(null);
+
+    // Se siamo nella rotta /appointments/new, reindirizza alla pagina principale degli appuntamenti
+    if (location.pathname === '/appointments/new') {
+      navigate('/appointments');
+    }
   };
 
   // Formatta la data da YYYY-MM-DD a DD/MM/YYYY
@@ -114,8 +127,8 @@ const Appointments = () => {
   };
 
   // Ottieni l'appuntamento selezionato
-  const selectedAppointmentData = selectedAppointment !== null 
-    ? appointments.find(a => a.id === selectedAppointment) 
+  const selectedAppointmentData = selectedAppointment !== null
+    ? appointments.find(a => a.id === selectedAppointment)
     : undefined;
 
   // Funzione per ottenere il colore dello stato
@@ -184,9 +197,9 @@ const Appointments = () => {
                   const patient = getPatientById(appointment.patientId);
                   const doctor = getDoctorById(appointment.doctorId);
                   const treatment = getTreatmentById(appointment.treatmentId);
-                  
+
                   if (!patient || !doctor || !treatment) return null;
-                  
+
                   return (
                     <Table.Row key={appointment.id}>
                       <Table.Cell className="whitespace-nowrap ps-6">
@@ -231,9 +244,9 @@ const Appointments = () => {
           </div>
         </SimpleBar>
       </div>
-      
+
       {/* Modale per la creazione/modifica degli appuntamenti */}
-      <AppointmentModal 
+      <AppointmentModal
         isOpen={isModalOpen}
         onClose={closeModal}
         appointment={selectedAppointmentData}

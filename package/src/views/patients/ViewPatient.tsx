@@ -1,0 +1,185 @@
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router';
+import { Button, Card, Badge } from 'flowbite-react';
+import { Icon } from '@iconify/react';
+
+// Interfaccia per i dati del paziente
+interface Patient {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  birthdate: string;
+  gender: string;
+  address: string;
+  notes: string;
+  udiCode: string;
+  lastVisit: string;
+  nextAppointment: string;
+  status: string;
+}
+
+const ViewPatient = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [patient, setPatient] = useState<Patient | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Simula il caricamento dei dati del paziente
+  useEffect(() => {
+    // In un'applicazione reale, qui ci sarebbe una chiamata API
+    // per ottenere i dati del paziente con l'ID specificato
+    setTimeout(() => {
+      // Dati di esempio
+      const mockPatient: Patient = {
+        id: Number(id),
+        name: "Mario Rossi",
+        phone: "+39 333 1234567",
+        email: "mario.rossi@example.com",
+        birthdate: "1980-05-15",
+        gender: "M",
+        address: "Via Roma 123, Milano",
+        notes: "Paziente con allergia al lattice. Preferisce appuntamenti mattutini.",
+        udiCode: "IT-12345678",
+        lastVisit: "15/05/2023",
+        nextAppointment: "22/06/2023",
+        status: "Attivo"
+      };
+
+      setPatient(mockPatient);
+      setLoading(false);
+    }, 500);
+  }, [id]);
+
+  // Funzione per stampare il profilo del paziente
+  const handlePrintProfile = () => {
+    window.print();
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2">Caricamento...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!patient) {
+    return (
+      <div className="text-center p-6">
+        <h5 className="text-xl font-bold mb-2">Paziente non trovato</h5>
+        <p className="mb-4">Il paziente richiesto non è stato trovato nel sistema.</p>
+        <Button color="primary" as={Link} to="/patients">
+          Torna alla lista pazienti
+        </Button>
+      </div>
+    );
+  }
+
+  // Formatta la data di nascita
+  const formatBirthdate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  // Ottieni l'età del paziente
+  const calculateAge = (birthdate: string) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  return (
+    <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center gap-2">
+          <h5 className="card-title">Profilo Paziente</h5>
+          <Link to="/patients" className="text-gray-500 hover:text-primary">
+            <Icon icon="solar:arrow-left-linear" height={20} />
+            <span className="sr-only">Torna alla lista pazienti</span>
+          </Link>
+        </div>
+        <div className="flex gap-2">
+          <Button color="light" onClick={handlePrintProfile} className="flex items-center gap-2">
+            <Icon icon="solar:printer-outline" height={20} />
+            Stampa Profilo
+          </Button>
+          <Button color="primary" as={Link} to={`/patients/edit/${patient.id}`} className="flex items-center gap-2">
+            <Icon icon="solar:pen-outline" height={20} />
+            Modifica
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Informazioni principali */}
+        <Card className="col-span-1">
+          <div className="flex flex-col pb-4">
+            <h5 className="mb-3 text-xl font-medium text-gray-900 dark:text-white">
+              {patient.name}
+            </h5>
+            <div className="flex mb-4">
+              <Badge className={patient.status === "Attivo" ? "bg-lightsuccess text-success" : "bg-lighterror text-error"}>
+                {patient.status}
+              </Badge>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Codice UDI: <span className="font-medium">{patient.udiCode}</span>
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Ultima visita: <span className="font-medium">{patient.lastVisit}</span>
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Prossimo appuntamento: <span className="font-medium">{patient.nextAppointment}</span>
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Dettagli personali */}
+        <Card className="col-span-2">
+          <h5 className="text-lg font-bold mb-4">Informazioni Personali</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Data di nascita</p>
+              <p className="font-medium">{formatBirthdate(patient.birthdate)} ({calculateAge(patient.birthdate)} anni)</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Genere</p>
+              <p className="font-medium">
+                {patient.gender === 'M' ? 'Maschio' : patient.gender === 'F' ? 'Femmina' : 'Altro'}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Telefono</p>
+              <p className="font-medium">{patient.phone}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+              <p className="font-medium">{patient.email}</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Indirizzo</p>
+              <p className="font-medium">{patient.address}</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Note</p>
+              <p className="font-medium">{patient.notes || 'Nessuna nota'}</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default ViewPatient;

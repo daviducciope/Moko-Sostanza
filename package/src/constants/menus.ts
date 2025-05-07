@@ -43,9 +43,9 @@ export const dentistMenu: MenuItem[] = [
             href: "/appointments"
           },
           {
-            label: "Prenota",
+            label: "Nuovo appuntamento",
             icon: "solar:add-square-outline",
-            href: "/book-appointment"
+            href: "/appointments/new"
           }
         ]
       },
@@ -55,13 +55,18 @@ export const dentistMenu: MenuItem[] = [
         children: [
           {
             label: "Elenco pazienti",
-            icon: "solar:users-group-outline",
+            icon: "solar:users-group-rounded-bold",
             href: "/patients"
           },
           {
-            label: "Profilo paziente",
-            icon: "solar:user-id-outline",
-            href: "/patients/[id]"
+            label: "Nuovo paziente",
+            icon: "solar:add-circle-outline",
+            href: "/patients/new"
+          },
+          {
+            label: "Ricerca paziente",
+            icon: "solar:magnifer-line-duotone",
+            href: "/patients/search"
           }
         ]
       },

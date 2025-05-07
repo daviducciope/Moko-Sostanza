@@ -16,6 +16,9 @@ const Dashboard = Loadable(lazy(() => import('../views/dashboards/Dashboard')));
 
 // Dental Management Pages
 const Patients = Loadable(lazy(() => import('../views/patients/Patients')));
+const NewPatient = Loadable(lazy(() => import('../views/patients/NewPatient')));
+const ViewPatient = Loadable(lazy(() => import('../views/patients/ViewPatient')));
+const EditPatient = Loadable(lazy(() => import('../views/patients/EditPatient')));
 const Appointments = Loadable(lazy(() => import('../views/appointments/Appointments')));
 const Treatments = Loadable(lazy(() => import('../views/treatments/Treatments')));
 const Billing = Loadable(lazy(() => import('../views/billing/Billing')));
@@ -49,7 +52,12 @@ const Router = [
       // Dentist routes
       { path: '/', exact: true, element: <Dashboard/> },
       { path: '/patients', exact: true, element: <Patients/> },
+      { path: '/patients/new', exact: true, element: <NewPatient /> },
+      { path: '/patients/search', exact: true, element: <Patients/> },
+      { path: '/patients/view/:id', exact: true, element: <ViewPatient /> },
+      { path: '/patients/edit/:id', exact: true, element: <EditPatient /> },
       { path: '/appointments', exact: true, element: <Appointments/> },
+      { path: '/appointments/new', exact: true, element: <Appointments/> },
       { path: '/treatments', exact: true, element: <Treatments/> },
       { path: '/billing', exact: true, element: <Billing/> },
       { path: '/calendar', exact: true, element: <CalendarView/> },
