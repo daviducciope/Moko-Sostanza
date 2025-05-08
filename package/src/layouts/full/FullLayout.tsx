@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Outlet, useNavigate } from "react-router";
 import ScrollToTop from 'src/components/shared/ScrollToTop';
-// Importiamo la nostra nuova sidebar
 import Sidebar from '../../components/Sidebar';
 import RightSidebar from '../../components/RightSidebar';
 import Header from './header/Header';
@@ -40,34 +39,34 @@ const FullLayout: FC = () => {
   }, [navigate]);
 
   return (
-    <>
-      <div className="min-h-screen">
-        {/* Topbar */}
-        <Topbar />
+    <div className="min-h-screen bg-lightgray dark:bg-dark">
+      {/* Topbar */}
+      <Topbar />
 
-        <div className="flex">
-          {/* Left Sidebar */}
+      <div className="flex relative">
+        {/* Desktop Left Sidebar */}
+        <div className="hidden lg:block w-[300px] flex-shrink-0">
           <Sidebar />
+        </div>
 
-          {/* Main Content - aggiustiamo il margine sinistro */}
-          <div className="main-content pl-[40px]">
-            <Header/>
-            <div className="bg-lightgray dark:bg-dark h-full rounded-bb">
-              <div className="w-full">
-                <ScrollToTop>
-                  <div className="container py-30">
-                    <Outlet/>
-                  </div>
-                </ScrollToTop>
+        {/* Main Content */}
+        <main className="flex-1 min-h-screen w-full lg:w-[calc(100%-480px)] transition-all duration-300">
+          <Header />
+          <div className="bg-lightgray dark:bg-dark">
+            <ScrollToTop>
+              <div className="p-6 md:p-8">
+                <Outlet />
               </div>
-            </div>
+            </ScrollToTop>
           </div>
+        </main>
 
-          {/* Right Sidebar */}
+        {/* Desktop Right Sidebar */}
+        <div className="hidden lg:block w-[180px] flex-shrink-0">
           <RightSidebar />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

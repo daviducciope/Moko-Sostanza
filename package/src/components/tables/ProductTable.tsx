@@ -1,4 +1,3 @@
-
 import { Badge, Dropdown, Progress } from "flowbite-react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Icon } from "@iconify/react";
@@ -8,9 +7,6 @@ import product1 from "/src/assets/images/products/dash-prd-1.jpg";
 import product2 from "/src/assets/images/products/dash-prd-2.jpg";
 import product3 from "/src/assets/images/products/dash-prd-3.jpg";
 import product4 from "/src/assets/images/products/dash-prd-4.jpg";
-
-
-
 
 const ProductTable = () => {
   const ProductTableData = [
@@ -74,53 +70,41 @@ const ProductTable = () => {
 
   return (
     <>
-      <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6  relative w-full break-words">
-        <h5 className="card-title">Table</h5>
-        <div className="mt-3">
-         
-            <div className="overflow-x-auto">
+      <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-4 sm:p-6 relative w-full break-words">
+        <h5 className="card-title mb-4">Table</h5>
+        <div className="overflow-x-auto">
+          <div className="inline-block min-w-full align-middle">
+            <div className="overflow-hidden">
               <Table hoverable>
                 <Table.Head>
-                  <Table.HeadCell className="p-6">Products</Table.HeadCell>
-                  <Table.HeadCell>Payment</Table.HeadCell>
-                  <Table.HeadCell>Status</Table.HeadCell>
-                  <Table.HeadCell></Table.HeadCell>
+                  <Table.HeadCell className="p-4">Products</Table.HeadCell>
+                  <Table.HeadCell className="hidden sm:table-cell">
+                    Payment
+                  </Table.HeadCell>
+                  <Table.HeadCell className="hidden md:table-cell">
+                    Status
+                  </Table.HeadCell>
+                  <Table.HeadCell className="w-10"></Table.HeadCell>
                 </Table.Head>
-                <Table.Body className="divide-y divide-border dark:divide-darkborder ">
+                <Table.Body className="divide-y divide-border dark:divide-darkborder">
                   {ProductTableData.map((item, index) => (
-                    <Table.Row key={index}>
-                      <Table.Cell className="whitespace-nowrap ps-6">
-                        <div className="flex gap-3 items-center">
-                          <img
-                            src={item.img}
-                            alt="icon"
-                            className="h-[60px] w-[60px] rounded-md"
-                          />
-                          <div className="truncat line-clamp-2 sm:text-wrap max-w-56">
-                            <h6 className="text-sm">{item.name}</h6>
+                    <Table.Row key={index} className="bg-white dark:bg-darkgray">
+                      <Table.Cell className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                              {item.name}
+                            </p>
+                            <p className="truncate text-sm text-gray-500 sm:hidden">
+                              {item.payment} - {item.statustext}
+                            </p>
                           </div>
                         </div>
                       </Table.Cell>
-                      <Table.Cell>
-                        <h5 className="text-base text-wrap">
-                          {item.payment}
-                          <span className="text-dark opacity-70">
-                            <span className="mx-1">/</span>499
-                          </span>
-                        </h5>
-                        <div className="text-sm font-medium text-dark opacity-70 mb-2 text-wrap">
-                          {item.paymentstatus}
-                        </div>
-                        <div className="me-5">
-                          <Progress
-                            progress={item.process}
-                            color={`${item.processcolor}`}
-                            className={`${item.processcolor}`}
-                            size={"sm"}
-                          />
-                        </div>
+                      <Table.Cell className="hidden sm:table-cell">
+                        <p className="text-sm">{item.payment}</p>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="hidden md:table-cell">
                         <Badge
                           color={`light${item.statuscolor}`}
                           className={`text-${item.statuscolor}`}
@@ -152,11 +136,11 @@ const ProductTable = () => {
                 </Table.Body>
               </Table>
             </div>
-         
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export  {ProductTable};
+export { ProductTable };
