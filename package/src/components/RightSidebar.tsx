@@ -42,17 +42,44 @@ const RightSidebar = () => {
   return (
     <aside className="right-sidebar w-[180px] h-[calc(100vh-90px)] bg-white dark:bg-darkgray shadow-md">
       <div className="p-3 flex flex-col gap-3">
-        {/* Pulsante Nuovo Appuntamento */}
-        <Button
-          as={Link}
-          to="/appointments/new"
-          color="primary"
-          size="sm"
-          className="w-full flex items-center gap-2 justify-center py-1.5"
-        >
-          <Icon icon="solar:calendar-add-bold" height={18} />
-          <span className="text-sm">Nuovo Appuntamento</span>
-        </Button>
+        {/* Azioni rapide */}
+        <div className="flex flex-col gap-2">
+          {/* Pulsante Nuovo Appuntamento */}
+          <Button
+            as={Link}
+            to="/appointments/new"
+            color="primary"
+            size="sm"
+            className="w-full flex items-center gap-2 justify-center py-1.5"
+          >
+            <Icon icon="solar:calendar-add-bold" height={18} />
+            <span className="text-sm">Nuovo Appuntamento</span>
+          </Button>
+
+          {/* Pulsante Pazienti */}
+          <Button
+            as={Link}
+            to="/patients"
+            color="light"
+            size="sm"
+            className="w-full flex items-center gap-2 justify-center py-1.5"
+          >
+            <Icon icon="solar:users-group-rounded-line-duotone" height={18} />
+            <span className="text-sm">Pazienti</span>
+          </Button>
+
+          {/* Pulsante Trattamenti */}
+          <Button
+            as={Link}
+            to="/treatments"
+            color="light"
+            size="sm"
+            className="w-full flex items-center gap-2 justify-center py-1.5"
+          >
+            <Icon icon="solar:stethoscope-outline" height={18} />
+            <span className="text-sm">Trattamenti</span>
+          </Button>
+        </div>
 
         {/* Lista ultimi appuntamenti */}
         <div>

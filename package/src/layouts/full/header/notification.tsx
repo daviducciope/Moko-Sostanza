@@ -20,11 +20,11 @@ const Notification = () => {
         <div className="relative group/menu">
             <Dropdown label="" className="rounded-sm w-[150px] notification" dismissOnClick={false} renderTrigger={() => (
                 <span
-                    className="h-10 w-10 hover:text-primary group-hover/menu:bg-lightprimary group-hover/menu:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer relative"
+                    className="h-10 w-10 text-white hover:text-primary group-hover/menu:bg-white group-hover/menu:text-primary hover:bg-white rounded-full flex justify-center items-center cursor-pointer relative"
                     aria-label="Notifications"
                 >
                     <Icon icon="solar:bell-linear" height={20} />
-                    <Badge className="h-2 w-2 rounded-full absolute end-2 top-1 bg-primary p-0" />
+                    <Badge className="h-2 w-2 rounded-full absolute end-2 top-1 bg-white p-0" />
                 </span>
             )}
             >
