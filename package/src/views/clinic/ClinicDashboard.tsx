@@ -1,27 +1,343 @@
-import { useEffect } from "react";
+import { Link } from "react-router";
+import { Icon } from "@iconify/react";
+import { Badge, Button, Progress } from "flowbite-react";
+import Chart from "react-apexcharts";
+import SimpleBar from "simplebar-react";
 import PageContainer from "../../components/container/PageContainer";
 
-const ClinicDashboard = () => {
-  useEffect(() => {
-    console.log("ClinicDashboard montato");
+// Componenti per il dashboard della clinica
+const AppointmentsToday = () => {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <div className="bg-lightprimary text-primary p-3 rounded-md">
+          <Icon icon="solar:calendar-mark-line-duotone" height={24} />
+        </div>
+        <p className="text-lg font-semibold text-dark">Appuntamenti Oggi</p>
+      </div>
+      <div className="flex">
+        <div className="flex-1">
+          <p className="text-xl text-dark font-medium mb-2">15</p>
+          <Badge className={`bg-lightsuccess text-success`}>
+            +3 rispetto a ieri
+          </Badge>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-    // Verifica se l'utente è una clinica
-    const storedSession = localStorage.getItem('user-session');
-    if (storedSession) {
-      try {
-        const parsedSession = JSON.parse(storedSession);
-        console.log('ClinicDashboard - session:', parsedSession);
-      } catch (error) {
-        console.error('Errore nel parsing della sessione:', error);
-      }
+const NewPatients = () => {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <div className="bg-lightsecondary text-secondary p-3 rounded-md">
+          <Icon icon="solar:users-group-rounded-line-duotone" height={24} />
+        </div>
+        <p className="text-lg text-dark font-semibold">Nuovi Pazienti</p>
+      </div>
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm text-dark">Questo mese</p>
+        <p className="text-sm text-dark">28</p>
+      </div>
+      <Progress progress={75} color="secondary" />
+    </div>
+  );
+};
+
+const MonthlyRevenue = () => {
+  const ChartData: any = {
+    series: [
+      {
+        name: "incasso mensile",
+        color: "var(--color-primary)",
+        data: [8500, 7800, 9200, 8600, 9500, 10200],
+      },
+    ],
+    chart: {
+      id: "monthly-revenue",
+      type: "area",
+      height: 60,
+      sparkline: {
+        enabled: true,
+      },
+      group: "sparklines",
+      fontFamily: "inherit",
+      foreColor: "#adb0bb",
+    },
+    stroke: {
+      curve: "smooth",
+      width: 2,
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 0,
+        inverseColors: false,
+        opacityFrom: 0,
+        opacityTo: 0,
+        stops: [20, 180],
+      },
+    },
+    markers: {
+      size: 0,
+    },
+    tooltip: {
+      theme: "dark",
+      fixed: {
+        enabled: true,
+        position: "right",
+      },
+      x: {
+        show: false,
+      },
+    },
+  };
+  return (
+    <div className="bg-white rounded-xl shadow-md p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <div className="bg-lightsuccess text-success p-3 rounded-md">
+          <Icon icon="solar:bill-list-outline" height={24} />
+        </div>
+        <p className="text-lg font-semibold text-dark">Incasso Mensile</p>
+      </div>
+      <div className="flex">
+        <div className="flex-1">
+          <p className="text-xl text-dark font-medium mb-2">€10.200</p>
+          <Badge className={`bg-lightsuccess text-success`}>
+            +18% rispetto al mese scorso
+          </Badge>
+        </div>
+        <div className="rounded-bars flex-1 md:ps-7">
+          <Chart
+            options={ChartData}
+            series={ChartData.series}
+            type="area"
+            height="60px"
+            width="100%"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UpcomingAppointments = () => {
+  const AppointmentsData = [
+    {
+      id: 1,
+      patient: "Mario Rossi",
+      time: "09:30",
+      treatment: "Pulizia dentale",
+      doctor: "Dr. Bianchi"
+    },
+    {
+      id: 2,
+      patient: "Giulia Bianchi",
+      time: "11:00",
+      treatment: "Controllo ortodontico",
+      doctor: "Dr. Verdi"
+    },
+    {
+      id: 3,
+      patient: "Sofia Neri",
+      time: "15:30",
+      treatment: "Otturazione",
+      doctor: "Dr. Bianchi"
+    },
+    {
+      id: 4,
+      patient: "Marco Gialli",
+      time: "10:00",
+      treatment: "Estrazione",
+      doctor: "Dr. Rossi"
+    },
+    {
+      id: 5,
+      patient: "Laura Verdi",
+      time: "14:15",
+      treatment: "Visita di controllo",
+      doctor: "Dr. Neri"
+    },
+    {
+      id: 6,
+      patient: "Andrea Blu",
+      time: "16:45",
+      treatment: "Radiografia",
+      doctor: "Dr. Bianchi"
     }
-  }, []);
+  ];
 
   return (
+    <div className="rounded-xl shadow-md bg-white p-6 relative w-full break-words">
+      <div className="flex justify-between items-center mb-6">
+        <h5 className="card-title">Prossimi Appuntamenti</h5>
+        <Button color="primary" size="sm" as={Link} to="/clinic/appointments">
+          Vedi Tutti
+        </Button>
+      </div>
+      <SimpleBar className="max-h-[450px]">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">Paziente</th>
+                <th scope="col" className="px-6 py-3">Ora</th>
+                <th scope="col" className="px-6 py-3">Trattamento</th>
+                <th scope="col" className="px-6 py-3">Dottore</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AppointmentsData.map((appointment) => (
+                <tr key={appointment.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4">{appointment.patient}</td>
+                  <td className="px-6 py-4">{appointment.time}</td>
+                  <td className="px-6 py-4">{appointment.treatment}</td>
+                  <td className="px-6 py-4">{appointment.doctor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </SimpleBar>
+    </div>
+  );
+};
+
+const TreatmentStats = () => {
+  const optionsBarChart: any = {
+    chart: {
+      type: "bar",
+      fontFamily: "inherit",
+      foreColor: "#adb0bb",
+      toolbar: {
+        show: false,
+      },
+      height: 315,
+    },
+    colors: ["var(--color-primary)", "var(--color-secondary)"],
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        barHeight: "60%",
+        columnWidth: "42%",
+        borderRadius: 6,
+        borderRadiusApplication: "end",
+        borderRadiusWhenStacked: "all",
+      },
+    },
+    stroke: {
+      show: true,
+      width: 5,
+      lineCap: "butt",
+      colors: ["transparent"],
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    grid: {
+      borderColor: "var(--color-border)",
+      strokeDashArray: 4,
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+    },
+    xaxis: {
+      categories: [
+        "Pulizia",
+        "Otturazione",
+        "Estrazione",
+        "Radiografia",
+        "Impianto",
+        "Sbiancamento",
+      ],
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val: number) {
+          return val + "";
+        },
+      },
+    },
+    tooltip: {
+      theme: "dark",
+      fillSeriesColor: false,
+      marker: {
+        show: true,
+        size: 0,
+      },
+      x: {
+        show: false,
+      },
+    },
+  };
+
+  const barChartData = {
+    series: [
+      {
+        name: "2023",
+        data: [35, 28, 22, 30, 25, 18],
+      },
+      {
+        name: "2022",
+        data: [30, 25, 18, 25, 20, 15],
+      },
+    ],
+  };
+
+  return (
+    <div className="rounded-xl shadow-md bg-white p-6 relative w-full break-words">
+      <div className="flex justify-between items-center">
+        <h5 className="card-title">Statistiche Trattamenti</h5>
+      </div>
+
+      <div className="-ms-4 -me-3 mt-2">
+        <Chart
+          options={optionsBarChart}
+          series={barChartData.series}
+          type="bar"
+          height="315px"
+          width="100%"
+        />
+      </div>
+    </div>
+  );
+};
+
+const ClinicDashboard = () => {
+  return (
     <PageContainer title="Dashboard Clinica" description="Dashboard per la gestione della clinica dentale">
-      <div className="bg-white dark:bg-darkgray p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Benvenuto nella Dashboard Clinica</h2>
-        <p className="mb-4">Questa è la dashboard per la gestione della clinica dentale.</p>
+      <div className="grid grid-cols-12 gap-30">
+        <div className="lg:col-span-8 col-span-12">
+          <TreatmentStats />
+        </div>
+        <div className="lg:col-span-4 col-span-12">
+          <div className="grid grid-cols-12 h-full items-stretch">
+            <div className="col-span-12 mb-30">
+              <AppointmentsToday />
+            </div>
+            <div className="col-span-12">
+              <NewPatients />
+            </div>
+          </div>
+        </div>
+        <div className="lg:col-span-8 col-span-12">
+          <UpcomingAppointments />
+        </div>
+        <div className="lg:col-span-4 col-span-12 flex">
+          <MonthlyRevenue />
+        </div>
       </div>
     </PageContainer>
   );

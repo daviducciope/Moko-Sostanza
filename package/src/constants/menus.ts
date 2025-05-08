@@ -129,11 +129,6 @@ export const dentistMenu: MenuItem[] = [
     icon: "",
     children: [
       {
-        label: "News",
-        icon: "solar:document-text-outline",
-        href: "/news"
-      },
-      {
         label: "Profilo",
         icon: "solar:user-outline",
         href: "/profile"
@@ -328,11 +323,6 @@ export const clinicMenu: MenuItem[] = [
     label: "ALTRE",
     icon: "",
     children: [
-      {
-        label: "News",
-        icon: "solar:document-text-outline",
-        href: "/clinic/news"
-      },
       {
         label: "Profilo",
         icon: "solar:user-outline",

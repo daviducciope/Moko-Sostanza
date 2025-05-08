@@ -86,7 +86,7 @@ const Router = [
       { path: '/inventory', exact: true, element: <Inventory /> },
       { path: '/inventory/add', exact: true, element: <AddProduct /> },
       { path: '/inventory/edit/:id', exact: true, element: <EditProduct /> },
-      { path: '/news', exact: true, element: <SamplePage /> },
+
       { path: '/profile', exact: true, element: <SamplePage /> },
       { path: '/settings', exact: true, element: <SamplePage /> },
 
@@ -124,7 +124,7 @@ const Router = [
       { path: '/clinic/accounting/reports', exact: true, element: <Reports /> },
       { path: '/clinic/events', exact: true, element: <SamplePage /> },
       { path: '/clinic/gallery', exact: true, element: <SamplePage /> },
-      { path: '/clinic/news', exact: true, element: <SamplePage /> },
+
       { path: '/clinic/profile', exact: true, element: <SamplePage /> },
       { path: '/clinic/settings', exact: true, element: <SamplePage /> },
 
