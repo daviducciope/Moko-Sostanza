@@ -172,18 +172,60 @@ export const clinicMenu: MenuItem[] = [
     icon: "",
     children: [
       {
+        label: "Appuntamenti",
+        icon: "solar:calendar-mark-line-duotone",
+        children: [
+          {
+            label: "Tutti gli appuntamenti",
+            icon: "solar:clock-circle-outline",
+            href: "/clinic/appointments"
+          },
+          {
+            label: "Nuovo appuntamento",
+            icon: "solar:add-square-outline",
+            href: "/clinic/appointments/new"
+          }
+        ]
+      },
+      {
+        label: "Pazienti",
+        icon: "solar:users-group-rounded-line-duotone",
+        children: [
+          {
+            label: "Elenco pazienti",
+            icon: "solar:users-group-rounded-bold",
+            href: "/clinic/patients"
+          },
+          {
+            label: "Nuovo paziente",
+            icon: "solar:add-circle-outline",
+            href: "/clinic/patients/new"
+          },
+          {
+            label: "Ricerca paziente",
+            icon: "solar:eye-outline",
+            href: "/clinic/patients/search"
+          }
+        ]
+      },
+      {
         label: "Dottori",
         icon: "solar:user-id-outline",
         children: [
           {
-            label: "Elenco",
+            label: "Elenco dottori",
             icon: "solar:user-id-bold-duotone",
             href: "/clinic/doctors"
           },
           {
-            label: "Aggiungi",
+            label: "Nuovo dottore",
             icon: "solar:add-circle-outline",
-            href: "/clinic/doctors/add"
+            href: "/clinic/doctors/new"
+          },
+          {
+            label: "Ricerca dottore",
+            icon: "solar:eye-outline",
+            href: "/clinic/doctors/search"
           }
         ]
       },
@@ -192,19 +234,24 @@ export const clinicMenu: MenuItem[] = [
         icon: "solar:users-group-rounded-line-duotone",
         children: [
           {
-            label: "Elenco",
+            label: "Elenco personale",
             icon: "solar:user-id-broken",
             href: "/clinic/staff"
+          },
+          {
+            label: "Nuovo dipendente",
+            icon: "solar:add-circle-outline",
+            href: "/clinic/staff/new"
+          },
+          {
+            label: "Ricerca dipendente",
+            icon: "solar:eye-outline",
+            href: "/clinic/staff/search"
           },
           {
             label: "Presenze",
             icon: "solar:checklist-minimalistic-outline",
             href: "/clinic/staff/attendance"
-          },
-          {
-            label: "Festività",
-            icon: "solar:calendar-date-outline",
-            href: "/clinic/staff/holidays"
           }
         ]
       },
@@ -228,19 +275,14 @@ export const clinicMenu: MenuItem[] = [
         icon: "solar:box-outline",
         children: [
           {
-            label: "Visualizza",
+            label: "Elenco Prodotti",
             icon: "solar:eye-outline",
             href: "/clinic/inventory"
           },
           {
-            label: "Aggiungi",
+            label: "Nuovo Prodotto",
             icon: "solar:add-circle-outline",
             href: "/clinic/inventory/add"
-          },
-          {
-            label: "Modifica",
-            icon: "solar:pen-outline",
-            href: "/clinic/inventory/edit"
           }
         ]
       },
@@ -249,19 +291,24 @@ export const clinicMenu: MenuItem[] = [
         icon: "solar:calculator-outline",
         children: [
           {
-            label: "Entrate",
-            icon: "solar:money-bag-outline",
-            href: "/clinic/accounting/income"
+            label: "Nuova Fattura",
+            icon: "solar:add-square-outline",
+            href: "/clinic/billing/new"
           },
           {
-            label: "Fatture",
+            label: "Elenco Fatture",
             icon: "solar:file-text-outline",
-            href: "/clinic/accounting/invoices"
+            href: "/clinic/billing/invoices"
           },
           {
-            label: "Spese",
-            icon: "solar:card-outline",
-            href: "/clinic/accounting/expenses"
+            label: "Ricerca Fattura",
+            icon: "solar:eye-outline",
+            href: "/clinic/billing/search"
+          },
+          {
+            label: "Reportistica",
+            icon: "solar:chart-line-duotone",
+            href: "/clinic/accounting/reports"
           }
         ]
       },

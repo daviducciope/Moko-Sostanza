@@ -91,9 +91,9 @@ const Patients = () => {
   return (
     <>
       <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <h5 className="card-title">Gestione Pazienti</h5>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap gap-3 items-center">
             <div className="relative">
               <TextInput
                 id="search-patient"
@@ -101,7 +101,7 @@ const Patients = () => {
                 placeholder="Cerca paziente..."
                 value={searchTerm}
                 onChange={handleSearch}
-                className="min-w-[250px]"
+                className="w-full md:w-auto"
                 icon={HiSearch}
               />
             </div>
@@ -111,54 +111,53 @@ const Patients = () => {
             </Button>
           </div>
         </div>
-        <SimpleBar className="max-h-[600px]">
-          <div className="overflow-x-auto">
-            <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell className="p-6">Nome</Table.HeadCell>
-                <Table.HeadCell>Telefono</Table.HeadCell>
-                <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Ultima Visita</Table.HeadCell>
-                <Table.HeadCell>Prossimo Appuntamento</Table.HeadCell>
-                <Table.HeadCell>Stato</Table.HeadCell>
-                <Table.HeadCell>Azioni</Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y divide-border dark:divide-darkborder">
-                {filteredPatients.length > 0 ? (
-                  filteredPatients.map((patient) => (
-                  <Table.Row key={patient.id}>
-                    <Table.Cell className="whitespace-nowrap ps-6">
-                      <div className="flex gap-3 items-center">
-                        <div className="truncate line-clamp-2 sm:text-wrap max-w-56">
-                          <h6 className="text-sm">{patient.name}</h6>
-                        </div>
+        <div className="overflow-x-auto">
+          <Table hoverable className="table-auto w-full">
+            <Table.Head>
+              <Table.HeadCell className="p-4">Nome</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden sm:table-cell">Telefono</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden md:table-cell">Email</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden lg:table-cell">Ultima Visita</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden xl:table-cell">Prossimo Appuntamento</Table.HeadCell>
+              <Table.HeadCell className="p-4">Stato</Table.HeadCell>
+              <Table.HeadCell className="p-4">Azioni</Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y divide-border dark:divide-darkborder">
+              {filteredPatients.length > 0 ? (
+                filteredPatients.map((patient) => (
+                <Table.Row key={patient.id}>
+                  <Table.Cell className="p-4">
+                    <div className="flex gap-2 items-center">
+                      <div>
+                        <h6 className="text-sm font-medium">{patient.name}</h6>
                       </div>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p className="text-sm">{patient.phone}</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p className="text-sm">{patient.email}</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p className="text-sm">{patient.lastVisit}</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p className="text-sm">{patient.nextAppointment}</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Badge className={patient.status === "Attivo" ? "bg-lightsuccess text-success" : "bg-lighterror text-error"}>
-                        {patient.status}
-                      </Badge>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex gap-2">
-                        <Button color="primary" size="xs" as={Link} to={`/patients/view/${patient.id}`}>
-                          <Icon icon="solar:eye-outline" height={16} />
-                        </Button>
-                        <Button color="secondary" size="xs" as={Link} to={`/patients/edit/${patient.id}`}>
-                          <Icon icon="solar:pen-outline" height={16} />
-                        </Button>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell className="p-4 hidden sm:table-cell">
+                    <p className="text-sm">{patient.phone}</p>
+                  </Table.Cell>
+                  <Table.Cell className="p-4 hidden md:table-cell">
+                    <p className="text-sm">{patient.email}</p>
+                  </Table.Cell>
+                  <Table.Cell className="p-4 hidden lg:table-cell">
+                    <p className="text-sm">{patient.lastVisit}</p>
+                  </Table.Cell>
+                  <Table.Cell className="p-4 hidden xl:table-cell">
+                    <p className="text-sm">{patient.nextAppointment}</p>
+                  </Table.Cell>
+                  <Table.Cell className="p-4">
+                    <Badge className={patient.status === "Attivo" ? "bg-lightsuccess text-success" : "bg-lighterror text-error"}>
+                      {patient.status}
+                    </Badge>
+                  </Table.Cell>
+                  <Table.Cell className="p-4">
+                    <div className="flex gap-2">
+                      <Button color="primary" size="xs" as={Link} to={`/patients/view/${patient.id}`}>
+                        <Icon icon="solar:eye-outline" height={16} />
+                      </Button>
+                      <Button color="secondary" size="xs" as={Link} to={`/patients/edit/${patient.id}`}>
+                        <Icon icon="solar:pen-outline" height={16} />
+                      </Button>
                       </div>
                     </Table.Cell>
                   </Table.Row>
@@ -173,7 +172,6 @@ const Patients = () => {
               </Table.Body>
             </Table>
           </div>
-        </SimpleBar>
       </div>
     </>
   );

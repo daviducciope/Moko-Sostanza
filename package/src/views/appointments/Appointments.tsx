@@ -28,9 +28,9 @@ const Appointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null);
   const [filteredAppointments, setFilteredAppointments] = useState(appointments);
 
-  // Apri automaticamente il modale quando si accede alla rotta /appointments/new
+  // Apri automaticamente il modale quando si accede alla rotta /appointments/new o /clinic/appointments/new
   useEffect(() => {
-    if (location.pathname === '/appointments/new') {
+    if (location.pathname === '/appointments/new' || location.pathname === '/clinic/appointments/new') {
       openNewAppointmentModal();
     }
   }, [location.pathname]);
@@ -106,9 +106,11 @@ const Appointments = () => {
     setIsModalOpen(false);
     setSelectedAppointment(null);
 
-    // Se siamo nella rotta /appointments/new, reindirizza alla pagina principale degli appuntamenti
+    // Se siamo nella rotta /appointments/new o /clinic/appointments/new, reindirizza alla pagina principale degli appuntamenti
     if (location.pathname === '/appointments/new') {
       navigate('/appointments');
+    } else if (location.pathname === '/clinic/appointments/new') {
+      navigate('/clinic/appointments');
     }
   };
 
@@ -155,12 +157,12 @@ const Appointments = () => {
   return (
     <>
       <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <h5 className="card-title">Gestione Appuntamenti</h5>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-3 items-center">
             <Select
               id="date-filter"
-              className="select-md"
+              className="w-full sm:w-auto"
               value={filter}
               onChange={handleFilterChange}
               required
@@ -172,28 +174,29 @@ const Appointments = () => {
             </Select>
             <Button color="primary" className="flex items-center gap-2" onClick={openNewAppointmentModal}>
               <Icon icon="solar:add-circle-outline" height={20} />
-              Nuovo Appuntamento
+              <span className="hidden sm:inline">Nuovo Appuntamento</span>
+              <span className="sm:hidden">Nuovo</span>
             </Button>
             <Button color="secondary" className="flex items-center gap-2" as={Link} to="/calendar">
               <Icon icon="solar:calendar-mark-line-duotone" height={20} />
-              Calendario
+              <span>Calendario</span>
             </Button>
           </div>
         </div>
-        <SimpleBar className="max-h-[600px]">
-          <div className="overflow-x-auto">
-            <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell className="p-6">Paziente</Table.HeadCell>
-                <Table.HeadCell>Data</Table.HeadCell>
-                <Table.HeadCell>Ora</Table.HeadCell>
-                <Table.HeadCell>Dottore</Table.HeadCell>
-                <Table.HeadCell>Trattamento</Table.HeadCell>
-                <Table.HeadCell>Stato</Table.HeadCell>
-                <Table.HeadCell>Azioni</Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y divide-border dark:divide-darkborder">
-                {filteredAppointments.map((appointment) => {
+        <div className="overflow-x-auto">
+          <Table hoverable className="table-auto w-full">
+            <Table.Head>
+              <Table.HeadCell className="p-4">Paziente</Table.HeadCell>
+              <Table.HeadCell className="p-4">Data</Table.HeadCell>
+              <Table.HeadCell className="p-4">Ora</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden md:table-cell">Dottore</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden lg:table-cell">Trattamento</Table.HeadCell>
+              <Table.HeadCell className="p-4">Stato</Table.HeadCell>
+              <Table.HeadCell className="p-4">Azioni</Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y divide-border dark:divide-darkborder">
+              {filteredAppointments.length > 0 ? (
+                filteredAppointments.map((appointment) => {
                   const patient = getPatientById(appointment.patientId);
                   const doctor = getDoctorById(appointment.doctorId);
                   const treatment = getTreatmentById(appointment.treatmentId);
@@ -202,31 +205,31 @@ const Appointments = () => {
 
                   return (
                     <Table.Row key={appointment.id}>
-                      <Table.Cell className="whitespace-nowrap ps-6">
-                        <div className="flex gap-3 items-center">
-                          <div className="truncate line-clamp-2 sm:text-wrap max-w-56">
-                            <h6 className="text-sm">{patient.name}</h6>
+                      <Table.Cell className="p-4">
+                        <div className="flex gap-2 items-center">
+                          <div>
+                            <h6 className="text-sm font-medium">{patient.name}</h6>
                           </div>
                         </div>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4">
                         <p className="text-sm">{formatDate(appointment.date)}</p>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4">
                         <p className="text-sm">{appointment.startTime} - {appointment.endTime}</p>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4 hidden md:table-cell">
                         <p className="text-sm">{doctor.name}</p>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4 hidden lg:table-cell">
                         <p className="text-sm">{treatment.name}</p>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4">
                         <Badge className={getStatusColor(appointment.status)}>
                           {formatStatus(appointment.status)}
                         </Badge>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="p-4">
                         <div className="flex gap-2">
                           <Button color="primary" size="xs" onClick={() => openEditAppointmentModal(appointment.id)}>
                             <Icon icon="solar:pen-outline" height={16} />
@@ -238,11 +241,17 @@ const Appointments = () => {
                       </Table.Cell>
                     </Table.Row>
                   );
-                })}
-              </Table.Body>
-            </Table>
-          </div>
-        </SimpleBar>
+                })
+              ) : (
+                <Table.Row>
+                  <Table.Cell colSpan={7} className="text-center py-4">
+                    <p className="text-gray-500">Nessun appuntamento trovato</p>
+                  </Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table>
+        </div>
       </div>
 
       {/* Modale per la creazione/modifica degli appuntamenti */}

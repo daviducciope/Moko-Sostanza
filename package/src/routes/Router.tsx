@@ -24,6 +24,20 @@ const Treatments = Loadable(lazy(() => import('../views/treatments/Treatments'))
 const NewTreatment = Loadable(lazy(() => import('../views/treatments/NewTreatment')));
 const Billing = Loadable(lazy(() => import('../views/billing/Billing')));
 const NewInvoice = Loadable(lazy(() => import('../views/billing/NewInvoice')));
+const ViewInvoice = Loadable(lazy(() => import('../views/billing/ViewInvoice')));
+const Reports = Loadable(lazy(() => import('../views/accounting/Reports')));
+const Inventory = Loadable(lazy(() => import('../views/inventory/Inventory')));
+const AddProduct = Loadable(lazy(() => import('../views/inventory/AddProduct')));
+const EditProduct = Loadable(lazy(() => import('../views/inventory/EditProduct')));
+const Doctors = Loadable(lazy(() => import('../views/doctors/Doctors')));
+const NewDoctor = Loadable(lazy(() => import('../views/doctors/NewDoctor')));
+const ViewDoctor = Loadable(lazy(() => import('../views/doctors/ViewDoctor')));
+const EditDoctor = Loadable(lazy(() => import('../views/doctors/EditDoctor')));
+const Staff = Loadable(lazy(() => import('../views/staff/Staff')));
+const NewStaff = Loadable(lazy(() => import('../views/staff/NewStaff')));
+const ViewStaff = Loadable(lazy(() => import('../views/staff/ViewStaff')));
+const EditStaff = Loadable(lazy(() => import('../views/staff/EditStaff')));
+const Attendance = Loadable(lazy(() => import('../views/staff/Attendance')));
 const CalendarView = Loadable(lazy(() => import('../views/calendar/Calendar')));
 
 // Clinic Management Pages
@@ -63,14 +77,15 @@ const Router = [
       { path: '/treatments', exact: true, element: <Treatments/> },
       { path: '/treatments/new', exact: true, element: <NewTreatment /> },
       { path: '/billing/invoices', exact: true, element: <Billing/> },
+      { path: '/billing/invoices/:id', exact: true, element: <ViewInvoice/> },
       { path: '/billing/new', exact: true, element: <NewInvoice/> },
       { path: '/billing/search', exact: true, element: <Billing/> },
-      { path: '/accounting/reports', exact: true, element: <SamplePage /> },
+      { path: '/accounting/reports', exact: true, element: <Reports /> },
       { path: '/calendar', exact: true, element: <CalendarView/> },
       { path: '/book-appointment', exact: true, element: <Appointments/> },
-      { path: '/inventory', exact: true, element: <SamplePage /> },
-      { path: '/inventory/add', exact: true, element: <SamplePage /> },
-      { path: '/inventory/edit', exact: true, element: <SamplePage /> },
+      { path: '/inventory', exact: true, element: <Inventory /> },
+      { path: '/inventory/add', exact: true, element: <AddProduct /> },
+      { path: '/inventory/edit/:id', exact: true, element: <EditProduct /> },
       { path: '/news', exact: true, element: <SamplePage /> },
       { path: '/profile', exact: true, element: <SamplePage /> },
       { path: '/settings', exact: true, element: <SamplePage /> },
@@ -78,20 +93,35 @@ const Router = [
       // Clinic routes
       { path: '/clinic', exact: true, element: <ClinicDashboard/> },
       { path: '/clinic/calendar', exact: true, element: <CalendarView/> },
-      { path: '/clinic/doctors', exact: true, element: <SamplePage /> },
-      { path: '/clinic/doctors/add', exact: true, element: <SamplePage /> },
-      { path: '/clinic/staff', exact: true, element: <SamplePage /> },
-      { path: '/clinic/staff/attendance', exact: true, element: <SamplePage /> },
-      { path: '/clinic/staff/holidays', exact: true, element: <SamplePage /> },
+      { path: '/clinic/appointments', exact: true, element: <Appointments/> },
+      { path: '/clinic/appointments/new', exact: true, element: <Appointments/> },
+      { path: '/clinic/patients', exact: true, element: <Patients/> },
+      { path: '/clinic/patients/new', exact: true, element: <NewPatient/> },
+      { path: '/clinic/patients/search', exact: true, element: <Patients/> },
+      { path: '/clinic/patients/view/:id', exact: true, element: <ViewPatient/> },
+      { path: '/clinic/patients/edit/:id', exact: true, element: <EditPatient/> },
+      { path: '/clinic/doctors', exact: true, element: <Doctors /> },
+      { path: '/clinic/doctors/new', exact: true, element: <NewDoctor /> },
+      { path: '/clinic/doctors/search', exact: true, element: <Doctors /> },
+      { path: '/clinic/doctors/view/:id', exact: true, element: <ViewDoctor /> },
+      { path: '/clinic/doctors/edit/:id', exact: true, element: <EditDoctor /> },
+      { path: '/clinic/staff', exact: true, element: <Staff /> },
+      { path: '/clinic/staff/new', exact: true, element: <NewStaff /> },
+      { path: '/clinic/staff/search', exact: true, element: <Staff /> },
+      { path: '/clinic/staff/view/:id', exact: true, element: <ViewStaff /> },
+      { path: '/clinic/staff/edit/:id', exact: true, element: <EditStaff /> },
+      { path: '/clinic/staff/attendance', exact: true, element: <Attendance /> },
       { path: '/clinic/departments', exact: true, element: <SamplePage /> },
       { path: '/clinic/rooms', exact: true, element: <SamplePage /> },
       { path: '/clinic/treatments', exact: true, element: <ClinicTreatments /> },
-      { path: '/clinic/inventory', exact: true, element: <SamplePage /> },
-      { path: '/clinic/inventory/add', exact: true, element: <SamplePage /> },
-      { path: '/clinic/inventory/edit', exact: true, element: <SamplePage /> },
-      { path: '/clinic/accounting/income', exact: true, element: <SamplePage /> },
-      { path: '/clinic/accounting/invoices', exact: true, element: <SamplePage /> },
-      { path: '/clinic/accounting/expenses', exact: true, element: <SamplePage /> },
+      { path: '/clinic/inventory', exact: true, element: <Inventory /> },
+      { path: '/clinic/inventory/add', exact: true, element: <AddProduct /> },
+      { path: '/clinic/inventory/edit/:id', exact: true, element: <EditProduct /> },
+      { path: '/clinic/billing/invoices', exact: true, element: <Billing /> },
+      { path: '/clinic/billing/new', exact: true, element: <NewInvoice /> },
+      { path: '/clinic/billing/search', exact: true, element: <Billing /> },
+      { path: '/clinic/billing/invoices/:id', exact: true, element: <ViewInvoice /> },
+      { path: '/clinic/accounting/reports', exact: true, element: <Reports /> },
       { path: '/clinic/events', exact: true, element: <SamplePage /> },
       { path: '/clinic/gallery', exact: true, element: <SamplePage /> },
       { path: '/clinic/news', exact: true, element: <SamplePage /> },
