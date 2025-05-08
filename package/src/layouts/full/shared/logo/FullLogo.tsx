@@ -3,8 +3,8 @@ import { Link } from "react-router";
 
 const FullLogo = () => {
   return (
-    <Link to={"/"}>
-      <img src={Logo} alt="Dental CRM logo" className="block" />
+    <Link to={"/"} className="flex items-center justify-center h-full">
+      <img src={Logo} alt="Dental CRM logo" className="h-8 w-auto" />
     </Link>
   );
 };

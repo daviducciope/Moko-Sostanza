@@ -63,7 +63,7 @@ const Header = () => {
 
       {/* Mobile Left Sidebar */}
       <Drawer
-        show={isSidebarOpen}
+        open={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         position="left"
         className="p-4"
@@ -73,7 +73,7 @@ const Header = () => {
 
       {/* Mobile Right Sidebar */}
       <Drawer
-        show={isRightSidebarOpen}
+        open={isRightSidebarOpen}
         onClose={() => setIsRightSidebarOpen(false)}
         position="right"
         className="p-4"

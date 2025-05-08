@@ -1,4 +1,4 @@
-import { Badge, Dropdown, Progress } from "flowbite-react";
+import { Badge, Dropdown } from "flowbite-react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Icon } from "@iconify/react";
 import { Table } from "flowbite-react";

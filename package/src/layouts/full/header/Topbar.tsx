@@ -6,13 +6,15 @@ import Profile from "./Profile";
 
 const Topbar = () => {
   return (
-    <div className="py-3 px-4 bg-primary z-40 sticky top-0">
-      <div className="flex items-center justify-between flex-wrap">
+    <div className="py-3 px-6 bg-primary z-40 sticky top-0 h-[62px] flex items-center">
+      <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-12">
-          <img src={dentcareLogo} alt="Dental CRM logo" className="h-8" />
+          <img src={dentcareLogo} alt="Dental CRM logo" className="h-8 w-auto brightness-0 invert" />
         </div>
         <div className="flex items-center gap-2">
-          <h4 className="text-lg font-semibold text-white mr-4">Dental CRM - Gestionale per Dentisti</h4>
+          <h4 className="text-lg font-semibold text-white mr-4 hidden lg:block">
+            Dental CRM - Gestionale per Dentisti
+          </h4>
           
           {/* Icone di notifica e profilo */}
           <div className="flex items-center gap-2">
@@ -22,7 +24,7 @@ const Topbar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Topbar
+export default Topbar;
