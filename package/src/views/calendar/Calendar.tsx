@@ -7,8 +7,10 @@ import {
   getAppointmentTitle,
   getAppointmentColor
 } from "../../services/AppointmentService";
+import { useReminderStore } from "../../services/ReminderService";
 import AppointmentModal from "../../components/appointments/AppointmentModal";
 import DayAppointmentsModal from "../../components/appointments/DayAppointmentsModal";
+import ReminderModal from "../../components/reminders/ReminderModal";
 
 // Componente principale del calendario
 const Calendar = () => {
@@ -17,6 +19,7 @@ const Calendar = () => {
   const [view, setView] = useState<"month" | "week" | "day" | "list">("month");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDayModalOpen, setIsDayModalOpen] = useState(false);
+  const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -148,6 +151,25 @@ const Calendar = () => {
     setSelectedDay(null);
   };
 
+  // Funzione per aprire il modale di creazione promemoria
+  const openReminderModal = (date?: Date) => {
+    if (date) {
+      setSelectedDate(formatDate(date));
+      setSelectedTime("09:00");
+    } else {
+      setSelectedDate(formatDate(new Date()));
+      setSelectedTime("09:00");
+    }
+    setIsReminderModalOpen(true);
+  };
+
+  // Funzione per chiudere il modale di creazione promemoria
+  const closeReminderModal = () => {
+    setIsReminderModalOpen(false);
+    setSelectedDate(null);
+    setSelectedTime(null);
+  };
+
   // Genera i giorni da visualizzare
   const days = generateDays();
 
@@ -165,8 +187,13 @@ const Calendar = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Calendario Appuntamenti</h1>
           <div className="flex items-center space-x-2">
+            <Button color="light" onClick={() => openReminderModal()}>
+              <Icon icon="solar:bell-add-bold" className="mr-2" />
+              Aggiungi Promemoria
+            </Button>
             <Button color="primary" onClick={() => openNewAppointmentModal(new Date())}>
-              + Nuovo Appuntamento
+              <Icon icon="solar:calendar-add-bold" className="mr-2" />
+              Nuovo Appuntamento
             </Button>
           </div>
         </div>
@@ -380,6 +407,14 @@ const Calendar = () => {
           onEditAppointment={openEditAppointmentModal}
         />
       )}
+
+      {/* Modale per la creazione/modifica dei promemoria */}
+      <ReminderModal
+        isOpen={isReminderModalOpen}
+        onClose={closeReminderModal}
+        selectedDate={selectedDate || undefined}
+        selectedTime={selectedTime || undefined}
+      />
     </div>
   );
 };

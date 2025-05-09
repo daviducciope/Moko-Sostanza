@@ -2,8 +2,14 @@ import { Button, Dropdown } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import user1 from "/src/assets/images/profile/user-1.jpg";
 import { Link } from "react-router";
+import { useLocation } from "react-router";
 
 const Profile = () => {
+  const location = useLocation();
+  const isClinic = location.pathname.startsWith('/clinic');
+  const profilePath = isClinic ? '/clinic/profile' : '/profile';
+  const settingsPath = isClinic ? '/clinic/settings' : '/settings';
+
   return (
     <div className="relative group/menu">
       <Dropdown
@@ -24,27 +30,27 @@ const Profile = () => {
       >
         <Dropdown.Item
           as={Link}
-          to="#"
+          to={profilePath}
           className="px-3 py-3 flex items-center bg-hover group/link w-full gap-3 text-dark"
         >
           <Icon icon="solar:user-circle-outline" height={20} />
-          My Profile
+          Il Mio Profilo
         </Dropdown.Item>
         <Dropdown.Item
           as={Link}
-          to="#"
+          to={settingsPath}
           className="px-3 py-3 flex items-center bg-hover group/link w-full gap-3 text-dark"
         >
-          <Icon icon="solar:letter-linear" height={20} />
-          My Account
+          <Icon icon="solar:settings-outline" height={20} />
+          Impostazioni
         </Dropdown.Item>
         <Dropdown.Item
           as={Link}
-          to="#"
+          to="/appointments"
           className="px-3 py-3 flex items-center bg-hover group/link w-full gap-3 text-dark"
         >
-          <Icon icon="solar:checklist-linear" height={20} />
-          My Task
+          <Icon icon="solar:calendar-mark-line-duotone" height={20} />
+          Appuntamenti
         </Dropdown.Item>
         <div className="p-3 pt-0">
           <Button as={Link} size={'sm'} to="/auth/login" className="mt-2 border border-primary text-primary bg-transparent hover:bg-lightprimary outline-none focus:outline-none">Logout</Button>

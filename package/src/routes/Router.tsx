@@ -44,6 +44,10 @@ const CalendarView = Loadable(lazy(() => import('../views/calendar/Calendar')));
 const ClinicDashboard = Loadable(lazy(() => import('../views/clinic/ClinicDashboard')));
 const ClinicTreatments = Loadable(lazy(() => import('../views/clinic/ClinicTreatments')));
 
+// Profile and Settings
+const Profile = Loadable(lazy(() => import('../views/profile/Profile')));
+const Settings = Loadable(lazy(() => import('../views/settings/Settings')));
+
 // utilities
 const Typography = Loadable(lazy(() => import("../views/typography/Typography")));
 const Table = Loadable(lazy(() => import("../views/tables/Table")));
@@ -87,8 +91,8 @@ const Router = [
       { path: '/inventory/add', exact: true, element: <AddProduct /> },
       { path: '/inventory/edit/:id', exact: true, element: <EditProduct /> },
 
-      { path: '/profile', exact: true, element: <SamplePage /> },
-      { path: '/settings', exact: true, element: <SamplePage /> },
+      { path: '/profile', exact: true, element: <Profile /> },
+      { path: '/settings', exact: true, element: <Settings /> },
 
       // Clinic routes
       { path: '/clinic', exact: true, element: <ClinicDashboard/> },
@@ -125,8 +129,8 @@ const Router = [
       { path: '/clinic/events', exact: true, element: <SamplePage /> },
       { path: '/clinic/gallery', exact: true, element: <SamplePage /> },
 
-      { path: '/clinic/profile', exact: true, element: <SamplePage /> },
-      { path: '/clinic/settings', exact: true, element: <SamplePage /> },
+      { path: '/clinic/profile', exact: true, element: <Profile /> },
+      { path: '/clinic/settings', exact: true, element: <Settings /> },
 
       // UI components (for development)
       { path: '/ui/typography', exact: true, element: <Typography/> },
