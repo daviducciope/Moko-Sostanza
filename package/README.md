@@ -26,17 +26,20 @@ Prima di iniziare, assicurati di avere installato:
 ## 🔧 Installazione
 
 1. Clona il repository:
+
    ```bash
-   git clone https://github.com/tuousername/moko-sostanza-dental-crm.git
+   git clone https://github.com/daviducciope/matdash-react.git
    cd moko-sostanza-dental-crm/package
    ```
 
 2. Installa le dipendenze:
+
    ```bash
    npm install
    ```
 
 3. Avvia il server di sviluppo:
+
    ```bash
    npm run dev
    ```
@@ -72,6 +75,7 @@ package/
 ### Autenticazione
 
 Il sistema supporta due tipi di utenti:
+
 - **Dentisti**: Accesso alla dashboard personale, pazienti, appuntamenti e fatturazione
 - **Clinica**: Accesso alla dashboard della clinica, gestione dei dottori, personale e risorse
 
@@ -97,9 +101,12 @@ Il sistema supporta due tipi di utenti:
 ## 📱 Modalità responsive
 
 L'applicazione è completamente responsive:
+
 - **Desktop**: Layout completo con sidebar destra e sinistra
-- **Tablet**: Layout adattivo con sidebar collassabile
-- **Mobile**: Layout ottimizzato per schermi piccoli
+- **Tablet**: Layout adattivo con sidebar collassabile tramite drawer
+- **Mobile**: Layout ottimizzato per schermi piccoli con menu a drawer accessibili tramite pulsanti nell'header
+
+La navigazione mobile è stata ottimizzata utilizzando drawer personalizzati con animazioni fluide per garantire un'esperienza utente intuitiva su tutti i dispositivi. I menu non occupano tutto lo schermo ma hanno una larghezza ottimale per la visualizzazione su dispositivi mobili. Si aprono e chiudono correttamente sia cliccando sui pulsanti dedicati, sia cliccando al di fuori del menu o sul pulsante di chiusura, mentre i click all'interno del menu non causano la chiusura.
 
 ## 🔐 Gestione utenti
 
@@ -107,20 +114,26 @@ Per simulare diversi tipi di utenti, puoi utilizzare:
 
 ```javascript
 // Per simulare un utente dentista
-localStorage.setItem('user-session', JSON.stringify({
-  user: {
-    email: 'dentista@esempio.com',
-    role: 'dentist'
-  }
-}));
+localStorage.setItem(
+  'user-session',
+  JSON.stringify({
+    user: {
+      email: 'dentista@esempio.com',
+      role: 'dentist',
+    },
+  }),
+);
 
 // Per simulare un utente clinica
-localStorage.setItem('user-session', JSON.stringify({
-  user: {
-    email: 'clinica@esempio.com',
-    role: 'clinic'
-  }
-}));
+localStorage.setItem(
+  'user-session',
+  JSON.stringify({
+    user: {
+      email: 'clinica@esempio.com',
+      role: 'clinic',
+    },
+  }),
+);
 ```
 
 Ricarica la pagina dopo aver impostato la sessione utente.
@@ -191,9 +204,10 @@ Questo progetto è distribuito con licenza MIT. Vedi il file `LICENSE` per maggi
 ## 📞 Contatti
 
 Per domande o supporto, contatta:
+
 - Email: info@mokosostanza.com
 - Website: [www.mokosostanza.com](https://www.mokosostanza.com)
 
 ---
 
-Sviluppato con ❤️ da MOKO SOSTANZA
+Sviluppato con ❤️ da SOSTANZA Comunicazione & Servizi

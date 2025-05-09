@@ -6,6 +6,7 @@ import SimpleBar from "simplebar-react";
 import React from "react";
 import FullLogo from "../shared/logo/FullLogo";
 import NavCollapse from "./NavCollapse";
+import Banner from "./Banner";
 
 const SidebarLayout = () => {
 
@@ -48,6 +49,9 @@ const SidebarLayout = () => {
             </Sidebar.Items>
           </SimpleBar>
         </Sidebar>
+
+        {/* Banner fisso in fondo alla sidebar */}
+        <Banner isFixed={true} />
       </div>
     </>
   );

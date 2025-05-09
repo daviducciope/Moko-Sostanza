@@ -183,6 +183,83 @@
   .right-sidebar {
     width: 100% !important;
   }
+
+  /* Miglioramenti per la navigazione mobile */
+  .mobile-nav-item {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-item:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+  }
+
+  .mobile-nav-item.active {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  /* Stile per i drawer mobili */
+  .mobile-drawer {
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-drawer {
+      max-width: 320px;
+    }
+  }
+
+  /* Animazioni per i drawer mobili */
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .drawer-left-enter {
+    animation: slideInLeft 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .drawer-right-enter {
+    animation: slideInRight 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .drawer-overlay-enter {
+    animation: fadeIn 0.2s ease-out forwards;
+    backdrop-filter: blur(2px);
+  }
 }
 
 /* Gestione scroll della sidebar */
