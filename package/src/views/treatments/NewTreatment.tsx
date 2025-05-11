@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import TreatmentForm from "../../components/treatments/TreatmentForm";
 
 const NewTreatment = () => {
@@ -15,7 +15,7 @@ const NewTreatment = () => {
             </Link>
           </div>
         </div>
-        
+
         <TreatmentForm />
       </div>
     </>

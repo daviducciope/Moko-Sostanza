@@ -1,12 +1,12 @@
 import { Button, Card, Label, TextInput, Select } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
   const location = useLocation();
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   const [formData, setFormData] = useState({
     name: 'Dr. Mario Rossi',
     email: 'mario.rossi@dentista.it',
@@ -58,7 +58,7 @@ const Profile = () => {
                   onChange={handleChange}
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="email" value="Email" />
                 <TextInput

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, useLocation } from 'react-router';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Button, Card, Badge, Table } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 
@@ -58,10 +58,10 @@ const ViewDoctor = () => {
   const location = useLocation();
   const [doctor, setDoctor] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-  
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/doctors' : '/doctors';
 
@@ -71,11 +71,11 @@ const ViewDoctor = () => {
     // per ottenere i dati del dottore con l'ID specificato
     const doctorId = parseInt(id || '0');
     const foundDoctor = doctorsData.find(doc => doc.id === doctorId);
-    
+
     if (foundDoctor) {
       setDoctor(foundDoctor);
     }
-    
+
     setLoading(false);
   }, [id]);
 

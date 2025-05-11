@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Table, Badge, Button, TextInput } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { HiSearch } from 'react-icons/hi';
 
 // Dati di esempio per il personale

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { Link, useNavigate, useLocation } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Specializzazioni predefinite
 const specializations = [
@@ -20,13 +20,13 @@ const specializations = [
 const NewDoctor = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/doctors' : '/doctors';
-  
+
   const [formData, setFormData] = useState({
     name: '',
     specialization: '',
@@ -53,10 +53,10 @@ const NewDoctor = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Qui andrebbe la logica per salvare il dottore
     console.log('Dati dottore:', formData);
-    
+
     // Reindirizza all'elenco dottori dopo il salvataggio
     navigate(basePath);
   };
@@ -72,7 +72,7 @@ const NewDoctor = () => {
           </Link>
         </div>
       </div>
-      
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -88,7 +88,7 @@ const NewDoctor = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="specialization" value="Specializzazione" />
@@ -107,7 +107,7 @@ const NewDoctor = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="mb-2 block">
@@ -123,7 +123,7 @@ const NewDoctor = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="phone" value="Telefono" />
@@ -138,7 +138,7 @@ const NewDoctor = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -152,7 +152,7 @@ const NewDoctor = () => {
               placeholder="Es. Via Roma 123"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="city" value="Città" />
@@ -165,7 +165,7 @@ const NewDoctor = () => {
               placeholder="Es. Milano"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="postalCode" value="CAP" />
@@ -179,7 +179,7 @@ const NewDoctor = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -193,7 +193,7 @@ const NewDoctor = () => {
               onChange={handleChange}
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="gender" value="Genere" />
@@ -210,7 +210,7 @@ const NewDoctor = () => {
               <option value="Altro">Altro</option>
             </Select>
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="status" value="Stato" />
@@ -228,7 +228,7 @@ const NewDoctor = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="mb-2 block">
@@ -243,7 +243,7 @@ const NewDoctor = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="startDate" value="Data di Inizio" />
@@ -258,7 +258,7 @@ const NewDoctor = () => {
             />
           </div>
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="notes" value="Note" />
@@ -272,7 +272,7 @@ const NewDoctor = () => {
             rows={3}
           />
         </div>
-        
+
         <div className="flex justify-end space-x-3">
           <Button color="light" onClick={() => navigate(basePath)}>
             Annulla

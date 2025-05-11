@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface PatientFormProps {
   isEdit?: boolean;

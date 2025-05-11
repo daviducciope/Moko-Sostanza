@@ -2,7 +2,7 @@ import React from "react";
 import { ChildItem } from "../Sidebaritems";
 import { Sidebar } from "flowbite-react";
 import { Icon } from "@iconify/react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 
 
 
@@ -43,7 +43,7 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
           >
             {item.name}
           </span>
-        </span> 
+        </span>
         {item.isPro? <span className="py-0.5 px-2.5 text-[10px] bg-secondary text-white rounded-sm">Pro</span> :null}
  </div>
       </Sidebar.Item>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { Link, useNavigate, useLocation } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Ruoli predefiniti
 const roles = [
@@ -27,13 +27,13 @@ const departments = [
 const NewStaff = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/staff' : '/staff';
-  
+
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -61,10 +61,10 @@ const NewStaff = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Qui andrebbe la logica per salvare il dipendente
     console.log('Dati dipendente:', formData);
-    
+
     // Reindirizza all'elenco del personale dopo il salvataggio
     navigate(basePath);
   };
@@ -80,7 +80,7 @@ const NewStaff = () => {
           </Link>
         </div>
       </div>
-      
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -96,7 +96,7 @@ const NewStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="role" value="Ruolo" />
@@ -115,7 +115,7 @@ const NewStaff = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="mb-2 block">
@@ -131,7 +131,7 @@ const NewStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="phone" value="Telefono" />
@@ -146,7 +146,7 @@ const NewStaff = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -160,7 +160,7 @@ const NewStaff = () => {
               placeholder="Es. Via Roma 123"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="city" value="Città" />
@@ -173,7 +173,7 @@ const NewStaff = () => {
               placeholder="Es. Milano"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="postalCode" value="CAP" />
@@ -187,7 +187,7 @@ const NewStaff = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -201,7 +201,7 @@ const NewStaff = () => {
               onChange={handleChange}
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="gender" value="Genere" />
@@ -218,7 +218,7 @@ const NewStaff = () => {
               <option value="Altro">Altro</option>
             </Select>
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="status" value="Stato" />
@@ -236,7 +236,7 @@ const NewStaff = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -255,7 +255,7 @@ const NewStaff = () => {
               ))}
             </Select>
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="hireDate" value="Data di Assunzione" />
@@ -269,7 +269,7 @@ const NewStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="salary" value="Stipendio (€)" />
@@ -284,7 +284,7 @@ const NewStaff = () => {
             />
           </div>
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="notes" value="Note" />
@@ -298,7 +298,7 @@ const NewStaff = () => {
             rows={3}
           />
         </div>
-        
+
         <div className="flex justify-end space-x-3">
           <Button color="light" onClick={() => navigate(basePath)}>
             Annulla

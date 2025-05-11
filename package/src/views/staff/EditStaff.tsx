@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { Icon } from '@iconify/react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 // Ruoli predefiniti
 const roles = [
@@ -68,13 +68,13 @@ const EditStaff = () => {
   const { id } = useParams();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-  
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/staff' : '/staff';
-  
+
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -98,7 +98,7 @@ const EditStaff = () => {
     // per ottenere i dati del dipendente con l'ID specificato
     const staffId = parseInt(id || '0');
     const staff = staffData.find(s => s.id === staffId);
-    
+
     if (staff) {
       setFormData({
         name: staff.name,
@@ -117,7 +117,7 @@ const EditStaff = () => {
         status: staff.status
       });
     }
-    
+
     setLoading(false);
   }, [id]);
 
@@ -131,10 +131,10 @@ const EditStaff = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Qui andrebbe la logica per aggiornare il dipendente
     console.log('Dati dipendente aggiornati:', formData);
-    
+
     // Reindirizza all'elenco del personale dopo il salvataggio
     navigate(basePath);
   };
@@ -161,7 +161,7 @@ const EditStaff = () => {
           </Link>
         </div>
       </div>
-      
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -177,7 +177,7 @@ const EditStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="role" value="Ruolo" />
@@ -196,7 +196,7 @@ const EditStaff = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="mb-2 block">
@@ -212,7 +212,7 @@ const EditStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="phone" value="Telefono" />
@@ -227,7 +227,7 @@ const EditStaff = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -241,7 +241,7 @@ const EditStaff = () => {
               placeholder="Es. Via Roma 123"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="city" value="Città" />
@@ -254,7 +254,7 @@ const EditStaff = () => {
               placeholder="Es. Milano"
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="postalCode" value="CAP" />
@@ -268,7 +268,7 @@ const EditStaff = () => {
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -282,7 +282,7 @@ const EditStaff = () => {
               onChange={handleChange}
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="gender" value="Genere" />
@@ -299,7 +299,7 @@ const EditStaff = () => {
               <option value="Altro">Altro</option>
             </Select>
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="status" value="Stato" />
@@ -317,7 +317,7 @@ const EditStaff = () => {
             </Select>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <div className="mb-2 block">
@@ -336,7 +336,7 @@ const EditStaff = () => {
               ))}
             </Select>
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="hireDate" value="Data di Assunzione" />
@@ -350,7 +350,7 @@ const EditStaff = () => {
               required
             />
           </div>
-          
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="salary" value="Stipendio (€)" />
@@ -365,7 +365,7 @@ const EditStaff = () => {
             />
           </div>
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="notes" value="Note" />
@@ -379,7 +379,7 @@ const EditStaff = () => {
             rows={3}
           />
         </div>
-        
+
         <div className="flex justify-end space-x-3">
           <Button color="light" onClick={() => navigate(basePath)}>
             Annulla

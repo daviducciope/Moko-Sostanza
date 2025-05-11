@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, useLocation } from 'react-router';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Button, Card, Badge, Table } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 
@@ -56,10 +56,10 @@ const ViewStaff = () => {
   const location = useLocation();
   const [staff, setStaff] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-  
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-  
+
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/staff' : '/staff';
 
@@ -69,11 +69,11 @@ const ViewStaff = () => {
     // per ottenere i dati del dipendente con l'ID specificato
     const staffId = parseInt(id || '0');
     const foundStaff = staffData.find(s => s.id === staffId);
-    
+
     if (foundStaff) {
       setStaff(foundStaff);
     }
-    
+
     setLoading(false);
   }, [id]);
 

@@ -69,12 +69,22 @@ npm install react-router@7.0.2 react-router-dom@7.0.2 --save
 
 Inoltre, verifica che tutti gli import nei file sorgente utilizzino `react-router-dom` invece di `react-router` per componenti come `Link`, `useLocation`, `Navigate`, ecc.
 
-#### Errore "useNavigate() may be used only in the context of a <Router> component"
+#### Errori con gli hook e i componenti di React Router
 
-Se riscontri questo errore, significa che stai utilizzando l'hook `useNavigate()` al di fuori del contesto di un componente Router. Ci sono due soluzioni:
+Se riscontri errori come "useNavigate() may be used only in the context of a <Router> component", "useLocation() may be used only in the context of a <Router> component" o problemi con le pagine di login o altre sezioni dell'applicazione, ci sono diverse possibili cause:
 
-1. Assicurati che il componente che utilizza `useNavigate()` sia renderizzato all'interno di un componente Router
-2. Sostituisci l'uso di `useNavigate()` con il componente `<Link>` di React Router
+1. **Import errato**: Assicurati di importare gli hook e i componenti di React Router da `react-router-dom` e non da `react-router`:
+
+   ```diff
+   - import { useNavigate, useLocation, useParams, Link, Outlet } from 'react-router';
+   + import { useNavigate, useLocation, useParams, Link, Outlet } from 'react-router-dom';
+   ```
+
+2. **Componente fuori dal Router**: Assicurati che il componente che utilizza gli hook di React Router sia renderizzato all'interno di un componente Router
+
+3. **Verifica i layout**: Controlla che i layout (come `BlankLayout.tsx` e `FullLayout.tsx`) importino correttamente i componenti da `react-router-dom`
+
+4. **Soluzione alternativa**: Se non puoi risolvere il problema con i punti precedenti, sostituisci l'uso degli hook con il componente `<Link>` di React Router dove possibile
 
 #### Errore "Expected corresponding JSX closing tag for <Link>"
 
