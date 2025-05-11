@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface TreatmentFormProps {
   isEdit?: boolean;
@@ -17,7 +17,7 @@ interface TreatmentFormProps {
 
 const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) => {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     name: treatmentData?.name || '',
     category: treatmentData?.category || 'Conservativa',
@@ -37,10 +37,10 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Qui andrebbe la logica per salvare il trattamento
     console.log('Dati trattamento:', formData);
-    
+
     // Reindirizza alla lista trattamenti dopo il salvataggio
     navigate('/treatments');
   };
@@ -61,7 +61,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
             required
           />
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="category" value="Categoria" />
@@ -85,7 +85,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
           </Select>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <div className="mb-2 block">
@@ -103,7 +103,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
             required
           />
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="price" value="Prezzo (€)" />
@@ -120,7 +120,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
           />
         </div>
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="description" value="Descrizione" />
@@ -135,7 +135,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
           required
         />
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="materials" value="Materiali necessari" />
@@ -149,7 +149,7 @@ const TreatmentForm = ({ isEdit = false, treatmentData }: TreatmentFormProps) =>
           rows={2}
         />
       </div>
-      
+
       <div className="flex justify-end space-x-3">
         <Button color="light" onClick={() => navigate('/treatments')}>
           Annulla

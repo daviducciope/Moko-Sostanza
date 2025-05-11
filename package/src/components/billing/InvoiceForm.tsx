@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea, Table } from 'flowbite-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 interface InvoiceFormProps {

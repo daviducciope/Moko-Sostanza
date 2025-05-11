@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, useLocation } from 'react-router';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Button, Card, Badge, Table } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 

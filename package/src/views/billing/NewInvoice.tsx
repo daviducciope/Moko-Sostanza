@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { Button } from "flowbite-react";
 import InvoiceForm from "../../components/billing/InvoiceForm";
 import { useState } from "react";
