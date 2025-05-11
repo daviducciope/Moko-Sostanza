@@ -1,11 +1,10 @@
 import Logo from "/src/assets/images/logos/dental-crm-logo-basic.svg";
-import { Link } from "react-router-dom";
 
 const FullLogo = () => {
   return (
-    <Link to={"/"} className="flex items-center justify-center h-full">
+    <a href="/" className="flex items-center justify-center h-full">
       <img src={Logo} alt="Dental CRM logo" className="h-8 w-auto" />
-    </Link>
+    </a>
   );
 };
 
