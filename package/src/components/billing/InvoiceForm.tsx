@@ -26,7 +26,7 @@ interface InvoiceFormProps {
 
 const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     patient: invoiceData?.patient || '',
     date: invoiceData?.date || new Date().toISOString().split('T')[0],
@@ -58,22 +58,22 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
   };
 
   const handleItemChange = (id: number, field: string, value: string | number) => {
-    setItems(prevItems => 
+    setItems(prevItems =>
       prevItems.map(item => {
         if (item.id === id) {
           const updatedItem = { ...item, [field]: value };
-          
+
           // Ricalcola il totale se necessario
           if (field === 'quantity' || field === 'unitPrice' || field === 'tax') {
             const quantity = field === 'quantity' ? Number(value) : item.quantity;
             const unitPrice = field === 'unitPrice' ? Number(value) : item.unitPrice;
             const tax = field === 'tax' ? Number(value) : item.tax;
-            
+
             const subtotal = quantity * unitPrice;
             const taxAmount = subtotal * (tax / 100);
             updatedItem.total = subtotal + taxAmount;
           }
-          
+
           return updatedItem;
         }
         return item;
@@ -108,10 +108,10 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Qui andrebbe la logica per salvare la fattura
     console.log('Dati fattura:', { ...formData, items });
-    
+
     // Reindirizza all'elenco fatture dopo il salvataggio
     navigate('/billing/invoices');
   };
@@ -132,7 +132,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
             required
           />
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="invoiceNumber" value="Numero Fattura" />
@@ -147,7 +147,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <div className="mb-2 block">
@@ -162,7 +162,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
             required
           />
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="dueDate" value="Data Scadenza" />
@@ -175,7 +175,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
             onChange={handleChange}
           />
         </div>
-        
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="paymentMethod" value="Metodo di Pagamento" />
@@ -194,16 +194,16 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
           </Select>
         </div>
       </div>
-      
+
       <div className="mt-6">
         <div className="flex justify-between items-center mb-2">
           <Label value="Voci Fattura" />
-          <Button color="light" size="sm" onClick={addItem} type="button">
+          <Button color="light" size="sm" onClick={addItem} type="button" className="no-print">
             <Icon icon="solar:add-circle-outline" className="mr-1" />
             Aggiungi Voce
           </Button>
         </div>
-        
+
         <Table>
           <Table.Head>
             <Table.HeadCell>Descrizione</Table.HeadCell>
@@ -211,7 +211,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
             <Table.HeadCell>Prezzo Unitario (€)</Table.HeadCell>
             <Table.HeadCell>IVA (%)</Table.HeadCell>
             <Table.HeadCell>Totale (€)</Table.HeadCell>
-            <Table.HeadCell></Table.HeadCell>
+            <Table.HeadCell className="no-print"></Table.HeadCell>
           </Table.Head>
           <Table.Body>
             {items.map(item => (
@@ -259,10 +259,10 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
                     readOnly
                   />
                 </Table.Cell>
-                <Table.Cell>
-                  <Button 
-                    color="failure" 
-                    size="xs" 
+                <Table.Cell className="no-print">
+                  <Button
+                    color="failure"
+                    size="xs"
                     onClick={() => removeItem(item.id)}
                     type="button"
                     disabled={items.length === 1}
@@ -274,7 +274,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
             ))}
           </Table.Body>
         </Table>
-        
+
         <div className="flex justify-end mt-4">
           <div className="w-64">
             <div className="flex justify-between py-2 border-t">
@@ -284,7 +284,7 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
           </div>
         </div>
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="notes" value="Note" />
@@ -298,8 +298,8 @@ const InvoiceForm = ({ isEdit = false, invoiceData }: InvoiceFormProps) => {
           rows={3}
         />
       </div>
-      
-      <div className="flex justify-end space-x-3">
+
+      <div className="flex justify-end space-x-3 no-print">
         <Button color="light" onClick={() => navigate('/billing/invoices')}>
           Annulla
         </Button>

@@ -88,20 +88,32 @@ const Billing = () => {
     setSelectedPeriod(e.target.value);
   };
 
+  // Funzione per stampare l'elenco delle fatture
+  const handlePrintInvoiceList = () => {
+    window.print();
+  };
+
   return (
     <>
       <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
         <div className="flex flex-col gap-4 mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <h5 className="card-title">Gestione Fatturazione</h5>
-            <Button color="primary" className="flex items-center gap-2" as={Link} to="/billing/new">
-              <Icon icon="solar:add-circle-outline" height={20} />
-              <span className="hidden sm:inline">Nuova Fattura</span>
-              <span className="sm:hidden">Nuova</span>
-            </Button>
+            <div className="flex gap-2">
+              <Button color="light" className="flex items-center gap-2 no-print" onClick={handlePrintInvoiceList}>
+                <Icon icon="solar:printer-outline" height={20} />
+                <span className="hidden sm:inline">Stampa Elenco</span>
+                <span className="sm:hidden">Stampa</span>
+              </Button>
+              <Button color="primary" className="flex items-center gap-2" as={Link} to="/billing/new">
+                <Icon icon="solar:add-circle-outline" height={20} />
+                <span className="hidden sm:inline">Nuova Fattura</span>
+                <span className="sm:hidden">Nuova</span>
+              </Button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 no-print">
             <div className="relative">
               <TextInput
                 id="search-invoice"
@@ -126,16 +138,54 @@ const Billing = () => {
               <option value="Quest'Anno">Quest'Anno</option>
             </Select>
           </div>
+
+          {/* Titolo per la stampa */}
+          <div className="hidden print:block print:mb-4">
+            <h2 className="text-2xl font-bold text-center">Elenco Fatture</h2>
+            <p className="text-center text-gray-500 mt-2">
+              Periodo: {selectedPeriod}
+            </p>
+            <p className="text-center text-gray-500 mt-1">
+              Generato il {new Date().toLocaleDateString('it-IT')}
+            </p>
+          </div>
         </div>
+
+        {/* Stili per la stampa */}
+        <style type="text/css" media="print">
+          {`
+            @media print {
+              body * {
+                visibility: visible;
+              }
+              .no-print {
+                display: none !important;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+              }
+              th {
+                font-weight: bold;
+                background-color: #f2f2f2;
+              }
+            }
+          `}
+        </style>
         <div className="overflow-x-auto">
           <Table hoverable className="table-auto w-full">
             <Table.Head>
               <Table.HeadCell className="p-4">Paziente</Table.HeadCell>
               <Table.HeadCell className="p-4">Data</Table.HeadCell>
-              <Table.HeadCell className="p-4 hidden md:table-cell">Numero Fattura</Table.HeadCell>
+              <Table.HeadCell className="p-4 hidden md:table-cell md:print:table-cell">Numero Fattura</Table.HeadCell>
               <Table.HeadCell className="p-4">Importo</Table.HeadCell>
               <Table.HeadCell className="p-4">Stato</Table.HeadCell>
-              <Table.HeadCell className="p-4">Azioni</Table.HeadCell>
+              <Table.HeadCell className="p-4 no-print">Azioni</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y divide-border dark:divide-darkborder">
               {filteredBilling.length > 0 ? (
@@ -151,7 +201,7 @@ const Billing = () => {
                   <Table.Cell className="p-4">
                     <p className="text-sm">{bill.date}</p>
                   </Table.Cell>
-                  <Table.Cell className="p-4 hidden md:table-cell">
+                  <Table.Cell className="p-4 hidden md:table-cell md:print:table-cell">
                     <p className="text-sm">{bill.invoice}</p>
                   </Table.Cell>
                   <Table.Cell className="p-4">
@@ -168,7 +218,7 @@ const Billing = () => {
                       {bill.status}
                     </Badge>
                   </Table.Cell>
-                  <Table.Cell className="p-4">
+                  <Table.Cell className="p-4 no-print">
                     <div className="flex gap-2">
                       <Button color="primary" size="xs" as={Link} to={`/billing/invoices/${bill.id}`}>
                         <Icon icon="solar:eye-outline" height={16} />

@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import { Badge, Button, Progress } from "flowbite-react"
 import Chart from "react-apexcharts"

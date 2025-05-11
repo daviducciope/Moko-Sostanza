@@ -7,7 +7,7 @@ import React from "react";
 import FullLogo from "../shared/logo/FullLogo";
 import 'simplebar-react/dist/simplebar.min.css';
 import Banner from "./Banner";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 
 const MobileSidebar = ({ onClose }: { onClose: () => void }) => {
   const location = useLocation();

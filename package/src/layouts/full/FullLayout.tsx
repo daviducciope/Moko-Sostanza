@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router-dom";
 import ScrollToTop from 'src/components/shared/ScrollToTop';
 import Sidebar from '../../components/Sidebar';
 import RightSidebar from '../../components/RightSidebar';

@@ -1,7 +1,7 @@
 
 import FullLogo from "src/layouts/full/shared/logo/FullLogo";
 import AuthLoginWithRole from "../authforms/AuthLoginWithRole";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const gradientStyle = {
   background: "linear-gradient(45deg, rgb(238, 119, 82,0.2), rgb(231, 60, 126,0.2), rgb(35, 166, 213,0.2), rgb(35, 213, 171,0.2))",

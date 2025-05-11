@@ -1,7 +1,7 @@
 import { Table, Badge, Button } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const TreatmentsData = [
   {

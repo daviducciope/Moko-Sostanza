@@ -2,7 +2,7 @@
 import  {useState } from "react";
 import { ChildItem } from "../Sidebaritems";
 import NavItems from "../NavItems";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { CustomCollapse } from "../CustomCollapse";
 import React from "react";
 
@@ -18,7 +18,7 @@ const NavCollapse: React.FC<NavCollapseProps> = ({ item }: any) => {
 
   // Determine if any child matches the current path
   const activeDD = item.children.find((t: { url: string }) => t.url === pathname);
-  
+
 
   // Manage open/close state for the collapse
   const [isOpen, setIsOpen] = useState<boolean>(!!activeDD);
@@ -34,7 +34,7 @@ const NavCollapse: React.FC<NavCollapseProps> = ({ item }: any) => {
       label={ `${item.name}`}
       open={isOpen}
       onClick={handleToggle}
-      icon={item.icon} 
+      icon={item.icon}
       isPro={item.isPro}
       className={
         Boolean(activeDD)

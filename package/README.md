@@ -29,7 +29,7 @@ Prima di iniziare, assicurati di avere installato:
 
    ```bash
    git clone https://github.com/daviducciope/matdash-react.git
-   cd moko-sostanza-dental-crm/package
+   cd matdash-react-free-v2-0/package
    ```
 
 2. Installa le dipendenze:
@@ -37,6 +37,14 @@ Prima di iniziare, assicurati di avere installato:
    ```bash
    npm install
    ```
+
+   > **IMPORTANTE**: Se riscontri errori durante l'installazione, prova con:
+   >
+   > ```bash
+   > npm install --legacy-peer-deps
+   > ```
+   >
+   > Questo è necessario a causa di alcune dipendenze che potrebbero avere requisiti di peer dependency incompatibili.
 
 3. Avvia il server di sviluppo:
 
@@ -48,6 +56,16 @@ Prima di iniziare, assicurati di avere installato:
    ```
    http://localhost:5173
    ```
+
+### Risoluzione problemi comuni
+
+Se riscontri errori relativi a React Router, assicurati di avere installato sia `react-router` che `react-router-dom` versione 7.x:
+
+```bash
+npm install react-router@7.0.2 react-router-dom@7.0.2 --save
+```
+
+Inoltre, verifica che tutti gli import nei file sorgente utilizzino `react-router-dom` invece di `react-router` per componenti come `Link`, `useLocation`, `Navigate`, ecc.
 
 ## 🏗️ Struttura del progetto
 

@@ -1,5 +1,5 @@
 import Logo from "/src/assets/images/logos/dental-crm-logo-basic.svg";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const FullLogo = () => {
   return (
