@@ -249,16 +249,37 @@ export const clinicMenu: MenuItem[] = [
             href: "/clinic/staff/attendance"
           }
         ]
-      },
-      {
+      },      {
         label: "Reparti",
-        icon: "solar:structure-broken",
-        href: "/clinic/departments"
+        icon: "solar:structure-broken", 
+        children: [
+          {
+            label: "Lista Reparti",
+            icon: "solar:list-linear",
+            href: "/clinic/departments"
+          },
+          {
+            label: "Nuovo Reparto",
+            icon: "solar:add-circle-outline",
+            href: "/clinic/departments/new"
+          }
+        ]
       },
       {
         label: "Stanze",
         icon: "solar:armchair-outline",
-        href: "/clinic/rooms"
+        children: [
+          {
+            label: "Lista Stanze",
+            icon: "solar:list-linear",
+            href: "/clinic/rooms"
+          },
+          {
+            label: "Nuova Stanza",
+            icon: "solar:add-circle-outline",
+            href: "/clinic/rooms/new"
+          }
+        ]
       },
       {
         label: "Trattamenti",
