@@ -182,7 +182,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
                         {appointment.treatment}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -231,7 +231,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
                           {reminder.text}
                         </span>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 ) : (
                   <div className="text-xs text-gray-500 text-center p-2">
