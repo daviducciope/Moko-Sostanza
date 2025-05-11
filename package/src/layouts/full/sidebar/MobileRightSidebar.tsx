@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import { Icon } from "@iconify/react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import SimpleBar from "simplebar-react";
 import 'simplebar-react/dist/simplebar.min.css';
 import { useState } from "react";
@@ -53,32 +53,32 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
   const navigate = useNavigate();
   const { getUpcomingReminders, toggleCompleted } = useReminderStore();
   const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
-  
+
   // Ottieni i promemoria imminenti
   const upcomingReminders = getUpcomingReminders(3);
-  
+
   // Apri il modale per creare un nuovo promemoria
   const openReminderModal = () => {
     setIsReminderModalOpen(true);
   };
-  
+
   // Chiudi il modale
   const closeReminderModal = () => {
     setIsReminderModalOpen(false);
   };
-  
+
   // Gestisci il completamento di un promemoria
   const handleToggleCompleted = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
     toggleCompleted(id);
   };
-  
+
   // Naviga alla pagina dei miei appuntamenti
   const navigateToAppointments = () => {
     navigate('/appointments');
     if (onClose) onClose();
   };
-  
+
   // Naviga alla pagina del calendario e apri il modale dei promemoria
   const navigateToReminders = () => {
     navigate('/calendar');
@@ -100,7 +100,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
           <span className="sr-only">Chiudi menu</span>
         </button>
       </div>
-      
+
       {/* Pulsanti di azione rapida */}
       <div className="p-4 border-b">
         <div className="grid grid-cols-2 gap-2">
@@ -116,7 +116,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
             <Icon icon="solar:calendar-add-bold" height={16} />
             <span className="text-sm">Nuovo Appuntamento</span>
           </Button>
-          
+
           {/* Pulsante Aggiungi Promemoria */}
           <Button
             onClick={openReminderModal}
@@ -127,7 +127,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
             <Icon icon="solar:bell-add-bold" height={16} />
             <span className="text-sm">Aggiungi Promemoria</span>
           </Button>
-          
+
           {/* Pulsante Pazienti */}
           <Button
             as={Link}
@@ -140,7 +140,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
             <Icon icon="solar:users-group-rounded-line-duotone" height={16} />
             <span className="text-sm">Pazienti</span>
           </Button>
-          
+
           {/* Pulsante Trattamenti */}
           <Button
             as={Link}
@@ -155,14 +155,14 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
           </Button>
         </div>
       </div>
-      
+
       {/* Contenuto scrollabile */}
       <div className="flex-grow overflow-hidden">
         <SimpleBar className="h-full">
           <div className="p-4 space-y-4">
             {/* Lista ultimi appuntamenti */}
             <div>
-              <h6 
+              <h6
                 className="text-dark dark:text-white text-sm font-semibold mb-2 px-1 flex items-center cursor-pointer hover:text-primary"
                 onClick={navigateToAppointments}
               >
@@ -202,7 +202,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
 
             {/* Lista promemoria imminenti */}
             <div>
-              <h6 
+              <h6
                 className="text-dark dark:text-white text-sm font-semibold mb-2 px-1 flex items-center cursor-pointer hover:text-primary"
                 onClick={navigateToReminders}
               >
@@ -256,7 +256,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
           </div>
         </SimpleBar>
       </div>
-      
+
       {/* Banner pubblicitari fissi */}
       <div className="p-4 border-t">
         <div className="space-y-2">
@@ -275,7 +275,7 @@ const MobileRightSidebar = ({ onClose }: { onClose: () => void }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Modale per aggiungere/modificare promemoria */}
       <ReminderModal
         isOpen={isReminderModalOpen}

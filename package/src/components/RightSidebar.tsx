@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "flowbite-react";
 import { Icon } from "@iconify/react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import SimpleBar from "simplebar-react";
 import 'simplebar-react/dist/simplebar.min.css';
 import { useReminderStore, getRelativeDate } from "../services/ReminderService";
