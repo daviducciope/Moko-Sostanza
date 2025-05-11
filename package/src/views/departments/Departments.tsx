@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Button, Table } from "flowbite-react";
+import { Link } from "react-router-dom";
 import PageContainer from "../../components/container/PageContainer";
 
 const DepartmentList = () => {
@@ -30,8 +31,7 @@ const DepartmentList = () => {
   return (
     <div className="rounded-xl shadow-md bg-white p-6">
       <div className="flex justify-between items-center mb-6">
-        <h5 className="text-xl font-semibold text-gray-900">Reparti</h5>
-        <Button color="primary" size="sm">
+        <h5 className="text-xl font-semibold text-gray-900">Reparti</h5>        <Button color="primary" size="sm" as={Link} to="/clinic/departments/new">
           <Icon icon="solar:add-circle-linear" className="mr-2" height={20} />
           Nuovo Reparto
         </Button>

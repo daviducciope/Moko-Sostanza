@@ -44,7 +44,9 @@ const CalendarView = Loadable(lazy(() => import('../views/calendar/Calendar')));
 const ClinicDashboard = Loadable(lazy(() => import('../views/clinic/ClinicDashboard')));
 const ClinicTreatments = Loadable(lazy(() => import('../views/clinic/ClinicTreatments')));
 const Departments = Loadable(lazy(() => import('../views/departments/Departments')));
+const NewDepartment = Loadable(lazy(() => import('../views/departments/NewDepartment')));
 const Rooms = Loadable(lazy(() => import('../views/rooms/Rooms')));
+const NewRoom = Loadable(lazy(() => import('../views/rooms/NewRoom')));
 
 // Profile and Settings
 const Profile = Loadable(lazy(() => import('../views/profile/Profile')));
@@ -115,11 +117,11 @@ const Router = [
       { path: '/clinic/staff/new', exact: true, element: <NewStaff /> },
       { path: '/clinic/staff/search', exact: true, element: <Staff /> },
       { path: '/clinic/staff/view/:id', exact: true, element: <ViewStaff /> },
-      { path: '/clinic/staff/edit/:id', exact: true, element: <EditStaff /> },
-      { path: '/clinic/staff/attendance', exact: true, element: <Attendance /> },      { path: '/clinic/departments', exact: true, element: <Departments /> },
-      { path: '/clinic/departments/new', exact: true, element: <Departments /> },
+      { path: '/clinic/staff/edit/:id', exact: true, element: <EditStaff /> },      { path: '/clinic/staff/attendance', exact: true, element: <Attendance /> },
+      { path: '/clinic/departments', exact: true, element: <Departments /> },
+      { path: '/clinic/departments/new', exact: true, element: <NewDepartment /> },
       { path: '/clinic/rooms', exact: true, element: <Rooms /> },
-      { path: '/clinic/rooms/new', exact: true, element: <Rooms /> },
+      { path: '/clinic/rooms/new', exact: true, element: <NewRoom /> },
       { path: '/clinic/treatments', exact: true, element: <ClinicTreatments /> },
       { path: '/clinic/inventory', exact: true, element: <Inventory /> },
       { path: '/clinic/inventory/add', exact: true, element: <AddProduct /> },

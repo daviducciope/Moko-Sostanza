@@ -1,9 +1,19 @@
 import { Icon } from "@iconify/react";
 import { Badge, Button, Table } from "flowbite-react";
+import { Link } from "react-router-dom";
 import PageContainer from "../../components/container/PageContainer";
 
-const RoomList = () => {
-  const rooms = [
+const RoomList = () => {  type RoomStatus = 'Disponibile' | 'Occupata' | 'Manutenzione';
+  
+  interface Room {
+    id: number;
+    number: string;
+    department: string;
+    equipment: string[];
+    status: RoomStatus;
+  }
+
+  const rooms: Room[] = [
     {
       id: 1,
       number: "101",
@@ -26,21 +36,19 @@ const RoomList = () => {
       status: "Manutenzione",
     },
   ];
-
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: 'Disponibile' | 'Occupata' | 'Manutenzione') => {
     const statusColors = {
-      Disponibile: "success",
-      Occupata: "warning",
-      Manutenzione: "failure",
-    };
+      'Disponibile': "success",
+      'Occupata': "warning",
+      'Manutenzione': "failure",
+    } as const;
     return statusColors[status] || "gray";
   };
 
   return (
     <div className="rounded-xl shadow-md bg-white p-6">
       <div className="flex justify-between items-center mb-6">
-        <h5 className="text-xl font-semibold text-gray-900">Stanze</h5>
-        <Button color="primary" size="sm">
+        <h5 className="text-xl font-semibold text-gray-900">Stanze</h5>        <Button color="primary" size="sm" as={Link} to="/clinic/rooms/new">
           <Icon icon="solar:add-circle-linear" className="mr-2" height={20} />
           Nuova Stanza
         </Button>
