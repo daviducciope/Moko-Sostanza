@@ -59,6 +59,8 @@ Prima di iniziare, assicurati di avere installato:
 
 ### Risoluzione problemi comuni
 
+#### Problemi con React Router
+
 Se riscontri errori relativi a React Router, assicurati di avere installato sia `react-router` che `react-router-dom` versione 7.x:
 
 ```bash
@@ -66,6 +68,17 @@ npm install react-router@7.0.2 react-router-dom@7.0.2 --save
 ```
 
 Inoltre, verifica che tutti gli import nei file sorgente utilizzino `react-router-dom` invece di `react-router` per componenti come `Link`, `useLocation`, `Navigate`, ecc.
+
+#### Errore "useNavigate() may be used only in the context of a <Router> component"
+
+Se riscontri questo errore, significa che stai utilizzando l'hook `useNavigate()` al di fuori del contesto di un componente Router. Ci sono due soluzioni:
+
+1. Assicurati che il componente che utilizza `useNavigate()` sia renderizzato all'interno di un componente Router
+2. Sostituisci l'uso di `useNavigate()` con il componente `<Link>` di React Router
+
+#### Errore "Expected corresponding JSX closing tag for <Link>"
+
+Assicurati che tutti i tag `<Link>` abbiano il corrispondente tag di chiusura `</Link>`. Questo errore può verificarsi quando si sostituisce un elemento `<div>` con un `<Link>` ma ci si dimentica di aggiornare anche il tag di chiusura.
 
 ## 🏗️ Struttura del progetto
 
