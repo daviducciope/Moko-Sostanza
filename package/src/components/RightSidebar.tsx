@@ -42,7 +42,6 @@ const getStatusColor = (status: string) => {
 };
 
 const RightSidebar = () => {
-  const navigate = useNavigate();
   const { getUpcomingReminders, toggleCompleted } = useReminderStore();
   const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
 
@@ -63,17 +62,6 @@ const RightSidebar = () => {
   const handleToggleCompleted = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
     toggleCompleted(id);
-  };
-
-  // Naviga alla pagina dei miei appuntamenti
-  const navigateToAppointments = () => {
-    navigate('/appointments');
-  };
-
-  // Naviga alla pagina del calendario e apri il modale dei promemoria
-  const navigateToReminders = () => {
-    navigate('/calendar');
-    // Il modale dei promemoria verrà aperto dalla pagina del calendario
   };
 
   return (
@@ -141,10 +129,9 @@ const RightSidebar = () => {
         <div>
           <h6
             className="text-dark dark:text-white text-sm font-semibold mb-2 px-1 flex items-center cursor-pointer hover:text-primary"
-            onClick={navigateToAppointments}
           >
             <Icon icon="solar:calendar-mark-line-duotone" className="mr-1" height={16} />
-            Prossimi Appuntamenti
+            <Link to="/appointments" className="flex-grow">Prossimi Appuntamenti</Link>
             <Icon icon="solar:arrow-right-linear" className="ml-auto" height={14} />
           </h6>
           <div className="space-y-2">
@@ -152,7 +139,6 @@ const RightSidebar = () => {
               <div
                 key={appointment.id}
                 className="p-2 bg-lightgray dark:bg-darkmuted rounded-lg hover:bg-lightprimary dark:hover:bg-primary/10 transition-colors cursor-pointer"
-                onClick={navigateToAppointments}
               >
                 <div className="flex flex-col gap-0.5">
                   <span className="text-sm font-medium text-dark dark:text-white truncate">
@@ -181,10 +167,9 @@ const RightSidebar = () => {
         <div>
           <h6
             className="text-dark dark:text-white text-sm font-semibold mb-2 px-1 flex items-center cursor-pointer hover:text-primary"
-            onClick={navigateToReminders}
           >
             <Icon icon="solar:bell-outline" className="mr-1" height={16} />
-            Promemoria
+            <Link to="/calendar" className="flex-grow">Promemoria</Link>
             <Icon icon="solar:arrow-right-linear" className="ml-auto" height={14} />
           </h6>
           <div className="space-y-2">
@@ -193,7 +178,6 @@ const RightSidebar = () => {
                 <div
                   key={reminder.id}
                   className="p-2 bg-lightgray dark:bg-darkmuted rounded-lg hover:bg-lightprimary dark:hover:bg-primary/10 transition-colors cursor-pointer"
-                  onClick={navigateToReminders}
                 >
                   <div className="flex flex-col gap-0.5">
                     <div className="flex justify-between items-center">
