@@ -1,5 +1,5 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 
 const AuthRegister = () => {
@@ -47,9 +47,9 @@ const AuthRegister = () => {
             required
             className="form-control form-rounded-xl"
           />
-        </div> 
-        <Button color={'primary'} type="submit" className="w-full">Sign Up</Button> 
-        
+        </div>
+        <Button color={'primary'} type="submit" className="w-full">Sign Up</Button>
+
       </form>
     </>
   )

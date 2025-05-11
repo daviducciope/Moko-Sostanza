@@ -1,6 +1,6 @@
 import { Button, Label, TextInput, Radio } from "flowbite-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Componente di login con selezione del ruolo
@@ -12,7 +12,7 @@ const AuthLoginWithRole = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     // Salva i dati di sessione nel localStorage
     const sessionData = {
       user: {
@@ -20,9 +20,9 @@ const AuthLoginWithRole = () => {
         role
       }
     };
-    
+
     localStorage.setItem('user-session', JSON.stringify(sessionData));
-    
+
     // Reindirizza alla dashboard appropriata
     if (role === "clinic") {
       navigate("/clinic");
@@ -46,7 +46,7 @@ const AuthLoginWithRole = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="role" value="Tipo di utente" />
@@ -74,11 +74,11 @@ const AuthLoginWithRole = () => {
           </div>
         </div>
       </div>
-      
+
       <Button type="submit" className="bg-primary hover:bg-primary-700">
         Accedi
       </Button>
-      
+
       <div className="flex justify-between">
         <Link
           to="#"

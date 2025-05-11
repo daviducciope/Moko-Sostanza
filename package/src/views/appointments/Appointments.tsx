@@ -2,7 +2,7 @@ import { Table, Badge, Button, Select } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   useAppointmentStore,
   getAppointmentTitle,

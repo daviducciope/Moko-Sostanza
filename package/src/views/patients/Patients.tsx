@@ -2,7 +2,7 @@ import { Table, Badge, Button, TextInput } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import { HiSearch } from "react-icons/hi";
 
 const PatientsData = [

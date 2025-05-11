@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import PatientForm from '../../components/patients/PatientForm';
 
@@ -38,7 +38,7 @@ const EditPatient = () => {
         notes: "Paziente con allergia al lattice. Preferisce appuntamenti mattutini.",
         udiCode: "IT-12345678"
       };
-      
+
       setPatient(mockPatient);
       setLoading(false);
     }, 500);
@@ -67,7 +67,7 @@ const EditPatient = () => {
             </Link>
           </div>
         </div>
-        
+
         {patient && <PatientForm isEdit={true} patientData={patient} />}
       </div>
     </>

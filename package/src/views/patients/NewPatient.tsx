@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import PatientForm from "../../components/patients/PatientForm";
 
 const NewPatient = () => {
@@ -15,7 +15,7 @@ const NewPatient = () => {
             </Link>
           </div>
         </div>
-        
+
         <PatientForm />
       </div>
     </>
