@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Badge, Button, Progress } from "flowbite-react";
 import Chart from "react-apexcharts";
@@ -168,11 +168,17 @@ const UpcomingAppointments = () => {
     }
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-xl shadow-md bg-white p-6 relative w-full break-words">
       <div className="flex justify-between items-center mb-6">
         <h5 className="card-title">Prossimi Appuntamenti</h5>
-        <Button color="primary" size="sm" as={Link} to="/clinic/appointments">
+        <Button 
+          color="primary" 
+          size="sm" 
+          onClick={() => navigate('/clinic/appointments')}
+        >
           Vedi Tutti
         </Button>
       </div>
