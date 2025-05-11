@@ -71,7 +71,7 @@ Inoltre, verifica che tutti gli import nei file sorgente utilizzino `react-route
 
 #### Errori con gli hook e i componenti di React Router
 
-Se riscontri errori come "useNavigate() may be used only in the context of a <Router> component", "useLocation() may be used only in the context of a <Router> component" o problemi con le pagine di login o altre sezioni dell'applicazione, ci sono diverse possibili cause:
+Se riscontri errori come "useNavigate() may be used only in the context of a <Router> component", "useLocation() may be used only in the context of a <Router> component", "Cannot destructure property 'basename' of 'React.useContext(...)' as it is null" o problemi con le pagine di login o altre sezioni dell'applicazione, ci sono diverse possibili cause:
 
 1. **Import errato**: Assicurati di importare gli hook e i componenti di React Router da `react-router-dom` e non da `react-router`:
 
@@ -84,7 +84,14 @@ Se riscontri errori come "useNavigate() may be used only in the context of a <Ro
 
 3. **Verifica i layout**: Controlla che i layout (come `BlankLayout.tsx` e `FullLayout.tsx`) importino correttamente i componenti da `react-router-dom`
 
-4. **Soluzione alternativa**: Se non puoi risolvere il problema con i punti precedenti, sostituisci l'uso degli hook con il componente `<Link>` di React Router dove possibile
+4. **Componenti utilizzati in contesti diversi**: Se un componente viene utilizzato sia all'interno che all'esterno del contesto Router, evita di utilizzare componenti come `Link` e usa invece tag HTML standard come `<a href="...">`:
+
+   ```diff
+   - <Link to="/">Home</Link>
+   + <a href="/">Home</a>
+   ```
+
+5. **Soluzione alternativa**: Se non puoi risolvere il problema con i punti precedenti, sostituisci l'uso degli hook con il componente `<Link>` di React Router dove possibile
 
 #### Errore "Expected corresponding JSX closing tag for <Link>"
 
