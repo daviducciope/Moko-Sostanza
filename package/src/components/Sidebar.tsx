@@ -29,7 +29,7 @@ const NavCollapse = ({ item }: { item: MenuItem }) => {
       >
         <div className="flex items-center gap-3">
           {item.icon && <Icon icon={item.icon} className="h-5 w-5" />}
-          <span className="font-medium">{item.label}</span>
+          <span className="font-bold">{item.label}</span>
         </div>
         <Icon
           icon={isOpen ? "solar:alt-arrow-up-line-duotone" : "solar:alt-arrow-down-line-duotone"}
@@ -50,7 +50,7 @@ const NavCollapse = ({ item }: { item: MenuItem }) => {
               >
                 <div className="flex items-center gap-3">
                   {child.icon && <Icon icon={child.icon} className="h-5 w-5" />}
-                  <span className="font-medium">{child.label}</span>
+                  <span className="font-normal">{child.label}</span>
                 </div>
               </FlowbiteSidebar.Item>
           ))}
@@ -96,7 +96,7 @@ const Sidebar = () => {
                         >
                           <div className="flex items-center gap-3">
                             {item.icon && <Icon icon={item.icon} className="h-5 w-5" />}
-                            <span className="font-medium">{item.label}</span>
+                            <span className="font-bold">{item.label}</span>
                           </div>
                         </FlowbiteSidebar.Item>
                     ))}

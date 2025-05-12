@@ -39,7 +39,7 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
             ></span>
           )}
           <span
-            className={`max-w-24 truncate`}
+            className={`max-w-24 truncate ${item.children ? "font-bold" : "font-normal"}`}
           >
             {item.name}
           </span>

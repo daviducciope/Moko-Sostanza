@@ -130,6 +130,8 @@ Il sistema supporta due tipi di utenti:
 ### Navigazione
 
 - La barra laterale sinistra contiene il menu principale, organizzato per categorie
+  - Le voci principali del menu sono in grassetto per una migliore leggibilità
+  - I sottomenu utilizzano un font normale per creare una gerarchia visiva chiara
 - La barra superiore mostra il logo e le informazioni dell'utente
 - La barra laterale destra mostra notifiche e appuntamenti imminenti
 

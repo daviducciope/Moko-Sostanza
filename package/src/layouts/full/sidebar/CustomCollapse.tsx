@@ -21,7 +21,7 @@ const CustomCollapse: React.FC<{
         >
           <div className="flex items-center gap-3">
           <Icon icon={icon} height={18} />
-            <span className="truncate max-w-28 nav-label "  >{label}</span>
+            <span className="truncate max-w-28 nav-label font-bold">{label}</span>
           </div>
            <div className="flex items-center gap-0.5" >
            {isPro ? <span className="py-0.5 px-2.5 text-[10px] bg-secondary text-white rounded-sm">Pro</span> : null}
