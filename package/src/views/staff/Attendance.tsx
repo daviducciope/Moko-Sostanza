@@ -92,6 +92,11 @@ const Attendance = () => {
   const [dateFilter, setDateFilter] = useState('2023-11-24'); // Oggi come default
   const [filteredStaff, setFilteredStaff] = useState(staffData);
 
+  // Funzione per gestire la stampa delle presenze
+  const handlePrintAttendance = () => {
+    window.print();
+  };
+
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
 
@@ -181,13 +186,24 @@ const Attendance = () => {
         <div className="flex flex-col gap-4 mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <h5 className="card-title">Gestione Presenze</h5>
-            <Button color="primary" className="flex items-center gap-2">
+            <Button color="primary" className="flex items-center gap-2 no-print" onClick={handlePrintAttendance}>
               <Icon icon="solar:printer-outline" height={20} />
               Stampa Presenze
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Titolo visibile solo in stampa */}
+          <div className="hidden print:block print:mb-4">
+            <h2 className="text-2xl font-bold text-center">Registro Presenze Personale</h2>
+            <p className="text-center text-gray-500 mt-2">
+              Settimana: {formatDate(weekDates[0])} - {formatDate(weekDates[weekDates.length - 1])}
+            </p>
+            <p className="text-center text-gray-500 mt-1">
+              Generato il {new Date().toLocaleDateString('it-IT')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 no-print">
             <div className="relative">
               <TextInput
                 id="search-staff"
@@ -222,7 +238,7 @@ const Attendance = () => {
         </div>
 
         {/* Riepilogo presenze */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 no-print">
           <Card className="col-span-1">
             <div className="flex flex-col items-center">
               <h6 className="text-lg font-semibold mb-2">Presenti</h6>
@@ -257,7 +273,7 @@ const Attendance = () => {
         <Card className="mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
             <h5 className="text-lg font-bold">Presenze Settimanali</h5>
-            <div className="flex gap-2">
+            <div className="flex gap-2 no-print">
               <Button color="light" size="sm" className="flex items-center gap-1">
                 <Icon icon="solar:arrow-left-outline" height={16} />
                 <span className="hidden sm:inline">Settimana Precedente</span>
@@ -352,7 +368,7 @@ const Attendance = () => {
         </Card>
 
         {/* Registrazione presenze */}
-        <Card>
+        <Card className="no-print">
           <h5 className="text-lg font-bold mb-4">Registra Presenza</h5>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
@@ -390,6 +406,45 @@ const Attendance = () => {
             </div>
           </div>
         </Card>
+
+        {/* Stili per la stampa */}
+        <style type="text/css" media="print">
+          {`
+            @media print {
+              body * {
+                visibility: visible;
+              }
+              .no-print {
+                display: none !important;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+              }
+              th {
+                font-weight: bold;
+                background-color: #f2f2f2;
+              }
+              .rounded-xl {
+                border-radius: 0 !important;
+                box-shadow: none !important;
+              }
+              .card {
+                box-shadow: none !important;
+                border: none !important;
+              }
+              .badge {
+                padding: 4px 8px;
+                border-radius: 4px;
+              }
+            }
+          `}
+        </style>
       </div>
     </>
   );
