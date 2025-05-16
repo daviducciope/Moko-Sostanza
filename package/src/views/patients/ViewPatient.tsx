@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Button, Card, Badge } from 'flowbite-react';
+import { Button, Card, Badge, Tabs } from 'flowbite-react';
 import { Icon } from '@iconify/react';
+import PatientEventList from '../../components/patients/PatientEventList';
+import PatientEventModal from '../../components/patients/PatientEventModal';
+import { usePatientEventStore, PatientEvent } from '../../services/PatientEventService';
 
 // Interfaccia per i dati del paziente
 interface Patient {
@@ -24,6 +27,13 @@ const ViewPatient = () => {
   const navigate = useNavigate();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(0);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<PatientEvent | undefined>(undefined);
+
+  // Ottieni gli eventi del paziente dallo store
+  const { getEventsByPatient, deleteEvent } = usePatientEventStore();
+  const patientEvents = getEventsByPatient(Number(id));
 
   // Simula il caricamento dei dati del paziente
   useEffect(() => {
@@ -54,6 +64,31 @@ const ViewPatient = () => {
   // Funzione per stampare il profilo del paziente
   const handlePrintProfile = () => {
     window.print();
+  };
+
+  // Funzione per aprire il modale di creazione evento
+  const handleAddEvent = () => {
+    setSelectedEvent(undefined);
+    setIsEventModalOpen(true);
+  };
+
+  // Funzione per aprire il modale di modifica evento
+  const handleEditEvent = (event: PatientEvent) => {
+    setSelectedEvent(event);
+    setIsEventModalOpen(true);
+  };
+
+  // Funzione per chiudere il modale
+  const handleCloseEventModal = () => {
+    setIsEventModalOpen(false);
+    setSelectedEvent(undefined);
+  };
+
+  // Funzione per eliminare un evento
+  const handleDeleteEvent = (eventId: number) => {
+    if (confirm('Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.')) {
+      deleteEvent(eventId);
+    }
   };
 
   if (loading) {
@@ -119,65 +154,96 @@ const ViewPatient = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Informazioni principali */}
-        <Card className="col-span-1">
-          <div className="flex flex-col pb-4">
-            <h5 className="mb-3 text-xl font-medium text-gray-900 dark:text-white">
-              {patient.name}
-            </h5>
-            <div className="flex mb-4">
-              <Badge className={patient.status === "Attivo" ? "bg-lightsuccess text-success" : "bg-lighterror text-error"}>
-                {patient.status}
-              </Badge>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Codice UDI: <span className="font-medium">{patient.udiCode}</span>
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Ultima visita: <span className="font-medium">{patient.lastVisit}</span>
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Prossimo appuntamento: <span className="font-medium">{patient.nextAppointment}</span>
-              </p>
-            </div>
-          </div>
-        </Card>
+      {/* Schede informazioni e eventi */}
+      <Tabs aria-label="Informazioni paziente" style={{base: "underline"}} onActiveTabChange={setActiveTab}>
+        <Tabs.Item active={activeTab === 0} title="Informazioni" icon={() => <Icon icon="solar:user-outline" />} iconPosition="left" className="gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+            {/* Informazioni principali */}
+            <Card className="col-span-1">
+              <div className="flex flex-col pb-4">
+                <h5 className="mb-3 text-xl font-medium text-gray-900 dark:text-white">
+                  {patient.name}
+                </h5>
+                <div className="flex mb-4">
+                  <Badge className={patient.status === "Attivo" ? "bg-lightsuccess text-success" : "bg-lighterror text-error"}>
+                    {patient.status}
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Codice UDI: <span className="font-medium">{patient.udiCode}</span>
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    Ultima visita: <span className="font-medium">{patient.lastVisit}</span>
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    Prossimo appuntamento: <span className="font-medium">{patient.nextAppointment}</span>
+                  </p>
+                </div>
+              </div>
+            </Card>
 
-        {/* Dettagli personali */}
-        <Card className="col-span-2">
-          <h5 className="text-lg font-bold mb-4">Informazioni Personali</h5>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Data di nascita</p>
-              <p className="font-medium">{formatBirthdate(patient.birthdate)} ({calculateAge(patient.birthdate)} anni)</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Genere</p>
-              <p className="font-medium">
-                {patient.gender === 'M' ? 'Maschio' : patient.gender === 'F' ? 'Femmina' : 'Altro'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Telefono</p>
-              <p className="font-medium">{patient.phone}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
-              <p className="font-medium">{patient.email}</p>
-            </div>
-            <div className="col-span-2">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Indirizzo</p>
-              <p className="font-medium">{patient.address}</p>
-            </div>
-            <div className="col-span-2">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Note</p>
-              <p className="font-medium">{patient.notes || 'Nessuna nota'}</p>
-            </div>
+            {/* Dettagli personali */}
+            <Card className="col-span-2">
+              <h5 className="text-lg font-bold mb-4">Informazioni Personali</h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Data di nascita</p>
+                  <p className="font-medium">{formatBirthdate(patient.birthdate)} ({calculateAge(patient.birthdate)} anni)</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Genere</p>
+                  <p className="font-medium">
+                    {patient.gender === 'M' ? 'Maschio' : patient.gender === 'F' ? 'Femmina' : 'Altro'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Telefono</p>
+                  <p className="font-medium">{patient.phone}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                  <p className="font-medium">{patient.email}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Indirizzo</p>
+                  <p className="font-medium">{patient.address}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Note</p>
+                  <p className="font-medium">{patient.notes || 'Nessuna nota'}</p>
+                </div>
+              </div>
+            </Card>
           </div>
-        </Card>
-      </div>
+        </Tabs.Item>
+
+        <Tabs.Item active={activeTab === 1} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
+          <div className="mt-4">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="text-lg font-bold">Eventi Paziente</h5>
+              <Button color="primary" size="sm" onClick={handleAddEvent} className="flex items-center gap-2">
+                <Icon icon="solar:add-circle-outline" height={20} />
+                Nuovo Evento
+              </Button>
+            </div>
+
+            <PatientEventList
+              events={patientEvents}
+              onEditEvent={handleEditEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          </div>
+        </Tabs.Item>
+      </Tabs>
+
+      {/* Modale per la creazione/modifica degli eventi */}
+      <PatientEventModal
+        isOpen={isEventModalOpen}
+        onClose={handleCloseEventModal}
+        patientId={Number(id)}
+        event={selectedEvent}
+      />
     </div>
   );
 };
