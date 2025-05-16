@@ -120,6 +120,15 @@ package/
 
 ## 📝 Changelog
 
+### Fix: Risoluzione problema di caricamento dinamico del modulo di inventario
+
+- Risolto il problema di caricamento dinamico del modulo Inventory.tsx
+- Ricreati i file necessari per la gestione dell'inventario con implementazione completa
+- Migliorata la struttura del codice con commenti esplicativi per facilitare la manutenzione
+- Ottimizzata la gestione dello stato e il filtraggio dei prodotti nell'inventario
+- Implementata la visualizzazione responsive della tabella dei prodotti
+- Aggiunta gestione dello stato dell'inventario (OK, Basso, Critico) in base alle quantità minime
+
 ### Feat: Miglioramento funzionalità di stampa e aggiunta esportazione PDF in tutta l'applicazione
 
 - Implementato un sistema unificato di stampa e generazione PDF in tutte le pagine principali dell'applicazione
