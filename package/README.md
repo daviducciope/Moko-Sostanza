@@ -118,6 +118,14 @@ package/
 └── vite.config.ts       # Configurazione di Vite
 ```
 
+## 📝 Changelog
+
+### 8f5a440 (2024-XX-XX) - Fix: Implementata funzionalità di stampa presenze nella pagina staff/attendance
+
+- Aggiunta funzionalità di stampa al pulsante "Stampa Presenze" nella pagina di gestione presenze del personale
+- Implementati stili CSS specifici per la stampa che nascondono elementi non necessari
+- Aggiunto titolo visibile solo in stampa con informazioni sulla settimana visualizzata e data di generazione
+
 ## 🔄 Flusso di lavoro
 
 ### Autenticazione
