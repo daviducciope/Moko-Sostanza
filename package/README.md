@@ -120,6 +120,21 @@ package/
 
 ## 📝 Changelog
 
+### Fix: Implementazione funzionalità pulsante "Modifica Profilo" nella pagina profilo
+
+- Implementata la funzionalità del pulsante "Modifica Profilo" nella pagina del profilo utente
+- Aggiunta modalità di visualizzazione/modifica con campi disabilitati quando non in modalità modifica
+- Implementati pulsanti "Annulla" e "Salva Modifiche" che appaiono solo in modalità modifica
+- Aggiunta la possibilità di annullare le modifiche e tornare ai dati originali
+- Migliorata l'esperienza utente con feedback visivo durante la modifica
+
+### Feat: Sostituzione icona utente nella top bar con icona dentale professionale
+
+- Sostituita l'icona dell'utente (l'omino) nella top bar con un'immagine professionale più adatta a un gestionale per dentisti
+- Creata una nuova icona SVG dentale con sfondo trasparente che si integra perfettamente con lo stile dell'interfaccia
+- Mantenute tutte le funzionalità dell'icona originale (menu a tendina al click)
+- Migliorata l'esperienza utente con un'icona più rappresentativa del settore dentistico
+
 ### Fix: Risoluzione problema di caricamento dinamico del modulo di inventario
 
 - Risolto il problema di caricamento dinamico del modulo Inventory.tsx

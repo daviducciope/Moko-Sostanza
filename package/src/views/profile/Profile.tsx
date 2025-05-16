@@ -3,9 +3,17 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+/**
+ * Componente Profile per la visualizzazione e modifica del profilo utente
+ * Implementa una modalità di visualizzazione e una modalità di modifica
+ * Il pulsante "Modifica Profilo" attiva la modalità di modifica
+ */
 const Profile = () => {
   const location = useLocation();
   const isClinic = location.pathname.startsWith('/clinic');
+
+  // Stato per gestire la modalità di modifica
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [formData, setFormData] = useState({
     name: 'Dr. Mario Rossi',
@@ -20,6 +28,9 @@ const Profile = () => {
     bio: 'Specializzato in ortodonzia con oltre 15 anni di esperienza.'
   });
 
+  // Salva una copia dei dati originali per poter annullare le modifiche
+  const [originalData, setOriginalData] = useState({...formData});
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -28,10 +39,23 @@ const Profile = () => {
     }));
   };
 
+  // Attiva la modalità di modifica
+  const enableEditMode = () => {
+    setOriginalData({...formData}); // Salva i dati originali
+    setIsEditMode(true);
+  };
+
+  // Annulla le modifiche e torna alla modalità di visualizzazione
+  const cancelEdit = () => {
+    setFormData({...originalData}); // Ripristina i dati originali
+    setIsEditMode(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Qui andrà la logica per salvare i dati del profilo
     console.log('Dati profilo aggiornati:', formData);
+    setIsEditMode(false); // Torna alla modalità di visualizzazione dopo il salvataggio
   };
 
   return (
@@ -40,10 +64,19 @@ const Profile = () => {
       <Card className="relative overflow-hidden">
         <div className="flex justify-between items-center mb-6">
           <h5 className="text-xl font-bold">Il Mio Profilo</h5>
-          <Button color="primary" size="sm" className="flex items-center gap-2">
-            <Icon icon="solar:pen-outline" />
-            Modifica Profilo
-          </Button>
+          {!isEditMode ? (
+            <Button
+              color="primary"
+              size="sm"
+              className="flex items-center gap-2"
+              onClick={enableEditMode}
+            >
+              <Icon icon="solar:pen-outline" />
+              Modifica Profilo
+            </Button>
+          ) : (
+            <div className="text-sm text-primary">Modalità modifica attiva</div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,6 +89,7 @@ const Profile = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 />
               </div>
 
@@ -67,6 +101,7 @@ const Profile = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 />
               </div>
 
@@ -77,6 +112,7 @@ const Profile = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 />
               </div>
 
@@ -102,6 +138,7 @@ const Profile = () => {
                   name="specialization"
                   value={formData.specialization}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 >
                   <option value="Ortodonzia">Ortodonzia</option>
                   <option value="Implantologia">Implantologia</option>
@@ -118,6 +155,7 @@ const Profile = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 />
               </div>
 
@@ -129,6 +167,7 @@ const Profile = () => {
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
+                    disabled={!isEditMode}
                   />
                 </div>
                 <div>
@@ -138,6 +177,7 @@ const Profile = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
+                    disabled={!isEditMode}
                   />
                 </div>
               </div>
@@ -149,6 +189,7 @@ const Profile = () => {
                   name="license"
                   value={formData.license}
                   onChange={handleChange}
+                  disabled={!isEditMode}
                 />
               </div>
             </div>
@@ -162,17 +203,20 @@ const Profile = () => {
             name="bio"
             value={formData.bio}
             onChange={handleChange}
+            disabled={!isEditMode}
           />
         </div>
 
-        <div className="flex justify-end gap-4 mt-6">
-          <Button color="light">
-            Annulla
-          </Button>
-          <Button type="submit" color="primary" onClick={handleSubmit}>
-            Salva Modifiche
-          </Button>
-        </div>
+        {isEditMode && (
+          <div className="flex justify-end gap-4 mt-6">
+            <Button color="light" onClick={cancelEdit}>
+              Annulla
+            </Button>
+            <Button type="submit" color="primary" onClick={handleSubmit}>
+              Salva Modifiche
+            </Button>
+          </div>
+        )}
       </Card>
 
       {/* Card Sicurezza */}
@@ -182,6 +226,17 @@ const Profile = () => {
             <h5 className="text-xl font-bold">Sicurezza</h5>
             <p className="text-sm text-gray-500">Gestisci la sicurezza del tuo account</p>
           </div>
+          {!isEditMode && (
+            <Button
+              color="primary"
+              size="sm"
+              className="flex items-center gap-2"
+              onClick={enableEditMode}
+            >
+              <Icon icon="solar:pen-outline" />
+              Modifica Password
+            </Button>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -191,6 +246,7 @@ const Profile = () => {
               id="currentPassword"
               type="password"
               placeholder="••••••••"
+              disabled={!isEditMode}
             />
           </div>
 
@@ -200,6 +256,7 @@ const Profile = () => {
               id="newPassword"
               type="password"
               placeholder="••••••••"
+              disabled={!isEditMode}
             />
           </div>
 
@@ -209,18 +266,21 @@ const Profile = () => {
               id="confirmPassword"
               type="password"
               placeholder="••••••••"
+              disabled={!isEditMode}
             />
           </div>
         </div>
 
-        <div className="flex justify-end gap-4 mt-6">
-          <Button color="light">
-            Annulla
-          </Button>
-          <Button color="primary">
-            Aggiorna Password
-          </Button>
-        </div>
+        {isEditMode && (
+          <div className="flex justify-end gap-4 mt-6">
+            <Button color="light" onClick={cancelEdit}>
+              Annulla
+            </Button>
+            <Button color="primary" onClick={handleSubmit}>
+              Aggiorna Password
+            </Button>
+          </div>
+        )}
       </Card>
     </div>
   );

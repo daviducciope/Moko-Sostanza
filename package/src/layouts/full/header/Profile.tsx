@@ -1,8 +1,13 @@
 import { Button, Dropdown } from "flowbite-react";
 import { Icon } from "@iconify/react";
-import user1 from "/src/assets/images/profile/user-1.jpg";
+import dentistIcon from "/src/assets/images/svgs/icon-dentist.svg";
 import { Link, useLocation } from "react-router-dom";
 
+/**
+ * Componente Profile per la top bar
+ * Mostra l'icona del dentista e gestisce il menu a tendina con le opzioni utente
+ * L'icona è stata sostituita con un'immagine professionale più adatta a un gestionale per dentisti
+ */
 const Profile = () => {
   const location = useLocation();
   const isClinic = location.pathname.startsWith('/clinic');
@@ -18,11 +23,11 @@ const Profile = () => {
         renderTrigger={() => (
           <span className="h-10 w-10 hover:text-primary hover:bg-white rounded-full flex justify-center items-center cursor-pointer group-hover/menu:bg-white group-hover/menu:text-primary border-2 border-white">
             <img
-              src={user1}
-              alt="logo"
+              src={dentistIcon}
+              alt="Dentist profile"
               height="35"
               width="35"
-              className="rounded-full"
+              className="p-1"
             />
           </span>
         )}
