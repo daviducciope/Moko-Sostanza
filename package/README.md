@@ -120,6 +120,13 @@ package/
 
 ## 📝 Changelog
 
+### 1d55dee (2024-XX-XX) - Feat: Aggiunta funzionalità di eventi e allegati alla scheda paziente
+
+- Implementato un sistema per registrare eventi nella scheda paziente (visite, prescrizioni, analisi, note)
+- Aggiunta la possibilità di caricare e gestire allegati per ogni evento (documenti, immagini, referti)
+- Creata una nuova scheda "Eventi e Documenti" nella pagina del profilo paziente
+- Implementato un modale per l'aggiunta e la modifica degli eventi con supporto per upload di file
+
 ### 8f5a440 (2024-XX-XX) - Fix: Implementata funzionalità di stampa presenze nella pagina staff/attendance
 
 - Aggiunta funzionalità di stampa al pulsante "Stampa Presenze" nella pagina di gestione presenze del personale
@@ -212,6 +219,8 @@ Ricarica la pagina dopo aver impostato la sessione utente.
 - Schede dettagliate per ogni paziente
 - Funzionalità di ricerca e filtro
 - Aggiunta e modifica dei dati dei pazienti
+- Registrazione eventi nella scheda paziente (visite, prescrizioni, analisi)
+- Upload e gestione di allegati (documenti, immagini, referti)
 
 ### Gestione appuntamenti
 
