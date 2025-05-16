@@ -137,7 +137,7 @@ interface AppointmentStore {
   appointments: Appointment[];
 
   // Azioni
-  addPatient: (patient: Omit<Patient, 'id'>) => void;
+  addPatient: (patient: Omit<Patient, 'id'>) => number; // Restituisce l'ID del nuovo paziente
   updatePatient: (id: number, patient: Partial<Patient>) => void;
   deletePatient: (id: number) => void;
 
@@ -173,9 +173,13 @@ export const useAppointmentStore = create<AppointmentStore>()(
       appointments: sampleAppointments,
 
       // Azioni per i pazienti
-      addPatient: (patient) => set((state) => ({
-        patients: [...state.patients, { ...patient, id: Math.max(0, ...state.patients.map(p => p.id)) + 1 }]
-      })),
+      addPatient: (patient) => {
+        let newId = Math.max(0, ...get().patients.map(p => p.id)) + 1;
+        set((state) => ({
+          patients: [...state.patients, { ...patient, id: newId }]
+        }));
+        return newId; // Restituisce l'ID del nuovo paziente
+      },
 
       updatePatient: (id, patient) => set((state) => ({
         patients: state.patients.map(p => p.id === id ? { ...p, ...patient } : p)

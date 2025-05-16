@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
+import { Icon } from '@iconify/react';
 import { useAppointmentStore, Appointment } from '../../services/AppointmentService';
+import QuickPatientModal from '../patients/QuickPatientModal';
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -11,13 +13,15 @@ interface AppointmentModalProps {
 }
 
 const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selectedTime }: AppointmentModalProps) => {
-  const { 
-    patients, 
-    doctors, 
-    treatments, 
-    addAppointment, 
-    updateAppointment 
+  const {
+    patients,
+    doctors,
+    treatments,
+    addAppointment,
+    updateAppointment
   } = useAppointmentStore();
+
+  const [isQuickPatientModalOpen, setIsQuickPatientModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     patientId: 0,
@@ -40,10 +44,10 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
     const [hours, minutes] = startTime.split(':').map(Number);
     const startMinutes = hours * 60 + minutes;
     const endMinutes = startMinutes + treatment.duration;
-    
+
     const endHours = Math.floor(endMinutes / 60);
     const endMins = endMinutes % 60;
-    
+
     return `${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}`;
   };
 
@@ -89,9 +93,25 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Gestisce l'apertura del modale per l'aggiunta rapida di un paziente
+  const handleOpenQuickPatientModal = () => {
+    setIsQuickPatientModalOpen(true);
+  };
+
+  // Gestisce la chiusura del modale per l'aggiunta rapida di un paziente
+  const handleCloseQuickPatientModal = () => {
+    setIsQuickPatientModalOpen(false);
+  };
+
+  // Gestisce l'aggiunta di un nuovo paziente
+  const handlePatientAdded = (patientId: number) => {
+    // Aggiorna il form con il nuovo paziente selezionato
+    setFormData(prev => ({ ...prev, patientId }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (appointment) {
       // Aggiorna un appuntamento esistente
       updateAppointment(appointment.id, formData);
@@ -99,7 +119,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
       // Crea un nuovo appuntamento
       addAppointment(formData);
     }
-    
+
     onClose();
   };
 
@@ -111,7 +131,18 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
       <Modal.Body>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="patientId" value="Paziente" />
+            <div className="flex justify-between items-center mb-2">
+              <Label htmlFor="patientId" value="Paziente" />
+              <Button
+                color="light"
+                size="xs"
+                onClick={handleOpenQuickPatientModal}
+                className="flex items-center gap-1 py-1"
+              >
+                <Icon icon="solar:add-circle-outline" height={16} />
+                <span className="text-xs">Nuovo Paziente</span>
+              </Button>
+            </div>
             <Select
               id="patientId"
               name="patientId"
@@ -127,7 +158,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               ))}
             </Select>
           </div>
-          
+
           <div>
             <Label htmlFor="doctorId" value="Dottore" />
             <Select
@@ -145,7 +176,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               ))}
             </Select>
           </div>
-          
+
           <div>
             <Label htmlFor="treatmentId" value="Trattamento" />
             <Select
@@ -163,7 +194,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               ))}
             </Select>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="date" value="Data" />
@@ -176,7 +207,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
                 required
               />
             </div>
-            
+
             <div>
               <Label htmlFor="startTime" value="Ora di inizio" />
               <TextInput
@@ -189,7 +220,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="endTime" value="Ora di fine (calcolata automaticamente)" />
@@ -201,7 +232,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
                 readOnly
               />
             </div>
-            
+
             <div>
               <Label htmlFor="status" value="Stato" />
               <Select
@@ -218,7 +249,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               </Select>
             </div>
           </div>
-          
+
           <div>
             <Label htmlFor="notes" value="Note" />
             <Textarea
@@ -229,7 +260,7 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
               rows={3}
             />
           </div>
-          
+
           <div className="flex justify-end space-x-2">
             <Button color="light" onClick={onClose}>
               Annulla
@@ -240,6 +271,13 @@ const AppointmentModal = ({ isOpen, onClose, appointment, selectedDate, selected
           </div>
         </form>
       </Modal.Body>
+
+      {/* Modale per l'aggiunta rapida di un paziente */}
+      <QuickPatientModal
+        isOpen={isQuickPatientModalOpen}
+        onClose={handleCloseQuickPatientModal}
+        onPatientAdded={handlePatientAdded}
+      />
     </Modal>
   );
 };

@@ -120,6 +120,13 @@ package/
 
 ## 📝 Changelog
 
+### Feat: Aggiunta funzionalità di creazione rapida paziente nei form di selezione
+
+- Implementato un pulsante "Nuovo Paziente" nel menu a tendina di selezione paziente
+- Aggiunto un modale per la creazione rapida di un nuovo paziente con i campi essenziali
+- Il nuovo paziente viene automaticamente selezionato dopo la creazione
+- Migliorata l'esperienza utente nei form che richiedono la selezione di un paziente
+
 ### 1d55dee (2024-XX-XX) - Feat: Aggiunta funzionalità di eventi e allegati alla scheda paziente
 
 - Implementato un sistema per registrare eventi nella scheda paziente (visite, prescrizioni, analisi, note)
