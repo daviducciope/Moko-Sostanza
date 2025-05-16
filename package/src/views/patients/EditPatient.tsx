@@ -14,6 +14,11 @@ interface Patient {
   address: string;
   notes: string;
   udiCode: string;
+  fiscalCode?: string;
+  medicalHistory?: string;
+  isSmoker?: boolean;
+  medications?: string;
+  anamnesis?: string;
 }
 
 const EditPatient = () => {
@@ -36,7 +41,12 @@ const EditPatient = () => {
         gender: "M",
         address: "Via Roma 123, Milano",
         notes: "Paziente con allergia al lattice. Preferisce appuntamenti mattutini.",
-        udiCode: "IT-12345678"
+        udiCode: "IT-12345678",
+        fiscalCode: "RSSMRA80E15F205X",
+        medicalHistory: "Ipertensione, Diabete di tipo 2",
+        isSmoker: true,
+        medications: "Metformina 500mg (1 compressa a colazione), Ramipril 5mg (1 compressa a cena)",
+        anamnesis: "Il paziente riferisce familiarità per patologie cardiovascolari. Padre deceduto per infarto miocardico a 65 anni. Madre in vita, 75 anni, affetta da ipertensione arteriosa. Non riferisce allergie a farmaci. Riferisce episodi di cefalea occasionale."
       };
 
       setPatient(mockPatient);

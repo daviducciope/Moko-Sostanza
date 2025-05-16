@@ -20,6 +20,11 @@ interface Patient {
   lastVisit: string;
   nextAppointment: string;
   status: string;
+  fiscalCode?: string;
+  medicalHistory?: string;
+  isSmoker?: boolean;
+  medications?: string;
+  anamnesis?: string;
 }
 
 const ViewPatient = () => {
@@ -53,7 +58,12 @@ const ViewPatient = () => {
         udiCode: "IT-12345678",
         lastVisit: "15/05/2023",
         nextAppointment: "22/06/2023",
-        status: "Attivo"
+        status: "Attivo",
+        fiscalCode: "RSSMRA80E15F205X",
+        medicalHistory: "Ipertensione, Diabete di tipo 2",
+        isSmoker: true,
+        medications: "Metformina 500mg (1 compressa a colazione), Ramipril 5mg (1 compressa a cena)",
+        anamnesis: "Il paziente riferisce familiarità per patologie cardiovascolari. Padre deceduto per infarto miocardico a 65 anni. Madre in vita, 75 anni, affetta da ipertensione arteriosa. Non riferisce allergie a farmaci. Riferisce episodi di cefalea occasionale."
       };
 
       setPatient(mockPatient);
@@ -174,6 +184,9 @@ const ViewPatient = () => {
                     Codice UDI: <span className="font-medium">{patient.udiCode}</span>
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    Codice Fiscale: <span className="font-medium">{patient.fiscalCode || 'Non specificato'}</span>
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                     Ultima visita: <span className="font-medium">{patient.lastVisit}</span>
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -218,7 +231,48 @@ const ViewPatient = () => {
           </div>
         </Tabs.Item>
 
-        <Tabs.Item active={activeTab === 1} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
+        <Tabs.Item active={activeTab === 1} title="Cartella Clinica" icon={() => <Icon icon="solar:stethoscope-outline" />} iconPosition="left" className="gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            {/* Informazioni mediche */}
+            <Card>
+              <h5 className="text-lg font-bold mb-4">Informazioni Mediche</h5>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Fumatore</p>
+                  <div className="flex items-center mt-1">
+                    <Badge className={patient.isSmoker ? "bg-lighterror text-error" : "bg-lightsuccess text-success"}>
+                      {patient.isSmoker ? 'Sì' : 'No'}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Patologie Pregresse</p>
+                  <p className="font-medium whitespace-pre-line">
+                    {patient.medicalHistory || 'Nessuna patologia pregressa registrata'}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Farmaci</p>
+                  <p className="font-medium whitespace-pre-line">
+                    {patient.medications || 'Nessun farmaco registrato'}
+                  </p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Anamnesi */}
+            <Card>
+              <h5 className="text-lg font-bold mb-4">Anamnesi</h5>
+              <p className="whitespace-pre-line">
+                {patient.anamnesis || 'Nessuna anamnesi registrata'}
+              </p>
+            </Card>
+          </div>
+        </Tabs.Item>
+
+        <Tabs.Item active={activeTab === 2} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
           <div className="mt-4">
             <div className="flex justify-between items-center mb-4">
               <h5 className="text-lg font-bold">Eventi Paziente</h5>

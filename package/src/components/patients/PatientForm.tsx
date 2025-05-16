@@ -14,6 +14,11 @@ interface PatientFormProps {
     address: string;
     notes: string;
     udiCode?: string;
+    fiscalCode?: string;
+    medicalHistory?: string;
+    isSmoker?: boolean;
+    medications?: string;
+    anamnesis?: string;
   };
 }
 
@@ -28,15 +33,29 @@ const PatientForm = ({ isEdit = false, patientData }: PatientFormProps) => {
     gender: patientData?.gender || 'M',
     address: patientData?.address || '',
     notes: patientData?.notes || '',
-    udiCode: patientData?.udiCode || ''
+    udiCode: patientData?.udiCode || '',
+    fiscalCode: patientData?.fiscalCode || '',
+    medicalHistory: patientData?.medicalHistory || '',
+    isSmoker: patientData?.isSmoker || false,
+    medications: patientData?.medications || '',
+    anamnesis: patientData?.anamnesis || ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value, type } = e.target as HTMLInputElement;
+
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData(prev => ({
+        ...prev,
+        [name]: checked
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -144,6 +163,21 @@ const PatientForm = ({ isEdit = false, patientData }: PatientFormProps) => {
 
         <div>
           <div className="mb-2 block">
+            <Label htmlFor="fiscalCode" value="Codice Fiscale" />
+          </div>
+          <TextInput
+            id="fiscalCode"
+            name="fiscalCode"
+            value={formData.fiscalCode}
+            onChange={handleChange}
+            placeholder="RSSMRA80E15F205X"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <div className="mb-2 block">
             <Label htmlFor="udiCode" value="Codice UDI" />
           </div>
           <TextInput
@@ -154,6 +188,62 @@ const PatientForm = ({ isEdit = false, patientData }: PatientFormProps) => {
             placeholder="IT-12345678"
           />
         </div>
+
+        <div className="flex items-center mt-8">
+          <div className="flex items-center">
+            <input
+              id="isSmoker"
+              name="isSmoker"
+              type="checkbox"
+              checked={formData.isSmoker}
+              onChange={handleChange}
+              className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary"
+            />
+            <Label htmlFor="isSmoker" value="Fumatore" className="ms-2" />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-2 block">
+          <Label htmlFor="medicalHistory" value="Patologie Pregresse" />
+        </div>
+        <Textarea
+          id="medicalHistory"
+          name="medicalHistory"
+          value={formData.medicalHistory}
+          onChange={handleChange}
+          placeholder="Inserisci eventuali patologie pregresse del paziente..."
+          rows={3}
+        />
+      </div>
+
+      <div>
+        <div className="mb-2 block">
+          <Label htmlFor="medications" value="Farmaci" />
+        </div>
+        <Textarea
+          id="medications"
+          name="medications"
+          value={formData.medications}
+          onChange={handleChange}
+          placeholder="Inserisci i farmaci che il paziente assume regolarmente..."
+          rows={3}
+        />
+      </div>
+
+      <div>
+        <div className="mb-2 block">
+          <Label htmlFor="anamnesis" value="Anamnesi" />
+        </div>
+        <Textarea
+          id="anamnesis"
+          name="anamnesis"
+          value={formData.anamnesis}
+          onChange={handleChange}
+          placeholder="Inserisci l'anamnesi completa del paziente..."
+          rows={4}
+        />
       </div>
 
       <div>

@@ -120,6 +120,13 @@ package/
 
 ## 📝 Changelog
 
+### Feat: Aggiunta campi medici alla scheda paziente
+
+- Aggiunti nuovi campi alla scheda paziente: Codice Fiscale, Patologie Pregresse, Fumatore, Farmaci, Anamnesi
+- Creata una nuova scheda "Cartella Clinica" nella pagina del profilo paziente
+- Implementata la visualizzazione e la modifica dei nuovi campi medici
+- Migliorata l'organizzazione delle informazioni del paziente per una migliore esperienza utente
+
 ### Feat: Aggiunta funzionalità di creazione rapida paziente nei form di selezione
 
 - Implementato un pulsante "Nuovo Paziente" nel menu a tendina di selezione paziente
