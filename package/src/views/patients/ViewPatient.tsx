@@ -4,7 +4,10 @@ import { Button, Card, Badge, Tabs } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import PatientEventList from '../../components/patients/PatientEventList';
 import PatientEventModal from '../../components/patients/PatientEventModal';
+import DentalProcedureList from '../../components/dental/DentalProcedureList';
+import DentalProcedureModal from '../../components/dental/DentalProcedureModal';
 import { usePatientEventStore, PatientEvent } from '../../services/PatientEventService';
+import { useDentalProcedureStore, DentalProcedure } from '../../services/DentalProcedureService';
 
 // Interfaccia per i dati del paziente
 interface Patient {
@@ -35,10 +38,16 @@ const ViewPatient = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<PatientEvent | undefined>(undefined);
+  const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
+  const [selectedProcedure, setSelectedProcedure] = useState<DentalProcedure | undefined>(undefined);
 
   // Ottieni gli eventi del paziente dallo store
   const { getEventsByPatient, deleteEvent } = usePatientEventStore();
   const patientEvents = getEventsByPatient(Number(id));
+
+  // Ottieni gli interventi dentistici del paziente dallo store
+  const { getProceduresByPatient, deleteProcedure } = useDentalProcedureStore();
+  const patientProcedures = getProceduresByPatient(Number(id));
 
   // Simula il caricamento dei dati del paziente
   useEffect(() => {
@@ -98,6 +107,31 @@ const ViewPatient = () => {
   const handleDeleteEvent = (eventId: number) => {
     if (confirm('Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.')) {
       deleteEvent(eventId);
+    }
+  };
+
+  // Funzione per aprire il modale di creazione intervento
+  const handleAddProcedure = () => {
+    setSelectedProcedure(undefined);
+    setIsProcedureModalOpen(true);
+  };
+
+  // Funzione per aprire il modale di modifica intervento
+  const handleEditProcedure = (procedure: DentalProcedure) => {
+    setSelectedProcedure(procedure);
+    setIsProcedureModalOpen(true);
+  };
+
+  // Funzione per chiudere il modale degli interventi
+  const handleCloseProcedureModal = () => {
+    setIsProcedureModalOpen(false);
+    setSelectedProcedure(undefined);
+  };
+
+  // Funzione per eliminare un intervento
+  const handleDeleteProcedure = (procedureId: number) => {
+    if (confirm('Sei sicuro di voler eliminare questo intervento? Questa azione non può essere annullata.')) {
+      deleteProcedure(procedureId);
     }
   };
 
@@ -272,7 +306,25 @@ const ViewPatient = () => {
           </div>
         </Tabs.Item>
 
-        <Tabs.Item active={activeTab === 2} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
+        <Tabs.Item active={activeTab === 2} title="Interventi" icon={() => <Icon icon="solar:tooth-outline" />} iconPosition="left" className="gap-2">
+          <div className="mt-4">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="text-lg font-bold">Interventi Dentistici</h5>
+              <Button color="primary" size="sm" onClick={handleAddProcedure} className="flex items-center gap-2">
+                <Icon icon="solar:add-circle-outline" height={20} />
+                Nuovo Intervento
+              </Button>
+            </div>
+
+            <DentalProcedureList
+              procedures={patientProcedures}
+              onEditProcedure={handleEditProcedure}
+              onDeleteProcedure={handleDeleteProcedure}
+            />
+          </div>
+        </Tabs.Item>
+
+        <Tabs.Item active={activeTab === 3} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
           <div className="mt-4">
             <div className="flex justify-between items-center mb-4">
               <h5 className="text-lg font-bold">Eventi Paziente</h5>
@@ -297,6 +349,14 @@ const ViewPatient = () => {
         onClose={handleCloseEventModal}
         patientId={Number(id)}
         event={selectedEvent}
+      />
+
+      {/* Modale per la creazione/modifica degli interventi */}
+      <DentalProcedureModal
+        isOpen={isProcedureModalOpen}
+        onClose={handleCloseProcedureModal}
+        patientId={Number(id)}
+        procedure={selectedProcedure}
       />
     </div>
   );

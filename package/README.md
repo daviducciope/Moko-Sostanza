@@ -120,6 +120,15 @@ package/
 
 ## 📝 Changelog
 
+### Feat: Registrazione interventi dentistici con tracciabilità dispositivi medici
+
+- Implementato un sistema completo per la registrazione degli interventi dentistici
+- Aggiunta distinzione tra interventi chirurgici e non chirurgici
+- Creato uno schema dentale interattivo per selezionare i denti coinvolti negli interventi
+- Implementata la tracciabilità dei dispositivi medici con codice UDI per gli interventi chirurgici
+- Aggiunta una nuova scheda "Interventi" nella pagina del profilo paziente
+- Implementate validazioni appropriate per tutti i campi, in particolare per il codice UDI
+
 ### Feat: Aggiunta campi medici alla scheda paziente
 
 - Aggiunti nuovi campi alla scheda paziente: Codice Fiscale, Patologie Pregresse, Fumatore, Farmaci, Anamnesi
@@ -235,6 +244,9 @@ Ricarica la pagina dopo aver impostato la sessione utente.
 - Aggiunta e modifica dei dati dei pazienti
 - Registrazione eventi nella scheda paziente (visite, prescrizioni, analisi)
 - Upload e gestione di allegati (documenti, immagini, referti)
+- Registrazione interventi dentistici chirurgici e non chirurgici
+- Schema dentale interattivo per selezionare i denti coinvolti
+- Tracciabilità dei dispositivi medici con codice UDI
 
 ### Gestione appuntamenti
 
