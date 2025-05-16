@@ -120,6 +120,26 @@ package/
 
 ## 📝 Changelog
 
+### Feat: Miglioramento funzionalità di stampa e aggiunta esportazione PDF in tutta l'applicazione
+
+- Implementato un sistema unificato di stampa e generazione PDF in tutte le pagine principali dell'applicazione
+- Aggiunti pulsanti "Scarica PDF" nelle pagine di visualizzazione fattura, elenco fatture e report finanziari
+- Creati template di stampa dedicati con layout ottimizzati per ciascuna tipologia di documento
+- Migliorata l'organizzazione dei dati nei template di stampa con sezioni logiche e intestazioni chiare
+- Implementata la generazione di PDF con nomi file basati sul contenuto del documento
+- Aggiunti indicatori di caricamento durante la generazione dei PDF per migliorare l'esperienza utente
+- Ottimizzato il layout di stampa per garantire una corretta visualizzazione su carta e nei PDF
+- Implementata la gestione delle pagine multiple nei PDF per documenti lunghi
+
+### Feat: Miglioramento funzionalità di stampa e aggiunta esportazione PDF nella pagina paziente
+
+- Implementato un template di stampa dedicato per la visualizzazione del paziente con layout ottimizzato
+- Aggiunto un pulsante "Scarica PDF" che genera un file PDF con tutti i dati del paziente
+- Migliorata l'organizzazione dei dati nel template di stampa con sezioni logiche e intestazioni chiare
+- Implementata la generazione di PDF con nome file basato sul nome del paziente
+- Aggiunti tooltip esplicativi per migliorare l'usabilità dei pulsanti
+- Ottimizzato il layout di stampa per garantire una corretta visualizzazione su carta
+
 ### Feat: Registrazione interventi dentistici con tracciabilità dispositivi medici
 
 - Implementato un sistema completo per la registrazione degli interventi dentistici
@@ -184,7 +204,9 @@ Il sistema supporta due tipi di utenti:
 - **ApexCharts**: Grafici e visualizzazioni
 - **Formik**: Gestione form
 - **Yup**: Validazione form
-- **Zustand**: Gestione stato (opzionale)
+- **Zustand**: Gestione stato
+- **jsPDF**: Generazione di documenti PDF
+- **html2canvas**: Conversione HTML in immagini per PDF
 
 ## 📱 Modalità responsive
 
@@ -242,6 +264,8 @@ Ricarica la pagina dopo aver impostato la sessione utente.
 - Schede dettagliate per ogni paziente
 - Funzionalità di ricerca e filtro
 - Aggiunta e modifica dei dati dei pazienti
+- Stampa del profilo paziente con layout ottimizzato
+- Esportazione del profilo paziente in formato PDF
 - Registrazione eventi nella scheda paziente (visite, prescrizioni, analisi)
 - Upload e gestione di allegati (documenti, immagini, referti)
 - Registrazione interventi dentistici chirurgici e non chirurgici
@@ -260,7 +284,11 @@ Ricarica la pagina dopo aver impostato la sessione utente.
 - Creazione fatture
 - Elenco fatture emesse
 - Ricerca e filtro fatture
-- Reportistica finanziaria
+- Visualizzazione dettagliata delle fatture
+- Stampa fatture con layout ottimizzato
+- Esportazione fatture in formato PDF
+- Reportistica finanziaria con grafici e tabelle
+- Stampa ed esportazione PDF dei report finanziari
 
 ## 🧪 Testing
 

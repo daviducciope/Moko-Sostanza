@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { Card, Button, Select, Table, Badge } from 'flowbite-react';
+import { useState, useRef } from 'react';
+import { Card, Button, Select, Table, Badge, Tooltip } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import SimpleBar from 'simplebar-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Dati di esempio per i grafici e le tabelle
 const monthlyRevenue = [
@@ -55,10 +57,271 @@ const expenseCategories = [
 const Reports = () => {
   const [period, setPeriod] = useState('year');
   const [year, setYear] = useState('2023');
+  const [showPrintTemplate, setShowPrintTemplate] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const printTemplateRef = useRef<HTMLDivElement>(null);
+  const pdfTemplateRef = useRef<HTMLDivElement>(null);
+
+  // Componente per il template di stampa del report
+  const ReportPrintTemplate = () => {
+    // Formatta un numero come valuta
+    const formatCurrency = (value: number) => {
+      return value.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' });
+    };
+
+    return (
+      <div id="print-template" className="p-8 max-w-4xl mx-auto bg-white text-black">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold">REPORT FINANZIARIO {year}</h1>
+          <p className="text-sm text-gray-600">MOKO SOSTANZA Dental CRM</p>
+          <p className="text-sm text-gray-600 mt-2">
+            Periodo: {period === 'month' ? 'Mese Corrente' : period === 'quarter' ? 'Trimestre Corrente' : 'Anno Completo'}
+          </p>
+          <p className="text-sm text-gray-600">Generato il {new Date().toLocaleDateString('it-IT')}</p>
+        </div>
+
+        {/* Riepilogo finanziario */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4 border-b pb-2">Riepilogo Finanziario</h2>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="border rounded p-4 text-center">
+              <h3 className="text-lg font-semibold mb-2">Entrate Totali</h3>
+              <p className="text-2xl font-bold text-blue-600">{formatCurrency(totalRevenue)}</p>
+            </div>
+            <div className="border rounded p-4 text-center">
+              <h3 className="text-lg font-semibold mb-2">Spese Totali</h3>
+              <p className="text-2xl font-bold text-red-600">{formatCurrency(totalExpenses)}</p>
+            </div>
+            <div className="border rounded p-4 text-center">
+              <h3 className="text-lg font-semibold mb-2">Profitto</h3>
+              <p className="text-2xl font-bold text-green-600">{formatCurrency(profit)}</p>
+              <p className="text-sm">Margine: {profitPercentage}%</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Entrate per trattamento */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4 border-b pb-2">Entrate per Trattamento</h2>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border p-2 text-left">Trattamento</th>
+                <th className="border p-2 text-right">Importo</th>
+                <th className="border p-2 text-center">Percentuale</th>
+              </tr>
+            </thead>
+            <tbody>
+              {treatmentRevenue.map((treatment, index) => (
+                <tr key={index}>
+                  <td className="border p-2">{treatment.treatment}</td>
+                  <td className="border p-2 text-right">{formatCurrency(treatment.amount)}</td>
+                  <td className="border p-2 text-center">{treatment.percentage}%</td>
+                </tr>
+              ))}
+              <tr className="font-bold bg-gray-50">
+                <td className="border p-2">Totale</td>
+                <td className="border p-2 text-right">{formatCurrency(totalRevenue)}</td>
+                <td className="border p-2 text-center">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Spese per categoria */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4 border-b pb-2">Spese per Categoria</h2>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border p-2 text-left">Categoria</th>
+                <th className="border p-2 text-right">Importo</th>
+                <th className="border p-2 text-center">Percentuale</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenseCategories.map((category, index) => (
+                <tr key={index}>
+                  <td className="border p-2">{category.category}</td>
+                  <td className="border p-2 text-right">{formatCurrency(category.amount)}</td>
+                  <td className="border p-2 text-center">{category.percentage}%</td>
+                </tr>
+              ))}
+              <tr className="font-bold bg-gray-50">
+                <td className="border p-2">Totale</td>
+                <td className="border p-2 text-right">{formatCurrency(totalExpenses)}</td>
+                <td className="border p-2 text-center">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Top 5 pazienti */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4 border-b pb-2">Top 5 Pazienti</h2>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border p-2 text-left">Paziente</th>
+                <th className="border p-2 text-right">Totale Speso</th>
+                <th className="border p-2 text-center">Visite</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topPatients.map((patient, index) => (
+                <tr key={index}>
+                  <td className="border p-2">{patient.name}</td>
+                  <td className="border p-2 text-right">{formatCurrency(patient.totalSpent)}</td>
+                  <td className="border p-2 text-center">{patient.visits}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <p>MOKO SOSTANZA Dental CRM - Gestionale per Dentisti</p>
+          <p>Documento generato automaticamente - {new Date().toLocaleDateString('it-IT')}</p>
+        </div>
+      </div>
+    );
+  };
 
   // Funzione per gestire la stampa del report
   const handlePrintReport = () => {
-    window.print();
+    setShowPrintTemplate(true);
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => {
+        setShowPrintTemplate(false);
+      }, 500);
+    }, 300);
+  };
+
+  // Funzione per generare e scaricare il PDF del report
+  const handleDownloadPDF = async () => {
+    // Mostra l'indicatore di caricamento
+    setIsGeneratingPDF(true);
+
+    try {
+      // Assicuriamoci che il template PDF sia visibile
+      if (!pdfTemplateRef.current) {
+        console.error('Riferimento al template PDF non disponibile');
+        setIsGeneratingPDF(false);
+        return;
+      }
+
+      // Utilizziamo una versione semplificata di html2canvas + jsPDF
+      const element = pdfTemplateRef.current;
+
+      // Creiamo il canvas dall'elemento HTML
+      const canvas = await html2canvas(element, {
+        scale: 2, // Alta qualità
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
+      });
+
+      // Creiamo il documento PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // Dimensioni A4 in mm
+      const pageWidth = 210;
+      const pageHeight = 297;
+
+      // Margini
+      const margin = 10;
+
+      // Dimensioni effettive dell'area di stampa
+      const printWidth = pageWidth - (margin * 2);
+
+      // Calcola le dimensioni dell'immagine nel PDF
+      const imgWidth = printWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Aggiungiamo l'immagine al PDF
+      // Utilizziamo un metodo più semplice per la suddivisione in pagine
+
+      // Altezza massima per pagina
+      const maxHeight = pageHeight - (margin * 2);
+
+      // Numero di pagine necessarie
+      const pageCount = Math.ceil(imgHeight / maxHeight);
+
+      // Per ogni pagina
+      for (let i = 0; i < pageCount; i++) {
+        // Se non è la prima pagina, aggiungi una nuova pagina
+        if (i > 0) {
+          pdf.addPage();
+        }
+
+        // Calcola la posizione di inizio nel canvas
+        const sourceY = (i * maxHeight / imgHeight) * canvas.height;
+
+        // Calcola l'altezza della porzione da includere
+        const sourceHeight = Math.min(
+          canvas.height - sourceY,
+          (maxHeight / imgHeight) * canvas.height
+        );
+
+        // Crea un canvas temporaneo per la porzione corrente
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = sourceHeight;
+
+        // Disegna la porzione corrente sul canvas temporaneo
+        const ctx = tempCanvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(
+            canvas,
+            0, sourceY, canvas.width, sourceHeight,
+            0, 0, tempCanvas.width, tempCanvas.height
+          );
+
+          // Converti il canvas temporaneo in immagine
+          const imgData = tempCanvas.toDataURL('image/jpeg', 1.0);
+
+          // Aggiungi l'immagine al PDF
+          pdf.addImage(
+            imgData,
+            'JPEG',
+            margin,
+            margin,
+            printWidth,
+            (sourceHeight * printWidth) / canvas.width
+          );
+        }
+      }
+
+      // Aggiungi metadati al PDF
+      pdf.setProperties({
+        title: `Report Finanziario ${year}`,
+        subject: 'Report Finanziario',
+        author: 'MOKO SOSTANZA Dental CRM',
+        keywords: 'report, finanziario, dentista',
+        creator: 'MOKO SOSTANZA Dental CRM'
+      });
+
+      // Genera il nome del file
+      const fileName = `Report_Finanziario_${year}_${period}.pdf`;
+
+      // Scarica il PDF
+      pdf.save(fileName);
+
+    } catch (error) {
+      console.error('Errore durante la generazione del PDF:', error);
+    } finally {
+      // Nascondi l'indicatore di caricamento
+      setIsGeneratingPDF(false);
+    }
   };
 
   // Calcola il totale delle entrate
@@ -150,24 +413,59 @@ const Reports = () => {
         {`
           @media print {
             body * {
+              visibility: hidden;
+            }
+            #print-template, #print-template * {
               visibility: visible;
             }
-            .no-print, .no-print * {
+            #print-template {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              font-size: 12pt;
+              line-height: 1.3;
+            }
+            table {
+              page-break-inside: avoid;
+              font-size: 10pt;
+            }
+            table tr {
+              page-break-inside: avoid;
+            }
+            p {
+              orphans: 3;
+              widows: 3;
+            }
+            h1, h2, h3, h4 {
+              page-break-after: avoid;
+            }
+            @page {
+              size: A4;
+              margin: 15mm;
+            }
+            .no-print {
               display: none !important;
-            }
-            .grid {
-              display: block !important;
-            }
-            .card {
-              break-inside: avoid;
-              margin-bottom: 20px;
-            }
-            h5, h6 {
-              margin-top: 20px;
             }
           }
         `}
       </style>
+
+      {/* Template di stampa (nascosto normalmente, visibile solo durante la stampa) */}
+      {showPrintTemplate && (
+        <div className="fixed top-0 left-0 w-full h-0 overflow-hidden print:h-auto print:overflow-visible">
+          <div ref={printTemplateRef} className="bg-white">
+            <ReportPrintTemplate />
+          </div>
+        </div>
+      )}
+
+      {/* Template di stampa nascosto ma renderizzato per la generazione PDF */}
+      <div className="fixed top-0 left-0 w-full opacity-0 pointer-events-none" style={{ zIndex: -9999 }}>
+        <div id="pdf-template" ref={pdfTemplateRef} className="bg-white p-0 m-0">
+          <ReportPrintTemplate />
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 gap-6">
         {/* Filtri e intestazione */}
@@ -193,10 +491,32 @@ const Reports = () => {
                 <option value="2022">2022</option>
                 <option value="2021">2021</option>
               </Select>
-              <Button color="light" className="flex items-center gap-2" onClick={handlePrintReport}>
-                <Icon icon="solar:printer-outline" height={20} />
-                Stampa Report
-              </Button>
+              <Tooltip content="Stampa il report finanziario">
+                <Button color="light" className="flex items-center gap-2" onClick={handlePrintReport}>
+                  <Icon icon="solar:printer-outline" height={20} />
+                  Stampa Report
+                </Button>
+              </Tooltip>
+              <Tooltip content="Scarica il report finanziario in formato PDF">
+                <Button
+                  color="light"
+                  onClick={handleDownloadPDF}
+                  className="flex items-center gap-2"
+                  disabled={isGeneratingPDF}
+                >
+                  {isGeneratingPDF ? (
+                    <>
+                      <div className="animate-spin h-5 w-5 border-2 border-gray-500 border-t-transparent rounded-full"></div>
+                      Generazione PDF...
+                    </>
+                  ) : (
+                    <>
+                      <Icon icon="solar:file-download-outline" height={20} />
+                      Scarica PDF
+                    </>
+                  )}
+                </Button>
+              </Tooltip>
             </div>
           </div>
 
