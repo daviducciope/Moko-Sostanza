@@ -53,26 +53,26 @@ const PatientEventList = ({ events, onEditEvent, onDeleteEvent }: PatientEventLi
         events.map((event) => (
           <Card key={event.id} className="overflow-hidden">
             <div 
-              className="flex justify-between items-start cursor-pointer"
+              className="flex flex-col sm:flex-row gap-4 sm:items-start sm:justify-between cursor-pointer p-4"
               onClick={() => toggleEvent(event.id)}
             >
-              <div className="flex items-start gap-3">
-                <div className={`p-2 rounded-lg ${getEventTypeColor(event.type)}`}>
+              <div className="flex items-start gap-3 flex-grow min-w-0">
+                <div className={`p-2 rounded-lg flex-shrink-0 ${getEventTypeColor(event.type)}`}>
                   <Icon icon={getEventTypeIcon(event.type)} height={24} />
                 </div>
-                <div>
-                  <h5 className="text-lg font-medium">{event.title}</h5>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <span>{formatEventDateTime(event.date, event.time)}</span>
-                    <span>•</span>
-                    <Badge className={getEventTypeColor(event.type)}>
+                <div className="flex-grow min-w-0">
+                  <h5 className="text-lg font-medium truncate">{event.title}</h5>
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                    <span className="whitespace-nowrap">{formatEventDateTime(event.date, event.time)}</span>
+                    <span className="hidden sm:inline">•</span>
+                    <Badge className={`${getEventTypeColor(event.type)} whitespace-nowrap`}>
                       {getEventTypeLabel(event.type)}
                     </Badge>
                   </div>
-                  <p className="text-sm mt-1">Creato da: {event.createdBy}</p>
+                  <p className="text-sm mt-1 truncate">Creato da: {event.createdBy}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end sm:self-start">
                 {event.attachments.length > 0 && (
                   <div className="flex items-center gap-1 text-sm text-gray-500">
                     <Icon icon="solar:paperclip-outline" height={16} />
@@ -82,12 +82,13 @@ const PatientEventList = ({ events, onEditEvent, onDeleteEvent }: PatientEventLi
                 <Icon 
                   icon={expandedEventId === event.id ? "solar:alt-arrow-up-outline" : "solar:alt-arrow-down-outline"} 
                   height={20} 
+                  className="flex-shrink-0"
                 />
               </div>
             </div>
             
             {expandedEventId === event.id && (
-              <div className="mt-4 pt-4 border-t">
+              <div className="mt-2 p-4 pt-0 border-t">
                 {event.description && (
                   <div className="mb-4">
                     <h6 className="text-sm font-medium mb-1">Descrizione</h6>
@@ -104,18 +105,21 @@ const PatientEventList = ({ events, onEditEvent, onDeleteEvent }: PatientEventLi
                           key={attachment.id} 
                           className="flex items-center justify-between p-2 bg-gray-50 rounded-md"
                         >
-                          <div className="flex items-center gap-2">
-                            <Icon icon={getFileIcon(attachment.type)} height={20} />
-                            <span className="text-sm truncate max-w-[200px]">{attachment.name}</span>
-                            <span className="text-xs text-gray-500">
+                          <div className="flex items-center gap-2 flex-grow min-w-0">
+                            <Icon icon={getFileIcon(attachment.type)} height={20} className="flex-shrink-0" />
+                            <span className="text-sm truncate">{attachment.name}</span>
+                            <span className="text-xs text-gray-500 whitespace-nowrap">
                               ({formatFileSize(attachment.size)})
                             </span>
                           </div>
                           <Button
                             color="light"
                             size="xs"
-                            onClick={() => handleDownload(attachment)}
-                            className="p-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(attachment);
+                            }}
+                            className="p-1 ml-2 flex-shrink-0"
                           >
                             <Icon icon="solar:download-outline" height={16} />
                           </Button>
@@ -125,24 +129,30 @@ const PatientEventList = ({ events, onEditEvent, onDeleteEvent }: PatientEventLi
                   </div>
                 )}
                 
-                <div className="flex justify-end gap-2 mt-4">
+                <div className="flex flex-col sm:flex-row justify-end gap-2 mt-4">
                   <Button
                     color="light"
                     size="xs"
-                    onClick={() => onEditEvent(event)}
-                    className="flex items-center gap-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEditEvent(event);
+                    }}
+                    className="flex items-center justify-center gap-1 w-full sm:w-auto"
                   >
                     <Icon icon="solar:pen-outline" height={16} />
-                    Modifica
+                    <span className="whitespace-nowrap">Modifica</span>
                   </Button>
                   <Button
                     color="failure"
                     size="xs"
-                    onClick={() => onDeleteEvent(event.id)}
-                    className="flex items-center gap-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteEvent(event.id);
+                    }}
+                    className="flex items-center justify-center gap-1 w-full sm:w-auto"
                   >
                     <Icon icon="solar:trash-bin-trash-outline" height={16} />
-                    Elimina
+                    <span className="whitespace-nowrap">Elimina</span>
                   </Button>
                 </div>
               </div>
@@ -151,7 +161,7 @@ const PatientEventList = ({ events, onEditEvent, onDeleteEvent }: PatientEventLi
         ))
       ) : (
         <div className="text-center py-8">
-          <Icon icon="solar:notebook-outline" className="mx-auto mb-2" height={48} />
+          <Icon icon="solar:notebook-outline" className="mx-auto mb-2 text-gray-400" height={48} />
           <p className="text-gray-500">Nessun evento registrato per questo paziente</p>
         </div>
       )}

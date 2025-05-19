@@ -1,0 +1,23 @@
+/* Stile per gestire gruppi di bottoni responsive */
+.button-group {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .button-group {
+    @apply flex-col w-full;
+  }
+
+  .button-group > * {
+    @apply w-full justify-center;
+  }
+
+  .button-group-horizontal {
+    @apply flex-row flex-wrap;
+  }
+
+  .button-group-horizontal > * {
+    @apply flex-1 min-w-[120px];
+  }
+}

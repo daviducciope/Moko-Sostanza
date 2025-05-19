@@ -15,6 +15,12 @@
 /* Mobile */
 @media screen and (max-width: 640px) {
   .main-content {
-    padding: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  /* Aggiungi padding orizzontale ridotto per i contenitori interni */
+  .main-content > div {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }

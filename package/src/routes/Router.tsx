@@ -1,8 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import  { lazy } from 'react';
+import { lazy } from 'react';
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import Loadable from 'src/layouts/full/shared/loadable/Loadable';
+import Loadable from '../components/shared/Loadable';
 
 
 

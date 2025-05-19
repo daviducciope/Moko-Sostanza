@@ -78,7 +78,7 @@ const QuickPatientModal = ({ isOpen, onClose, onPatientAdded }: QuickPatientModa
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name" value="Nome e Cognome *" />
               <TextInput
@@ -88,6 +88,7 @@ const QuickPatientModal = ({ isOpen, onClose, onPatientAdded }: QuickPatientModa
                 onChange={handleChange}
                 placeholder="Mario Rossi"
                 required
+                className="w-full"
               />
             </div>
             
@@ -101,6 +102,7 @@ const QuickPatientModal = ({ isOpen, onClose, onPatientAdded }: QuickPatientModa
                 onChange={handleChange}
                 placeholder="+39 333 1234567"
                 required
+                className="w-full"
               />
             </div>
           </div>
@@ -115,6 +117,7 @@ const QuickPatientModal = ({ isOpen, onClose, onPatientAdded }: QuickPatientModa
               onChange={handleChange}
               placeholder="mario.rossi@example.com"
               required
+              className="w-full"
             />
             <p className="mt-1 text-xs text-gray-500">
               Questi sono i campi minimi richiesti. Potrai completare gli altri dati in seguito.
@@ -122,21 +125,28 @@ const QuickPatientModal = ({ isOpen, onClose, onPatientAdded }: QuickPatientModa
           </div>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button color="light" onClick={onClose}>
+      <Modal.Footer className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-2">
+        <Button 
+          color="light" 
+          onClick={onClose}
+          className="w-full sm:w-auto"
+        >
           Annulla
         </Button>
         <Button 
           color="primary" 
           onClick={handleSubmit}
           disabled={isSubmitting}
+          className="w-full sm:w-auto flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
-              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-              Salvataggio...
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+              <span className="whitespace-nowrap">Salvataggio...</span>
             </>
-          ) : 'Salva e Seleziona'}
+          ) : (
+            <span className="whitespace-nowrap">Salva e Seleziona</span>
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

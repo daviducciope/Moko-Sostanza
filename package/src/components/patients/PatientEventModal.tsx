@@ -147,7 +147,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="date" value="Data" />
               <TextInput
@@ -157,6 +157,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 value={formData.date}
                 onChange={handleChange}
                 required
+                className="w-full"
               />
             </div>
             
@@ -169,11 +170,12 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 value={formData.time}
                 onChange={handleChange}
                 required
+                className="w-full"
               />
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="type" value="Tipo di evento" />
               <Select
@@ -182,6 +184,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 value={formData.type}
                 onChange={handleChange}
                 required
+                className="w-full"
               >
                 <option value="visita">{getEventTypeLabel('visita')}</option>
                 <option value="prescrizione">{getEventTypeLabel('prescrizione')}</option>
@@ -199,6 +202,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 value={formData.createdBy}
                 onChange={handleChange}
                 required
+                className="w-full"
               />
             </div>
           </div>
@@ -212,6 +216,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
               onChange={handleChange}
               placeholder="Inserisci un titolo per l'evento"
               required
+              className="w-full"
             />
           </div>
           
@@ -224,6 +229,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
               onChange={handleChange}
               placeholder="Inserisci una descrizione dettagliata"
               rows={3}
+              className="w-full"
             />
           </div>
           
@@ -242,10 +248,10 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 color="light"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-2"
+                className="flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <Icon icon="solar:upload-outline" height={20} />
-                Carica file
+                <span className="whitespace-nowrap">Carica file</span>
               </Button>
             </div>
             
@@ -256,10 +262,10 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 <ul className="space-y-2">
                   {files.map((file, index) => (
                     <li key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-grow min-w-0">
                         <Icon icon="solar:file-outline" height={20} />
-                        <span className="text-sm truncate max-w-[200px]">{file.name}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-sm truncate">{file.name}</span>
+                        <span className="text-xs text-gray-500 whitespace-nowrap">
                           ({(file.size / 1024).toFixed(1)} KB)
                         </span>
                       </div>
@@ -267,7 +273,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                         color="failure"
                         size="xs"
                         onClick={() => removeFile(index)}
-                        className="p-1"
+                        className="p-1 ml-2 flex-shrink-0"
                       >
                         <Icon icon="solar:trash-bin-trash-outline" height={16} />
                       </Button>
@@ -284,10 +290,10 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                 <ul className="space-y-2">
                   {uploadedFiles.map((file) => (
                     <li key={file.id} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-grow min-w-0">
                         <Icon icon="solar:file-check-outline" height={20} />
-                        <span className="text-sm truncate max-w-[200px]">{file.name}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-sm truncate">{file.name}</span>
+                        <span className="text-xs text-gray-500 whitespace-nowrap">
                           ({(file.size / 1024 / 1024).toFixed(1)} MB)
                         </span>
                       </div>
@@ -295,7 +301,7 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
                         color="failure"
                         size="xs"
                         onClick={() => removeUploadedFile(file.id)}
-                        className="p-1"
+                        className="p-1 ml-2 flex-shrink-0"
                       >
                         <Icon icon="solar:trash-bin-trash-outline" height={16} />
                       </Button>
@@ -307,22 +313,27 @@ const PatientEventModal = ({ isOpen, onClose, patientId, event }: PatientEventMo
           </div>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button color="light" onClick={onClose}>
+      <Modal.Footer className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-2">
+        <Button 
+          color="light" 
+          onClick={onClose}
+          className="w-full sm:w-auto"
+        >
           Annulla
         </Button>
         <Button 
           color="primary" 
           onClick={handleSubmit}
           disabled={isSubmitting}
+          className="w-full sm:w-auto flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
-              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-              Salvataggio...
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+              <span className="whitespace-nowrap">Salvataggio...</span>
             </>
           ) : (
-            event ? 'Aggiorna' : 'Salva'
+            <span className="whitespace-nowrap">{event ? 'Aggiorna' : 'Salva'}</span>
           )}
         </Button>
       </Modal.Footer>

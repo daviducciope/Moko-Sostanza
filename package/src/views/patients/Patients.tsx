@@ -4,6 +4,7 @@ import SimpleBar from "simplebar-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiSearch } from "react-icons/hi";
+import PageContainer from '../../components/container/PageContainer';
 
 const PatientsData = [
   {
@@ -89,7 +90,7 @@ const Patients = () => {
   }, [isSearchPage]);
 
   return (
-    <>
+    <PageContainer title="Gestione Pazienti" description="Gestisci l'elenco dei pazienti">
       <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <h5 className="card-title">Gestione Pazienti</h5>
@@ -173,7 +174,7 @@ const Patients = () => {
             </Table>
           </div>
       </div>
-    </>
+    </PageContainer>
   );
 };
 

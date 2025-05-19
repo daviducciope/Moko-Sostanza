@@ -199,6 +199,13 @@ const PrintTemplate = ({ patient, patientEvents, patientProcedures }: {
   );
 };
 
+interface DentalProcedureModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  procedure?: DentalProcedure;
+  patientId: number;
+}
+
 const ViewPatient = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -208,7 +215,7 @@ const ViewPatient = () => {
   const [showPrintTemplate, setShowPrintTemplate] = useState(false);
   const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<PatientEvent | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<PatientEvent | undefined>(undefined);
   const [selectedProcedure, setSelectedProcedure] = useState<DentalProcedure | null>(null);
   
   const printTemplateRef = useRef<HTMLDivElement>(null);
@@ -424,7 +431,7 @@ const ViewPatient = () => {
 
   // Funzione per aprire il modale di creazione intervento
   const handleAddProcedure = () => {
-    setSelectedProcedure(undefined);
+    setSelectedProcedure(null);
     setIsProcedureModalOpen(true);
   };
 
@@ -437,7 +444,7 @@ const ViewPatient = () => {
   // Funzione per chiudere il modale degli interventi
   const handleCloseProcedureModal = () => {
     setIsProcedureModalOpen(false);
-    setSelectedProcedure(undefined);
+    setSelectedProcedure(null);
   };
 
   // Funzione per eliminare un intervento
@@ -489,49 +496,55 @@ const ViewPatient = () => {
 
   return (
     <div className="rounded-xl dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words">
-      <div className="flex justify-between items-center mb-6">
+      {/* Top action buttons */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-2">
-          <h5 className="card-title">Profilo Paziente</h5>
+          <h5 className="card-title">Dettagli Paziente</h5>
           <Link to="/patients" className="text-gray-500 hover:text-primary">
             <Icon icon="solar:arrow-left-linear" height={20} />
             <span className="sr-only">Torna alla lista pazienti</span>
           </Link>
         </div>
-        <div className="flex gap-2">
-          <Tooltip content="Stampa il profilo del paziente">
-            <Button color="light" onClick={handlePrintProfile} className="flex items-center gap-2">
-              <Icon icon="solar:printer-outline" height={20} />
-              Stampa Profilo
-            </Button>
-          </Tooltip>
-          <Tooltip content="Scarica il profilo del paziente in formato PDF">
-            <Button
-              color="light"
-              onClick={handleDownloadPDF}
-              className="flex items-center gap-2"
-              disabled={isGeneratingPDF}
-            >
-              {isGeneratingPDF ? (
-                <>
-                  <div className="animate-spin h-5 w-5 border-2 border-gray-500 border-t-transparent rounded-full"></div>
-                  Generazione PDF...
-                </>
-              ) : (
-                <>
-                  <Icon icon="solar:file-download-outline" height={20} />
-                  Scarica PDF
-                </>
-              )}
-            </Button>
-          </Tooltip>
-          <Button color="primary" as={Link} to={`/patients/edit/${patient.id}`} className="flex items-center gap-2">
+        <div className="button-group w-full sm:w-auto flex flex-col sm:flex-row gap-2">
+          <Button 
+            color="light" 
+            onClick={handlePrintProfile} 
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
+          >
+            <Icon icon="solar:printer-outline" height={20} />
+            <span className="whitespace-nowrap">Stampa Profilo</span>
+          </Button>
+          <Button
+            color="light"
+            onClick={handleDownloadPDF}
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
+            disabled={isGeneratingPDF}
+          >
+            {isGeneratingPDF ? (
+              <>
+                <div className="animate-spin h-5 w-5 border-2 border-gray-500 border-t-transparent rounded-full"></div>
+                <span className="whitespace-nowrap">Generazione PDF...</span>
+              </>
+            ) : (
+              <>
+                <Icon icon="solar:file-download-outline" height={20} />
+                <span className="whitespace-nowrap">Scarica PDF</span>
+              </>
+            )}
+          </Button>
+          <Button 
+            color="primary" 
+            as={Link} 
+            to={`/patients/edit/${patient?.id}`} 
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
+          >
             <Icon icon="solar:pen-outline" height={20} />
-            Modifica
+            <span className="whitespace-nowrap">Modifica</span>
           </Button>
         </div>
       </div>
 
-      {/* Schede informazioni e eventi */}
+      {/* Tabs con le sezioni */}
       <Tabs aria-label="Informazioni paziente">
         <Tabs.Item 
           active={activeTab === 0} 
@@ -608,11 +621,16 @@ const ViewPatient = () => {
           icon={() => <Icon icon="solar:document-text-outline" />}
         >
           <div className="mt-4">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <h5 className="text-lg font-bold">Eventi Paziente</h5>
-              <Button color="primary" size="sm" onClick={handleAddEvent} className="flex items-center gap-2">
+              <Button 
+                color="primary" 
+                size="sm" 
+                onClick={handleAddEvent} 
+                className="flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
                 <Icon icon="solar:add-circle-outline" height={20} />
-                Nuovo Evento
+                <span className="whitespace-nowrap">Nuovo Evento</span>
               </Button>
             </div>
 
@@ -629,66 +647,26 @@ const ViewPatient = () => {
           title="Cartella Clinica" 
           icon={() => <Icon icon="solar:medicine-outline" />}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            {/* Informazioni mediche */}
-            <Card>
-              <h5 className="text-lg font-bold mb-4">Informazioni Mediche</h5>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Fumatore</p>
-                  <div className="flex items-center mt-1">
-                    <Badge className={patient.isSmoker ? "bg-lighterror text-error" : "bg-lightsuccess text-success"}>
-                      {patient.isSmoker ? 'Sì' : 'No'}
-                    </Badge>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Patologie Pregresse</p>
-                  <p className="font-medium whitespace-pre-line">
-                    {patient.medicalHistory || 'Nessuna patologia pregressa registrata'}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Farmaci</p>
-                  <p className="font-medium whitespace-pre-line">
-                    {patient.medications || 'Nessun farmaco registrato'}
-                  </p>
-                </div>
-              </div>
-            </Card>
-
-            {/* Anamnesi */}
-            <Card>
-              <h5 className="text-lg font-bold mb-4">Anamnesi</h5>
-              <p className="whitespace-pre-line">
-                {patient.anamnesis || 'Nessuna anamnesi registrata'}
-              </p>
-            </Card>
-          </div>
-        </Tabs.Item>
-
-        <Tabs.Item 
-          active={activeTab === 3} 
-          title="Interventi" 
-          icon={() => <Icon icon="solar:tooth-outline" />}
-        >
           <div className="mt-4">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <h5 className="text-lg font-bold">Interventi Dentistici</h5>
-              <Button color="primary" size="sm" onClick={handleAddProcedure} className="flex items-center gap-2">
+              <Button 
+                color="primary" 
+                size="sm" 
+                onClick={handleAddProcedure} 
+                className="flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
                 <Icon icon="solar:add-circle-outline" height={20} />
-                Nuovo Intervento
+                <span className="whitespace-nowrap">Nuovo Intervento</span>
               </Button>
             </div>
 
             <DentalProcedureList
-                patientId={Number(id)}
-                onEditProcedure={handleEditProcedure}
-                onNewProcedure={() => setShowProcedureModal(true)}
-                onDeleteProcedure={handleDeleteProcedure}
-              />
+              patientId={Number(id)}
+              onEditProcedure={handleEditProcedure}
+              onNewProcedure={handleAddProcedure}
+              onDeleteProcedure={handleDeleteProcedure}
+            />
           </div>
         </Tabs.Item>
       </Tabs>
@@ -697,7 +675,7 @@ const ViewPatient = () => {
       <PatientEventModal
         isOpen={isEventModalOpen}
         onClose={handleCloseEventModal}
-        event={selectedEvent || null}
+        event={selectedEvent}
         patientId={Number(id)}
       />
 
