@@ -6,9 +6,25 @@ import svgr from '@svgr/rollup';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    plugins: [react(), svgr()],
     resolve: {
         alias: {
             src: resolve(__dirname, 'src'),
+        },
+    },
+    build: {
+        chunkSizeWarningLimit: 1000, // Aumenta il limite di warning per i chunk size
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Separa le librerie di terze parti in chunks diversi
+                    'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+                    'vendor-ui': ['flowbite-react', '@iconify/react'],
+                    'vendor-utils': ['date-fns', 'zustand', 'formik', 'yup'],
+                    'vendor-charts': ['apexcharts', 'react-apexcharts'],
+                    'vendor-pdf': ['jspdf', 'html2canvas'],
+                },
+            },
         },
     },
     esbuild: {
@@ -34,12 +50,4 @@ export default defineConfig({
             ],
         },
     },
-
-
-    
-    // plugins: [react(),svgr({
-    //   exportAsDefault: true
-    // })],
-
-    plugins: [svgr(), react()],
 });

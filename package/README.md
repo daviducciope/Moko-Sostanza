@@ -120,6 +120,13 @@ package/
 
 ## 📝 Changelog
 
+### Fix: Ottimizzazione del bundle e correzione errori TypeScript (19/05/2025)
+- Risolti problemi di type checking in DayAppointmentsModal e ViewPatient
+- Implementata la gestione corretta degli stati in DayAppointmentsModal
+- Ottimizzato il bundle splitting per migliorare le performance
+- Aggiunta la gestione degli oggetti mancanti negli appuntamenti
+- Migliorata la tipizzazione delle interfacce dei servizi
+
 ### Fix: Implementazione funzionalità pulsante "Modifica Profilo" nella pagina profilo
 
 - Implementata la funzionalità del pulsante "Modifica Profilo" nella pagina del profilo utente

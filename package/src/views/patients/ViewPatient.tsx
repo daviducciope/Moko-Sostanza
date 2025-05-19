@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Button, Card, Badge, Tabs, Tooltip } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import PatientEventList from '../../components/patients/PatientEventList';
@@ -124,22 +124,32 @@ const PrintTemplate = ({ patient, patientEvents, patientProcedures }: {
         <h3 className="text-lg font-bold mb-2 border-b pb-1">Interventi Dentistici</h3>
         {patientProcedures.length > 0 ? (
           <div className="overflow-auto mt-2">
-            <table className="w-full border-collapse text-sm">
+            <table className="w-full mt-4 border-collapse border">
               <thead>
-                <tr className="bg-gray-100">
-                  <th className="border p-1 text-left" style={{ width: '15%' }}>Data</th>
-                  <th className="border p-1 text-left" style={{ width: '15%' }}>Tipo</th>
-                  <th className="border p-1 text-left" style={{ width: '15%' }}>Denti</th>
-                  <th className="border p-1 text-left" style={{ width: '55%' }}>Descrizione</th>
+                <tr>
+                  <th className="border p-1">Data</th>
+                  <th className="border p-1">Tipo</th>
+                  <th className="border p-1">Denti coinvolti</th>
+                  <th className="border p-1">Dettagli</th>
                 </tr>
               </thead>
               <tbody>
                 {patientProcedures.map((procedure) => (
                   <tr key={procedure.id}>
                     <td className="border p-1">{procedure.date}</td>
-                    <td className="border p-1">{procedure.type}</td>
-                    <td className="border p-1">{procedure.teeth && Array.isArray(procedure.teeth) ? procedure.teeth.join(', ') : '-'}</td>
-                    <td className="border p-1">{procedure.description}</td>
+                    <td className="border p-1">{procedure.type === 'surgical' ? 'Chirurgico' : 'Non chirurgico'}</td>
+                    <td className="border p-1">
+                      {procedure.type === 'surgical' 
+                        ? procedure.teethInvolved.join(', ') 
+                        : '-'
+                      }
+                    </td>
+                    <td className="border p-1">
+                      {procedure.type === 'surgical' 
+                        ? procedure.procedureType
+                        : procedure.description
+                      }
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -191,16 +201,16 @@ const PrintTemplate = ({ patient, patientEvents, patientProcedures }: {
 
 const ViewPatient = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [activeTab] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(0);
-  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<PatientEvent | undefined>(undefined);
-  const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
-  const [selectedProcedure, setSelectedProcedure] = useState<DentalProcedure | undefined>(undefined);
-  const [showPrintTemplate, setShowPrintTemplate] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [showPrintTemplate, setShowPrintTemplate] = useState(false);
+  const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<PatientEvent | null>(null);
+  const [selectedProcedure, setSelectedProcedure] = useState<DentalProcedure | null>(null);
+  
   const printTemplateRef = useRef<HTMLDivElement>(null);
   const pdfTemplateRef = useRef<HTMLDivElement>(null);
 
@@ -389,7 +399,7 @@ const ViewPatient = () => {
 
   // Funzione per aprire il modale di creazione evento
   const handleAddEvent = () => {
-    setSelectedEvent(undefined);
+    setSelectedEvent(null);
     setIsEventModalOpen(true);
   };
 
@@ -402,7 +412,7 @@ const ViewPatient = () => {
   // Funzione per chiudere il modale
   const handleCloseEventModal = () => {
     setIsEventModalOpen(false);
-    setSelectedEvent(undefined);
+    setSelectedEvent(null);
   };
 
   // Funzione per eliminare un evento
@@ -432,9 +442,8 @@ const ViewPatient = () => {
 
   // Funzione per eliminare un intervento
   const handleDeleteProcedure = (procedureId: number) => {
-    if (confirm('Sei sicuro di voler eliminare questo intervento? Questa azione non può essere annullata.')) {
-      deleteProcedure(procedureId);
-    }
+    const { deleteProcedure } = useDentalProcedureStore.getState();
+    deleteProcedure(procedureId);
   };
 
   if (loading) {
@@ -523,8 +532,12 @@ const ViewPatient = () => {
       </div>
 
       {/* Schede informazioni e eventi */}
-      <Tabs aria-label="Informazioni paziente" style={{base: "underline"}} onActiveTabChange={setActiveTab}>
-        <Tabs.Item active={activeTab === 0} title="Informazioni" icon={() => <Icon icon="solar:user-outline" />} iconPosition="left" className="gap-2">
+      <Tabs aria-label="Informazioni paziente">
+        <Tabs.Item 
+          active={activeTab === 0} 
+          title="Informazioni" 
+          icon={() => <Icon icon="solar:user-outline" />}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
             {/* Informazioni principali */}
             <Card className="col-span-1">
@@ -589,7 +602,33 @@ const ViewPatient = () => {
           </div>
         </Tabs.Item>
 
-        <Tabs.Item active={activeTab === 1} title="Cartella Clinica" icon={() => <Icon icon="solar:stethoscope-outline" />} iconPosition="left" className="gap-2">
+        <Tabs.Item 
+          active={activeTab === 1} 
+          title="Eventi e Documenti" 
+          icon={() => <Icon icon="solar:document-text-outline" />}
+        >
+          <div className="mt-4">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="text-lg font-bold">Eventi Paziente</h5>
+              <Button color="primary" size="sm" onClick={handleAddEvent} className="flex items-center gap-2">
+                <Icon icon="solar:add-circle-outline" height={20} />
+                Nuovo Evento
+              </Button>
+            </div>
+
+            <PatientEventList
+              events={patientEvents}
+              onEditEvent={handleEditEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          </div>
+        </Tabs.Item>
+
+        <Tabs.Item 
+          active={activeTab === 2} 
+          title="Cartella Clinica" 
+          icon={() => <Icon icon="solar:medicine-outline" />}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             {/* Informazioni mediche */}
             <Card>
@@ -630,7 +669,11 @@ const ViewPatient = () => {
           </div>
         </Tabs.Item>
 
-        <Tabs.Item active={activeTab === 2} title="Interventi" icon={() => <Icon icon="solar:tooth-outline" />} iconPosition="left" className="gap-2">
+        <Tabs.Item 
+          active={activeTab === 3} 
+          title="Interventi" 
+          icon={() => <Icon icon="solar:tooth-outline" />}
+        >
           <div className="mt-4">
             <div className="flex justify-between items-center mb-4">
               <h5 className="text-lg font-bold">Interventi Dentistici</h5>
@@ -641,28 +684,11 @@ const ViewPatient = () => {
             </div>
 
             <DentalProcedureList
-              procedures={patientProcedures}
-              onEditProcedure={handleEditProcedure}
-              onDeleteProcedure={handleDeleteProcedure}
-            />
-          </div>
-        </Tabs.Item>
-
-        <Tabs.Item active={activeTab === 3} title="Eventi e Documenti" icon={() => <Icon icon="solar:document-medicine-outline" />} iconPosition="left" className="gap-2">
-          <div className="mt-4">
-            <div className="flex justify-between items-center mb-4">
-              <h5 className="text-lg font-bold">Eventi Paziente</h5>
-              <Button color="primary" size="sm" onClick={handleAddEvent} className="flex items-center gap-2">
-                <Icon icon="solar:add-circle-outline" height={20} />
-                Nuovo Evento
-              </Button>
-            </div>
-
-            <PatientEventList
-              events={patientEvents}
-              onEditEvent={handleEditEvent}
-              onDeleteEvent={handleDeleteEvent}
-            />
+                patientId={Number(id)}
+                onEditProcedure={handleEditProcedure}
+                onNewProcedure={() => setShowProcedureModal(true)}
+                onDeleteProcedure={handleDeleteProcedure}
+              />
           </div>
         </Tabs.Item>
       </Tabs>
@@ -671,16 +697,16 @@ const ViewPatient = () => {
       <PatientEventModal
         isOpen={isEventModalOpen}
         onClose={handleCloseEventModal}
+        event={selectedEvent || null}
         patientId={Number(id)}
-        event={selectedEvent}
       />
 
       {/* Modale per la creazione/modifica degli interventi */}
       <DentalProcedureModal
         isOpen={isProcedureModalOpen}
         onClose={handleCloseProcedureModal}
+        procedure={selectedProcedure || undefined}
         patientId={Number(id)}
-        procedure={selectedProcedure}
       />
 
       {/* Template di stampa (nascosto normalmente, visibile solo durante la stampa) */}

@@ -1,23 +1,37 @@
 import { useState } from 'react';
-import { Card, Badge, Button, Accordion } from 'flowbite-react';
+import { Card, Badge, Button } from 'flowbite-react';
 import { Icon } from '@iconify/react';
+import { format } from 'date-fns';
+import { it } from 'date-fns/locale';
 import { 
   DentalProcedure, 
-  SurgicalProcedure,
+  SurgicalProcedure, 
   NonSurgicalProcedure,
-  formatProcedureDate,
-  getToothName
+  useDentalProcedureStore 
 } from '../../services/DentalProcedureService';
 import TeethDiagram from './TeethDiagram';
 import MedicalDeviceForm from './MedicalDeviceForm';
 
 interface DentalProcedureListProps {
-  procedures: DentalProcedure[];
+  patientId: number;
   onEditProcedure: (procedure: DentalProcedure) => void;
-  onDeleteProcedure: (procedureId: number) => void;
+  onNewProcedure: () => void;
+  onDeleteProcedure: (id: number) => void;
 }
 
-const DentalProcedureList = ({ procedures, onEditProcedure, onDeleteProcedure }: DentalProcedureListProps) => {
+const formatProcedureDate = (date: string) => {
+  return format(new Date(date), 'dd MMMM yyyy', { locale: it });
+};
+
+export default function DentalProcedureList({ 
+  patientId, 
+  onEditProcedure, 
+  onNewProcedure,
+  onDeleteProcedure 
+}: DentalProcedureListProps) {
+  const { getProceduresByPatient } = useDentalProcedureStore();
+  const procedures = getProceduresByPatient(patientId);
+
   const [expandedProcedureId, setExpandedProcedureId] = useState<number | null>(null);
   
   // Gestisce l'espansione/collasso di una procedura
@@ -163,5 +177,3 @@ const DentalProcedureList = ({ procedures, onEditProcedure, onDeleteProcedure }:
     </div>
   );
 };
-
-export default DentalProcedureList;

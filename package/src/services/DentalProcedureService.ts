@@ -164,21 +164,19 @@ export const useDentalProcedureStore = create<DentalProcedureStore>()(
       // Azioni
       addProcedure: (procedure) => set((state) => {
         const now = new Date().toISOString();
+        const newProcedure = {
+          ...procedure,
+          id: Math.max(0, ...state.procedures.map(p => p.id)) + 1,
+          createdAt: now
+        } as DentalProcedure;
         return {
-          procedures: [
-            ...state.procedures,
-            {
-              ...procedure,
-              id: Math.max(0, ...state.procedures.map(p => p.id)) + 1,
-              createdAt: now
-            } as DentalProcedure
-          ]
+          procedures: [...state.procedures, newProcedure]
         };
       }),
       
       updateProcedure: (id, procedure) => set((state) => ({
         procedures: state.procedures.map(p => 
-          p.id === id ? { ...p, ...procedure } : p
+          p.id === id ? { ...p, ...procedure } as DentalProcedure : p
         )
       })),
       

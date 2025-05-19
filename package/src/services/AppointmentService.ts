@@ -301,4 +301,20 @@ export const getAppointmentColor = (appointment: Appointment): string => {
   }
 };
 
+// Funzione di utilità per ottenere il colore del badge in base allo stato
+export const getStatusBadgeColor = (status: string): string => {
+  switch (status) {
+    case 'confermato':
+      return 'success';
+    case 'in attesa':
+      return 'warning';
+    case 'cancellato':
+      return 'failure';
+    case 'completato':
+      return 'info';
+    default:
+      return 'default';
+  }
+};
+
 export default useAppointmentStore;
