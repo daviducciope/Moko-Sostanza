@@ -16,6 +16,20 @@ Un sistema di gestione completo per studi dentistici e cliniche odontoiatriche, 
 - **Design responsive**: Funziona su desktop, tablet e dispositivi mobili
 - **Tema chiaro/scuro**: Supporto per modalità chiara e scura
 
+## 🌐 Demo Live
+
+**🚀 Versione di Produzione**: [https://moko-sostanza.vercel.app/](https://moko-sostanza.vercel.app/)
+
+Testa tutte le funzionalità implementate, incluse le nuove caratteristiche del menu mobile con sottomenu espandibili, direttamente nella versione live deployata su Vercel. L'applicazione è completamente funzionale e include:
+
+- ✅ **Menu mobile completo** con parità funzionale rispetto al desktop
+- ✅ **Sottomenu espandibili** per Appuntamenti, Pazienti, Contabilità e Magazzino
+- ✅ **Navigazione ricorsiva** per menu a più livelli
+- ✅ **Compatibilità multi-ruolo** (dentista/clinica)
+- ✅ **Ottimizzazione mobile** con target touch e animazioni fluide
+
+> **Nota**: Per testare le diverse funzionalità, utilizza le credenziali di accesso simulate come descritto nella sezione "Gestione utenti" più avanti in questo documento.
+
 ## 📋 Prerequisiti
 
 Prima di iniziare, assicurati di avere installato:
@@ -130,11 +144,14 @@ package/
 - **Implementata gestione ricorsiva dei sottomenu**: Supporto per menu a più livelli di profondità
 - **Migliorata accessibilità**: Aggiunta gestione corretta dello stato attivo e feedback visivo
 - **Mantenuta compatibilità Flowbite**: Utilizzo delle best practice e componenti Flowbite per coerenza stilistica
+- **Deployment su Vercel**: Configurato deployment automatico e aggiornata versione live su [https://moko-sostanza.vercel.app/](https://moko-sostanza.vercel.app/)
 
 **Funzionalità ora disponibili nel menu mobile:**
 
 - **Dentista**: Dashboard, Calendario, Appuntamenti (con sottomenu), Pazienti (con sottomenu), Trattamenti, Contabilità completa (con sottomenu), Magazzino (con sottomenu), Profilo, Impostazioni
 - **Clinica**: Menu completo con Dottori, Personale, Reparti, Stanze, Eventi, Galleria e tutte le funzionalità avanzate
+
+**🎯 Testa le nuove funzionalità**: Tutte le modifiche sono ora disponibili nella versione live su Vercel per il testing su dispositivi reali.
 
 ### Fix: Ottimizzazione del bundle e correzione errori TypeScript (19/05/2025)
 
