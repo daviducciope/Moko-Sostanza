@@ -120,7 +120,24 @@ package/
 
 ## 📝 Changelog
 
+### Feat: Allineamento completo menu mobile con menu desktop (19/05/2025)
+
+- **Risolto il problema di disparità tra menu desktop e mobile**: Il menu mobile ora utilizza lo stesso sistema dinamico del desktop
+- **Implementato supporto completo per sottomenu espandibili**: Aggiunto componente `MobileNavCollapse` per gestire menu a più livelli
+- **Sostituito sistema statico con hook dinamico**: Il mobile ora usa `useSidebarMenu()` invece di `SidebarContent` statico
+- **Aggiunta compatibilità con ruoli utente**: Menu mobile ora supporta sia ruolo dentista che clinica con tutte le relative funzionalità
+- **Ottimizzata UX mobile**: Target touch più grandi (min-h-[48px]), animazioni fluide e transizioni smooth
+- **Implementata gestione ricorsiva dei sottomenu**: Supporto per menu a più livelli di profondità
+- **Migliorata accessibilità**: Aggiunta gestione corretta dello stato attivo e feedback visivo
+- **Mantenuta compatibilità Flowbite**: Utilizzo delle best practice e componenti Flowbite per coerenza stilistica
+
+**Funzionalità ora disponibili nel menu mobile:**
+
+- **Dentista**: Dashboard, Calendario, Appuntamenti (con sottomenu), Pazienti (con sottomenu), Trattamenti, Contabilità completa (con sottomenu), Magazzino (con sottomenu), Profilo, Impostazioni
+- **Clinica**: Menu completo con Dottori, Personale, Reparti, Stanze, Eventi, Galleria e tutte le funzionalità avanzate
+
 ### Fix: Ottimizzazione del bundle e correzione errori TypeScript (19/05/2025)
+
 - Risolti problemi di type checking in DayAppointmentsModal e ViewPatient
 - Implementata la gestione corretta degli stati in DayAppointmentsModal
 - Ottimizzato il bundle splitting per migliorare le performance
@@ -241,13 +258,22 @@ Il sistema supporta due tipi di utenti:
 
 ## 📱 Modalità responsive
 
-L'applicazione è completamente responsive:
+L'applicazione è completamente responsive con **parità completa di funzionalità** tra desktop e mobile:
 
-- **Desktop**: Layout completo con sidebar destra e sinistra
+- **Desktop**: Layout completo con sidebar destra e sinistra, menu espandibili con sottomenu
 - **Tablet**: Layout adattivo con sidebar collassabile tramite drawer
-- **Mobile**: Layout ottimizzato per schermi piccoli con menu a drawer accessibili tramite pulsanti nell'header
+- **Mobile**: Layout ottimizzato per schermi piccoli con **menu completo** a drawer accessibili tramite pulsanti nell'header
 
-La navigazione mobile è stata ottimizzata utilizzando drawer personalizzati con animazioni fluide per garantire un'esperienza utente intuitiva su tutti i dispositivi. I menu non occupano tutto lo schermo ma hanno una larghezza ottimale per la visualizzazione su dispositivi mobili. Si aprono e chiudono correttamente sia cliccando sui pulsanti dedicati, sia cliccando al di fuori del menu o sul pulsante di chiusura, mentre i click all'interno del menu non causano la chiusura.
+### Caratteristiche del menu mobile:
+
+- **Parità funzionale**: Tutte le voci e sottomenu del desktop sono disponibili anche su mobile
+- **Sottomenu espandibili**: Supporto completo per menu a più livelli con animazioni fluide
+- **Target touch ottimizzati**: Dimensioni minime di 48px per una migliore usabilità su dispositivi touch
+- **Gestione ruoli dinamica**: Menu diversi per dentisti e cliniche, esattamente come su desktop
+- **Animazioni fluide**: Transizioni smooth per apertura/chiusura sottomenu
+- **Chiusura intelligente**: Il drawer si chiude automaticamente quando si naviga verso una nuova pagina
+
+La navigazione mobile è stata completamente riprogettata per garantire un'esperienza utente identica al desktop. I menu non occupano tutto lo schermo ma hanno una larghezza ottimale per la visualizzazione su dispositivi mobili. Si aprono e chiudono correttamente sia cliccando sui pulsanti dedicati, sia cliccando al di fuori del menu o sul pulsante di chiusura, mentre i click all'interno del menu non causano la chiusura.
 
 ## 🔐 Gestione utenti
 
