@@ -25,3 +25,4 @@ dist-ssr
 
 # Linee guida di sviluppo (documento di riferimento locale)
 linee-guida-sviluppo.md
+.vercel
