@@ -1,155 +1,55 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Badge, Button, TextInput, Select } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { Link, useLocation } from 'react-router-dom';
 import { HiSearch } from 'react-icons/hi';
+import { useGlobalStore } from '../../store/useGlobalStore';
+import type { IProduct } from '../../types/inventory/IProduct';
 
-// Dati di esempio per l'inventario
-const inventoryData = [
-  {
-    id: 1,
-    name: 'Guanti in lattice (S)',
-    category: 'Materiale monouso',
-    quantity: 150,
-    unit: 'pz',
-    minQuantity: 50,
-    price: 0.15,
-    supplier: 'MedSupplies',
-    lastOrder: '10/10/2023'
-  },
-  {
-    id: 2,
-    name: 'Guanti in lattice (M)',
-    category: 'Materiale monouso',
-    quantity: 200,
-    unit: 'pz',
-    minQuantity: 50,
-    price: 0.15,
-    supplier: 'MedSupplies',
-    lastOrder: '10/10/2023'
-  },
-  {
-    id: 3,
-    name: 'Guanti in lattice (L)',
-    category: 'Materiale monouso',
-    quantity: 120,
-    unit: 'pz',
-    minQuantity: 50,
-    price: 0.15,
-    supplier: 'MedSupplies',
-    lastOrder: '10/10/2023'
-  },
-  {
-    id: 4,
-    name: 'Mascherine chirurgiche',
-    category: 'Materiale monouso',
-    quantity: 300,
-    unit: 'pz',
-    minQuantity: 100,
-    price: 0.10,
-    supplier: 'MedSupplies',
-    lastOrder: '05/10/2023'
-  },
-  {
-    id: 5,
-    name: 'Composito dentale A1',
-    category: 'Materiale dentale',
-    quantity: 15,
-    unit: 'siringhe',
-    minQuantity: 5,
-    price: 25.00,
-    supplier: 'DentalPro',
-    lastOrder: '01/09/2023'
-  },
-  {
-    id: 6,
-    name: 'Composito dentale A2',
-    category: 'Materiale dentale',
-    quantity: 12,
-    unit: 'siringhe',
-    minQuantity: 5,
-    price: 25.00,
-    supplier: 'DentalPro',
-    lastOrder: '01/09/2023'
-  },
-  {
-    id: 7,
-    name: 'Composito dentale A3',
-    category: 'Materiale dentale',
-    quantity: 8,
-    unit: 'siringhe',
-    minQuantity: 5,
-    price: 25.00,
-    supplier: 'DentalPro',
-    lastOrder: '01/09/2023'
-  },
-  {
-    id: 8,
-    name: 'Anestetico locale',
-    category: 'Farmaci',
-    quantity: 50,
-    unit: 'fiale',
-    minQuantity: 20,
-    price: 3.50,
-    supplier: 'PharmaDent',
-    lastOrder: '15/09/2023'
-  },
-  {
-    id: 9,
-    name: 'Frese diamantate assortite',
-    category: 'Strumenti',
-    quantity: 30,
-    unit: 'set',
-    minQuantity: 10,
-    price: 45.00,
-    supplier: 'DentalTools',
-    lastOrder: '20/08/2023'
-  },
-  {
-    id: 10,
-    name: 'Carta per sterilizzazione',
-    category: 'Materiale monouso',
-    quantity: 5,
-    unit: 'rotoli',
-    minQuantity: 3,
-    price: 18.00,
-    supplier: 'MedSupplies',
-    lastOrder: '25/09/2023'
-  }
+// Dati mock di fallback (solo se lo store è vuoto)
+const fallbackInventory: IProduct[] = [
+  { id: 1, name: 'Guanti in lattice (S)', category: 'Materiale monouso', quantity: 150, unit: 'pz', minQuantity: 50, price: 0.15, supplier: 'MedSupplies', lastOrder: '10/10/2023' },
+  { id: 2, name: 'Guanti in lattice (M)', category: 'Materiale monouso', quantity: 200, unit: 'pz', minQuantity: 50, price: 0.15, supplier: 'MedSupplies', lastOrder: '10/10/2023' },
+  { id: 3, name: 'Guanti in lattice (L)', category: 'Materiale monouso', quantity: 120, unit: 'pz', minQuantity: 50, price: 0.15, supplier: 'MedSupplies', lastOrder: '10/10/2023' },
+  { id: 4, name: 'Mascherine chirurgiche', category: 'Materiale monouso', quantity: 300, unit: 'pz', minQuantity: 100, price: 0.10, supplier: 'MedSupplies', lastOrder: '05/10/2023' },
+  { id: 5, name: 'Composito dentale A1', category: 'Materiale dentale', quantity: 15, unit: 'siringhe', minQuantity: 5, price: 25.00, supplier: 'DentalPro', lastOrder: '01/09/2023' },
+  { id: 6, name: 'Composito dentale A2', category: 'Materiale dentale', quantity: 12, unit: 'siringhe', minQuantity: 5, price: 25.00, supplier: 'DentalPro', lastOrder: '01/09/2023' },
+  { id: 7, name: 'Composito dentale A3', category: 'Materiale dentale', quantity: 8, unit: 'siringhe', minQuantity: 5, price: 25.00, supplier: 'DentalPro', lastOrder: '01/09/2023' },
+  { id: 8, name: 'Anestetico locale', category: 'Farmaci', quantity: 50, unit: 'fiale', minQuantity: 20, price: 3.50, supplier: 'PharmaDent', lastOrder: '15/09/2023' },
+  { id: 9, name: 'Frese diamantate assortite', category: 'Strumenti', quantity: 30, unit: 'set', minQuantity: 10, price: 45.00, supplier: 'DentalTools', lastOrder: '20/08/2023' },
+  { id: 10, name: 'Carta per sterilizzazione', category: 'Materiale monouso', quantity: 5, unit: 'rotoli', minQuantity: 3, price: 18.00, supplier: 'MedSupplies', lastOrder: '25/09/2023' }
 ];
+
 
 const Inventory = () => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
-  const [filteredInventory, setFilteredInventory] = useState(inventoryData);
+  const { inventory } = useGlobalStore() as { inventory: IProduct[] };
+  // Se lo store è vuoto, mostra i dati mock
+  const inventoryList = inventory.length > 0 ? inventory : fallbackInventory;
+  const [filteredInventory, setFilteredInventory] = useState<IProduct[]>(inventoryList);
 
   // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-
-  // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/inventory' : '/inventory';
 
-  // Filtra l'inventario in base al termine di ricerca e alla categoria
   useEffect(() => {
-    let filtered = inventoryData;
-
+    let filtered = inventoryList;
     if (searchTerm) {
       filtered = filtered.filter(item =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.supplier.toLowerCase().includes(searchTerm.toLowerCase())
+        (item.supplier?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
       );
     }
-
     if (categoryFilter) {
       filtered = filtered.filter(item => item.category === categoryFilter);
     }
-
     setFilteredInventory(filtered);
-  }, [searchTerm, categoryFilter]);
+  }, [searchTerm, categoryFilter, inventoryList]);
 
   // Estrai le categorie uniche per il filtro
-  const categories = [...new Set(inventoryData.map(item => item.category))];
+  const categories = [...new Set(inventoryList.map(item => item.category))];
 
   // Determina lo stato dell'inventario in base alla quantità
   const getInventoryStatus = (quantity: number, minQuantity: number) => {

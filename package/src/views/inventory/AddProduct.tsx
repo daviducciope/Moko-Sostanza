@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useGlobalStore } from '../../store/useGlobalStore';
+import type { IProduct } from '../../types/inventory/IProduct';
 
 // Categorie di prodotti predefinite
 const productCategories = [
@@ -38,7 +40,8 @@ const AddProduct = () => {
   // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/inventory' : '/inventory';
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IProduct>({
+    id: Date.now(),
     name: '',
     category: '',
     description: '',
@@ -48,8 +51,11 @@ const AddProduct = () => {
     price: 0,
     supplier: '',
     location: '',
-    notes: ''
+    notes: '',
+    lastOrder: ''
   });
+
+  const { addProduct } = useGlobalStore() as { addProduct: (product: IProduct) => void };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,11 +69,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Qui andrebbe la logica per salvare il prodotto
-    console.log('Dati prodotto:', formData);
-
-    // Reindirizza all'inventario dopo il salvataggio
+    addProduct({ ...formData, id: Date.now() });
     navigate(basePath);
   };
 

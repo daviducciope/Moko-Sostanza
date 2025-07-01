@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useGlobalStore } from '../../store/useGlobalStore';
+import type { IProduct } from '../../types/inventory/IProduct';
 
-// Categorie di prodotti predefinite
 const productCategories = [
   'Materiale monouso',
   'Materiale dentale',
@@ -13,7 +14,6 @@ const productCategories = [
   'Altro'
 ];
 
-// Unità di misura predefinite
 const measurementUnits = [
   'pz',
   'conf',
@@ -28,52 +28,18 @@ const measurementUnits = [
   'scatole'
 ];
 
-// Dati di esempio per l'inventario (stesso array usato in Inventory.tsx)
-const inventoryData = [
-  {
-    id: 1,
-    name: 'Guanti in lattice (S)',
-    category: 'Materiale monouso',
-    description: 'Guanti monouso in lattice, taglia S, non sterili',
-    quantity: 150,
-    unit: 'pz',
-    minQuantity: 50,
-    price: 0.15,
-    supplier: 'MedSupplies',
-    location: 'Scaffale A1',
-    notes: '',
-    lastOrder: '10/10/2023'
-  },
-  {
-    id: 2,
-    name: 'Guanti in lattice (M)',
-    category: 'Materiale monouso',
-    description: 'Guanti monouso in lattice, taglia M, non sterili',
-    quantity: 200,
-    unit: 'pz',
-    minQuantity: 50,
-    price: 0.15,
-    supplier: 'MedSupplies',
-    location: 'Scaffale A1',
-    notes: '',
-    lastOrder: '10/10/2023'
-  },
-  // Altri prodotti...
-];
-
 const EditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const { inventory, addProduct } = useGlobalStore() as { inventory: IProduct[]; addProduct: (product: IProduct) => void };
 
-  // Determina se siamo nella sezione clinica o dentista
   const isClinic = location.pathname.startsWith('/clinic');
-
-  // Costruisci i percorsi base in base alla sezione
   const basePath = isClinic ? '/clinic/inventory' : '/inventory';
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IProduct>({
+    id: Number(id),
     name: '',
     category: '',
     description: '',
@@ -83,33 +49,18 @@ const EditProduct = () => {
     price: 0,
     supplier: '',
     location: '',
-    notes: ''
+    notes: '',
+    lastOrder: ''
   });
 
-  // Carica i dati del prodotto
   useEffect(() => {
-    // In un'applicazione reale, qui ci sarebbe una chiamata API
-    // per ottenere i dati del prodotto con l'ID specificato
     const productId = parseInt(id || '0');
-    const product = inventoryData.find(item => item.id === productId);
-
+    const product = inventory.find(item => item.id === productId);
     if (product) {
-      setFormData({
-        name: product.name,
-        category: product.category,
-        description: product.description || '',
-        quantity: product.quantity,
-        unit: product.unit,
-        minQuantity: product.minQuantity,
-        price: product.price,
-        supplier: product.supplier,
-        location: product.location || '',
-        notes: product.notes || ''
-      });
+      setFormData(product);
     }
-
     setLoading(false);
-  }, [id]);
+  }, [id, inventory]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -123,11 +74,8 @@ const EditProduct = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Qui andrebbe la logica per aggiornare il prodotto
-    console.log('Dati prodotto aggiornati:', formData);
-
-    // Reindirizza all'inventario dopo il salvataggio
+    // Per semplicità, usiamo addProduct (in un caso reale si farebbe updateProduct)
+    addProduct(formData);
     navigate(basePath);
   };
 

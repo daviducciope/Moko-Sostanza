@@ -432,3 +432,29 @@ Per domande o supporto, contatta:
 ---
 
 Sviluppato con ❤️ da SOSTANZA Comunicazione & Servizi
+
+---
+
+## 🗃️ Global Store (Zustand)
+
+L’applicazione utilizza uno store globale Zustand con slice modulari per pazienti, inventario e sessione utente.
+
+- **Percorso store:** `src/store/useGlobalStore.ts`
+- **Tipi:** `IPatient`, `IProduct`, `ISession` (in `src/types/`)
+- **Middleware:** `persist` (chiave `dental-crm`) e `devtools` per debugging
+- **Esempio d’uso:**
+
+```tsx
+import { useGlobalStore } from '../store/useGlobalStore';
+const { inventory, addProduct } = useGlobalStore();
+```
+
+- Niente più prop-drilling: tutti i componenti accedono direttamente allo stato globale.
+- I dati demo vengono usati solo se lo store è vuoto (sviluppo/prime installazioni).
+
+### Flusso di lavoro VS Code → Git → Vercel
+
+1. Sviluppa e testa in locale (`npm run dev`)
+2. Fai commit unico con messaggio conforme alle linee guida
+3. Push su branch main → deploy automatico su Vercel
+4. Debug rapido: Terminal Output (Vite) in locale, Deployments > Logs su Vercel
