@@ -286,6 +286,8 @@ Il sistema supporta due tipi di utenti:
 
 ## 🛠️ Tecnologie utilizzate
 
+### **Frontend**
+
 - **React**: Libreria UI
 - **TypeScript**: Tipizzazione statica
 - **Vite**: Build tool
@@ -298,6 +300,14 @@ Il sistema supporta due tipi di utenti:
 - **Zustand**: Gestione stato
 - **jsPDF**: Generazione di documenti PDF
 - **html2canvas**: Conversione HTML in immagini per PDF
+
+### **Backend & Database**
+
+- **Prisma ORM**: Object-Relational Mapping per TypeScript
+- **PostgreSQL**: Database relazionale principale
+- **Vercel Postgres**: Database hosting per sviluppo/staging
+- **Amazon RDS**: Database hosting per produzione (futuro)
+- **Prisma Accelerate**: Connection pooling e caching (opzionale)
 
 ## 📱 Modalità responsive
 
@@ -317,6 +327,75 @@ L'applicazione è completamente responsive con **parità completa di funzionalit
 - **Chiusura intelligente**: Il drawer si chiude automaticamente quando si naviga verso una nuova pagina
 
 La navigazione mobile è stata completamente riprogettata per garantire un'esperienza utente identica al desktop. I menu non occupano tutto lo schermo ma hanno una larghezza ottimale per la visualizzazione su dispositivi mobili. Si aprono e chiudono correttamente sia cliccando sui pulsanti dedicati, sia cliccando al di fuori del menu o sul pulsante di chiusura, mentre i click all'interno del menu non causano la chiusura.
+
+## 🗄️ Database e Data Layer
+
+### **Schema Database**
+
+Il progetto utilizza **Prisma ORM** con **PostgreSQL** per la gestione dei dati. Lo schema include:
+
+#### **Tabelle Principali**
+
+- **`patients`**: Dati anagrafici e medici dei pazienti
+- **`appointments`**: Gestione calendario e prenotazioni
+- **`invoices`**: Fatturazione e pagamenti
+- **`files`**: Documenti e allegati
+- **`notifications`**: Sistema di notifiche e promemoria
+
+#### **Tracciabilità Dispositivi Medici**
+
+- **`udis`**: Dispositivi medici con codice UDI per compliance
+- **`patient_udis`**: Relazione many-to-many per tracciare dispositivi utilizzati per paziente
+
+### **Configurazione Database**
+
+1. **Copia il file di configurazione**:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Configura DATABASE_URL** nel file `.env`:
+
+   ```bash
+   # Per sviluppo locale
+   DATABASE_URL="postgresql://postgres:password@localhost:5432/moko_dental_dev?schema=public"
+   ```
+
+3. **Esegui le migrazioni**:
+
+   ```bash
+   npm run db:migrate:dev
+   ```
+
+4. **Popola con dati di esempio**:
+   ```bash
+   npm run db:seed
+   ```
+
+### **Script Database Disponibili**
+
+```bash
+npm run db:generate      # Genera il client Prisma
+npm run db:migrate       # Applica migrazioni (produzione)
+npm run db:migrate:dev   # Applica migrazioni (sviluppo)
+npm run db:studio        # Apri Prisma Studio (GUI database)
+npm run db:seed          # Popola database con dati di esempio
+npm run db:reset         # Reset completo database
+npm run db:push          # Push schema senza migrazioni
+```
+
+### **Servizi Database**
+
+- **`PatientService`**: CRUD completo pazienti con ricerca avanzata
+- **`InvoiceService`**: Gestione fatture con statistiche e scadenze
+- **`AppointmentService`**: Gestione appuntamenti e calendario
+
+### **Deployment Database**
+
+- **Sviluppo**: PostgreSQL locale o Vercel Postgres
+- **Produzione**: Amazon RDS PostgreSQL (configurazione futura)
+- **Connection Pooling**: Prisma Accelerate per ottimizzazioni performance
 
 ## 🔐 Gestione utenti
 

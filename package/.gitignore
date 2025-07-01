@@ -27,4 +27,10 @@ dist-ssr
 linee-guida-sviluppo.md
 .vercel
 
+# Environment variables (contiene credenziali database)
+.env
+.env.local
+.env.production
+
+# Prisma generated files
 /generated/prisma
