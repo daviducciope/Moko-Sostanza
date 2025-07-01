@@ -143,7 +143,8 @@ const Router = [
       { path: '/ui/shadow', exact: true, element: <Shadow/> },
       { path: '/icons/solar', exact: true, element: <Solar /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '*', element: <Navigate to="/auth/404" /> },
+      // Catch-all per route non trovate
+      { path: '*', element: <Navigate to="/auth/404" replace /> },
     ],
   },
   {
@@ -154,7 +155,8 @@ const Router = [
       { path: '/auth/register', element: <Register /> },
       { path: '404', element: <Error /> },
       { path: '/auth/404', element: <Error /> },
-      { path: '*', element: <Navigate to="/auth/404" /> },
+      // Catch-all anche per layout blank
+      { path: '*', element: <Navigate to="/auth/404" replace /> },
     ],
   }
   ,

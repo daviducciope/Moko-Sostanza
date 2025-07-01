@@ -241,6 +241,32 @@ package/
 - Implementati stili CSS specifici per la stampa che nascondono elementi non necessari
 - Aggiunto titolo visibile solo in stampa con informazioni sulla settimana visualizzata e data di generazione
 
+---
+
+### Feat: Ottimizzazione SEO e funzionalità PWA (01/07/2025)
+
+- Aggiunto e configurato `manifest.json` con tutti i campi chiave e icone in più risoluzioni per supporto PWA.
+- Creato/aggiornato `index.html` con meta tag SEO: description, og:title, og:description, og:image, twitter:card, viewport, ecc.
+- Integrato `react-helmet-async` per la gestione dinamica di title e meta tag per ogni pagina.
+- Esempio di utilizzo in una pagina:
+
+```tsx
+import { Helmet } from 'react-helmet-async';
+<Helmet>
+  <title>Nome Pagina | MOKO SOSTANZA Dental CRM</title>
+  <meta name="description" content="Descrizione della pagina..." />
+</Helmet>;
+```
+
+#### Best Practice SEO/PWA
+
+- Compila sempre i meta tag principali per ogni pagina.
+- Aggiorna il manifest e le icone se cambi brand o colori.
+- Usa `Helmet` per titoli e descrizioni dinamiche.
+- Testa la PWA su dispositivi mobili per assicurare installabilità e comportamento standalone.
+
+---
+
 ## 🔄 Flusso di lavoro
 
 ### Autenticazione
