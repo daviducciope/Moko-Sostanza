@@ -1,5 +1,15 @@
 {
   "dependencies": {
     "react-helmet-async": "^2.0.5"
+  },
+  "devDependencies": {
+    "@prisma/adapter-neon": "^6.11.1",
+    "@prisma/client": "^6.11.1",
+    "prisma": "^6.11.1"
+  },
+  "scripts": {
+    "db:migrate": "prisma migrate deploy",
+    "db:studio":  "prisma studio",
+    "postinstall": "prisma generate"
   }
 }

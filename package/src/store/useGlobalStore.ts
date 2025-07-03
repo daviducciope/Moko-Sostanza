@@ -1,13 +1,8 @@
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
+import type { Patient } from '@prisma/client';
 
 // Tipi globali
-export interface IPatient {
-  id: number;
-  name: string;
-  // ...altri campi paziente
-}
-
 export interface IProduct {
   id: number;
   name: string;
@@ -22,8 +17,8 @@ export interface ISession {
 
 // Slice: Pazienti
 interface PatientStore {
-  patients: IPatient[];
-  addPatient: (patient: IPatient) => void;
+  patients: Patient[];
+  addPatient: (patient: Patient) => void;
   // ...altri metodi
 }
 
